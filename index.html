@@ -254,23 +254,102 @@ details summary:hover { color: var(--ink); }
 .solution p { margin: 4px 0; }
 .sol-ans { color: var(--ok); }
 
-/* 定義與名詞說明 */
-.def-sec h3 { margin-top: 22px; }
-.f-def { margin: 0 0 6px; padding: 14px 16px; border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; background: rgba(255,255,255,.035); color: var(--ink); font-size: 15.5px; line-height: 1.85; }
-.term { display: inline; padding: 0 1px; border: 0; border-bottom: 1.5px dashed var(--accent); background: none; color: var(--accent); font: inherit; line-height: inherit; cursor: pointer; }
-.term:hover, .term[aria-expanded="true"] { background: rgba(255,255,255,.08); border-bottom-style: solid; }
-.term-f { border-bottom-style: dotted; }
-.sym-table .term { font-weight: 500; }
-.pop { position: fixed; top: 0; left: 0; z-index: 40; width: min(340px, calc(100vw - 16px)); padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #121A44; box-shadow: 0 14px 36px rgba(0,0,0,.5); font-size: 14px; }
-.pop p { margin: 0; }
-.pop-k { color: var(--muted); font-size: 12px; font-weight: 600; }
-.pop-t { margin-top: 2px !important; font: 700 17px/1.4 var(--sans); }
-.pop-s { margin-left: 4px; font-weight: 400; }
-.pop-u { margin-top: 2px !important; color: var(--muted); font-size: 13px; }
-.pop-d { margin-top: 8px !important; line-height: 1.7; }
-.pop-f { margin: 6px 0 2px; overflow-x: auto; font-size: 1.05em; }
-.pop-link { display: inline-block; margin-top: 10px; color: var(--ex1); font-size: 13px; font-weight: 600; text-decoration: none; }
-.pop-link:hover { text-decoration: underline; }
+/* 情境圖 */
+:root { --find: #FF7AA2; --given: #5EEAD4; }
+.find { --rc: var(--find); } .given { --rc: var(--given); } .obj { --rc: #A9B8D8; } .mute { --rc: #5F6E96; } .hot { --rc: #FF9F5A; } .cold { --rc: #7CC8FF; }
+.scn { margin: 0; padding: 12px 12px 10px; border: 1px solid var(--line); border-radius: 14px; background: #0A0F2A; }
+.scn-cap { margin: 0 2px 8px; color: var(--ink); font-size: 15px; font-weight: 500; }
+.scn-svg { display: block; width: 100%; height: auto; border-radius: 10px; background: radial-gradient(120% 90% at 50% 0%, #121A45 0%, #0A0F2A 70%); }
+.scn-svg text { font: 500 11.5px var(--sans); fill: #C9D4EE; }
+.scn-svg .sy { font-family: "Times New Roman", "Noto Serif TC", serif; font-style: italic; font-size: 13.5px; }
+.scn-svg .nt { fill: #8E99C6; font-size: 11px; }
+.scn-svg .lb { fill: #DCE3F8; font-size: 11px; }
+.scn-svg .tg rect { stroke: var(--rc); stroke-width: 1.3; fill: #0E1433; }
+.scn-svg .tg.find rect { fill: #3A1B33; stroke-width: 1.6; }
+.scn-svg .tg.given rect { fill: #0F2E35; }
+.scn-svg .tg.obj rect { stroke: #4A5A86; }
+.scn-svg .tg.find text { fill: #FFE4EC; font-weight: 700; }
+.scn-svg .tg.given text { fill: #D9FBF5; }
+.scn-svg .ar { color: var(--rc); }
+.scn-svg .ar line, .scn-svg .ar .arc { fill: none; stroke: currentColor; stroke-width: var(--aw, 2.6); stroke-linecap: round; }
+.scn-svg .ar path:not(.arc), .scn-svg .ar circle:not(.ring) { fill: currentColor; }
+.scn-svg .ar .ring { fill: none; stroke: currentColor; stroke-width: 2; }
+.scn-svg .dash line, .scn-svg .ln.dash { stroke-dasharray: 5 4; }
+.scn-svg .ln { stroke: var(--rc); stroke-width: 1.6; fill: none; }
+.scn-svg .ob { fill: rgba(150,170,220,.16); stroke: #A9B8D8; stroke-width: 1.6; }
+.scn-svg .ob.solid { fill: #252E62; }
+.scn-svg .ob.findf { fill: rgba(255,122,162,.22); stroke: var(--find); }
+.scn-svg .ob.givenf { fill: rgba(94,234,212,.16); stroke: var(--given); }
+.scn-svg .ghost { fill: none; stroke: #6A79A3; stroke-width: 1.4; stroke-dasharray: 4 4; }
+.scn-svg .gd line { stroke: #6C7BA6; stroke-width: 1.6; }
+.scn-svg .gd .ht { stroke-width: 1; stroke: #48577F; }
+.scn-svg .an { fill: none; stroke: var(--rc); stroke-width: 1.8; }
+.scn-svg .dm line { stroke: var(--rc); stroke-width: 1.3; }
+.scn-svg .dm .ext { stroke-dasharray: 2 3; stroke-width: 1; }
+.scn-svg .dm path { fill: var(--rc); }
+.scn-svg .sp { fill: none; stroke: var(--rc); stroke-width: 1.8; stroke-linejoin: round; }
+.scn-svg .pp { fill: none; stroke: #DCE3F8; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.scn-svg .pp circle { fill: #1A2250; }
+.scn-svg .car .win { fill: rgba(124,200,255,.25); stroke: none; }
+.scn-svg .wh { fill: #1A2250; stroke: #C9D4EE; stroke-width: 2; }
+.scn-svg .wt { fill: rgba(70,140,255,.24); }
+.scn-svg .wts { fill: none; stroke: #6FA8FF; stroke-width: 1.6; }
+.scn-svg .tk { fill: none; stroke: #A9B8D8; stroke-width: 2.4; stroke-linejoin: round; }
+.scn-svg .mol { fill: #9FC4FF; }
+.scn-svg .mol.hl { fill: var(--find); }
+.scn-svg .fo { fill: #FF8A3D; } .scn-svg .fi { fill: #FFD27A; }
+.scn-svg .tt { fill: #141B45; stroke: #A9B8D8; stroke-width: 1.2; } .scn-svg .tm, .scn-svg .tb { fill: #FF6B6B; }
+.scn-svg .pl.earth { fill: #24539E; stroke: #6FA8FF; stroke-width: 1.5; }
+.scn-svg .pl.moon { fill: #5A6380; stroke: #A9B8D8; stroke-width: 1.5; }
+.scn-svg .pl.sun { fill: #E8892B; stroke: #FFC46B; stroke-width: 2; }
+.scn-svg .pl.gray { fill: #2A335E; stroke: #A9B8D8; stroke-width: 1.5; }
+.scn-svg .cmk circle { fill: #0E1433; stroke: var(--rc); stroke-width: 1.8; } .scn-svg .cmk path { fill: var(--rc); }
+.scn-svg .ax line { stroke: #8E99C6; stroke-width: 1.4; } .scn-svg .ax path { fill: #8E99C6; }
+.scn-svg .cv { fill: none; stroke: #DCE3F8; stroke-width: 2.2; }
+.scn-svg .cv.find, .scn-svg .cv.given { stroke: var(--rc); }
+.scn-svg .area { fill: var(--rc); fill-opacity: .22; stroke: var(--rc); stroke-width: 1.2; }
+.scn-svg .hot-f { fill: rgba(255,140,70,.22); stroke: #FF9F5A; stroke-width: 1.6; }
+.scn-svg .cold-f { fill: rgba(124,200,255,.18); stroke: #7CC8FF; stroke-width: 1.6; }
+.scn-svg .film { fill: rgba(196,163,255,.2); stroke: #C4A3FF; stroke-width: 1.2; }
+.scn-svg .ray { fill: none; stroke: #FFE08A; stroke-width: 2; }
+.scn-svg .fr { fill: #FFE08A; }
+.scn-svg .ray.r { stroke: #FF6B6B; } .scn-svg .ray.b { stroke: #7CC8FF; }
+.scn-svg .ins { fill: rgba(255,210,122,.14); stroke: #FFD27A; stroke-width: 1.2; }
+.scn-key { display: grid; gap: 6px; margin: 10px 2px 0; }
+.scn-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.scn-k { flex: none; width: 52px; font-size: 12.5px; font-weight: 700; }
+.scn-k.find { color: var(--find); } .scn-k.given { color: var(--given); }
+.kchip { display: inline-flex; align-items: baseline; gap: 5px; padding: 2px 9px; border: 1px solid var(--rc); border-radius: 999px; font-size: 13px; line-height: 1.6; cursor: default; }
+.kchip.find { background: rgba(255,122,162,.14); color: #FFE4EC; }
+.kchip.given { background: rgba(94,234,212,.09); color: #D9FBF5; }
+.kchip .katex { font-size: 1.05em; }
+.kchip .kv { color: var(--ink); font-weight: 600; }
+.kchip.hi { box-shadow: 0 0 0 2px var(--rc); }
+.scn-calc { margin: 10px 0 0; padding: 8px 10px; border-top: 1px dashed var(--line); overflow-x: auto; overflow-y: hidden; }
+.scn-calc .katex { font-size: 1.08em; }
+.f-display [data-sym].r-find { color: var(--find); }
+.f-display [data-sym].r-given { color: var(--given); }
+.sym-table tr.r-find .sym-s { color: var(--find); }
+.sym-table tr.r-given .sym-s { color: var(--given); }
+.f-legend { margin: 6px 2px 0; color: var(--muted); font-size: 12.5px; }
+.f-legend b.find { color: var(--find); } .f-legend b.given { color: var(--given); }
+
+/* 公式來源 */
+.f-src { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 12px 0 0; }
+.f-src-k { color: var(--muted); font-size: 12.5px; font-weight: 600; }
+.f-src-base { color: var(--muted); font-size: 13px; }
+.srcchip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px 1px 3px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel-2); color: var(--ink); font-size: 12.5px; line-height: 1.7; text-decoration: none; white-space: nowrap; }
+a.srcchip:hover { border-color: var(--c, var(--muted)); }
+.srcchip .chtag { padding: 0 5px; }
+.srcchip.pre { padding-left: 8px; color: var(--muted); border-style: dashed; cursor: help; }
+.srcchip.self { padding-left: 8px; color: var(--accent); border-color: var(--accent); }
+.sym-table td.sym-src { width: 1%; white-space: nowrap; }
+.sym-table .srcchip { font-size: 12px; }
+.tip-f { margin: 4px 0 2px; }
+.src-none { color: #4A5A86; }
+.symsrc { margin-left: 6px; padding: 0 5px; border: 1px solid var(--c); border-radius: 5px; color: var(--c); font-size: 11px; font-weight: 600; line-height: 1.5; text-decoration: none; white-space: nowrap; }
+.symsrc:hover { background: var(--c); color: #0B1030; }
+@media (max-width: 600px) { .scn { padding: 8px 6px; } .sym-table .srcchip { white-space: normal; } .sym-table td.sym-src { width: 30%; } }
 
 /* 提示框 */
 .tip { position: fixed; top: 0; left: 0; z-index: 30; max-width: 300px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(14,20,51,.96); pointer-events: none; font-size: 13px; box-shadow: 0 12px 32px rgba(0,0,0,.45); }
@@ -357,7 +436,6 @@ details summary:hover { color: var(--ink); }
 </aside>
 
 <div id="tip" class="tip" hidden></div>
-<div id="pop" class="pop" role="dialog" aria-label="名詞說明" hidden></div>
 
 <script>
 /* ===== 第一次段考：Ch5–9 ===== */
@@ -1824,9 +1902,13 @@ const RELATIONS = [
   ['f19-5', 'f19-6', '搭配', '把每個物體的 ΔS = ∫dQ/T 加起來，判斷總熵有沒有增加。']
 ];
 
-/* ===== 公式定義與名詞表 =====
-   [[key]] 或 [[key|顯示文字]]：名詞表裡的物理量，點了跳出說明
-   [[@f6-5]] 或 [[@f6-5|顯示文字]]：其他公式，點了跳出公式摘要 */
+/* ===== 名詞表與符號來源 =====
+   GLOSSARY：物理量的一句話說明（滑鼠移到「先修」標籤上時顯示）
+   SYMSRC：每條公式裡每個符號是在哪裡定義的
+     =      這條公式本身就是它的定義
+     f6-1   定義在那條公式
+     ^mass  先修內容（Ch1–4），後面接名詞表的 key
+   沒寫的符號（半徑、時間、角度等）是題目直接給的量 */
 const GLOSSARY = {
   disp: { n: '位移', s: R`\Delta\vec r`, u: 'm', d: '物體位置的改變量，有大小也有方向（向量）。', ch: 0 },
   vel: { n: '速度', s: R`\vec v`, u: 'm/s', d: R`位置對時間的變化率 $\vec v = d\vec r/dt$；速度的大小稱為速率。`, ch: 0 },
@@ -1887,123 +1969,107 @@ const GLOSSARY = {
   entropy: { n: '熵', s: R`S`, u: 'J/K', d: R`描述系統亂度的狀態函數，可逆過程 $dS = dQ/T$；孤立系統的總熵不會減少。`, ch: 19, f: 'f19-5' }
 };
 
-const DEFS = {
-  /* Ch5 */
-  'f5-1': R`[[force|合力]] 的定義是作用在物體上所有力的向量和。牛頓第二定律說：合力等於物體的[[mass]] $m$ 乘上它的[[acc]] $\vec a$。寫成分量時，x、y 方向各自成立，例如 x 方向所有力的分量加起來等於 $m a_x$。力的單位是牛頓 N，1 N = 1 kg·m/s²，也就是讓 1 kg 的物體產生 1 m/s² 加速度的力。`,
-  'f5-2': R`物體沿傾角 $\theta$ 的無摩擦斜面滑動時，沿斜面的[[acc]] $a$ 等於[[g]]乘上 $\sin\theta$，單位 m/s²；斜面給的[[normal]] $n$ 等於物體重量 $mg$ 乘上 $\cos\theta$，單位 N。兩者都是把重力拆成沿斜面、垂直斜面兩個分量，再套用[[@f5-1]]得到的。`,
-  'f5-3': R`靜摩擦力 $f_s$ 是兩個接觸面還沒有相對滑動時，沿接觸面阻止滑動的力，單位 N。它的大小會配合外力改變，但最大不會超過靜[[mu|摩擦係數]] $\mu_s$（無單位）乘上[[normal]] $n$；超過就開始滑動。`,
-  'f5-4': R`動摩擦力 $f_k$ 是兩個接觸面已經相對滑動時，接觸面施加、方向與滑動方向相反的力，單位 N。它等於動[[mu|摩擦係數]] $\mu_k$（無單位）乘上[[normal]] $n$，大小和滑動速度無關。`,
-  'f5-5': R`物體以速率 $v$ 沿半徑 $r$ 的圓等速運動時，速度方向一直在變，產生指向圓心、大小 $v^2/r$ 的[[acent]]（m/s²）。依[[@f5-1]]，指向圓心的合力 $\sum F_r$ 必須等於[[mass]] $m$ 乘上 $v^2/r$，單位 N。這個合力稱為向心力，由張力、重力、摩擦力等真實的力提供。`,
-  'f5-6': R`彎道路面傾斜 $\theta$（°）時，車子以速率 $v$（m/s）在半徑 $r$（m）的彎道上不靠摩擦轉彎，需要 $\tan\theta = v^2/(rg)$。原因是[[normal]]的水平分量剛好提供[[acent|向心力]]，垂直分量撐住重量 $mg$。`,
-  /* Ch6 */
-  'f6-1': R`[[work]] $W$ 的定義是定力 $\vec F$ 與物體[[disp]] $\Delta\vec r$ 的內積，等於力的大小 × 位移大小 × 兩者夾角 $\theta$ 的餘弦。單位是焦耳 J，1 J = 1 N·m，也就是 1 N 的力沿力的方向推動物體 1 m 所做的功。功是純量，夾角超過 90° 時為負。`,
-  'f6-2': R`當[[force|力]]隨位置 $x$ 改變時，物體從 $x_1$ 移到 $x_2$ 所受的[[work]]定義為 $F(x)$ 對 $x$ 的積分，也就是 F–x 圖曲線下的面積，單位 J。它是[[@f6-1]]的推廣：把路徑切成很多小段，每段當作定力再加總。`,
-  'f6-3': R`把[[k]] $k$（N/m）的彈簧從自然長度拉長或壓縮 $x$（m），外力對彈簧做的[[work]]是 $\tfrac12 kx^2$，單位 J。這是把虎克定律 $F = kx$ 代入[[@f6-2]]的結果，也就是 F–x 圖上三角形的面積。`,
-  'f6-4': R`[[ke]] $K$ 的定義是[[mass]] $m$ 的物體以速率 $v$ 運動時所具有的能量，等於 $\tfrac12 mv^2$，單位 J（= kg·m²/s²）。動能是純量，永遠不會是負的。`,
-  'f6-5': R`功能定理：作用在物體上的[[force|合力]]所做的淨[[work]] $W_{net}$，等於物體[[ke]]的變化 $\Delta K = K_2 - K_1$，單位都是 J。淨功為正，物體變快；淨功為負，物體變慢。`,
-  'f6-6': R`[[power]] $P$ 的定義是單位時間內做的[[work]]，$P = dW/dt$，單位瓦特 W（1 W = 1 J/s）。力 $\vec F$ 作用在以[[vel|速度]] $\vec v$ 運動的物體上時，功率就是兩者的內積 $\vec F\cdot\vec v$。`,
-  /* Ch7 */
-  'f7-1': R`[[pe]]的變化 $\Delta U$ 定義為[[cons]]把物體從 A 移到 B 所做[[work]] $W_c$ 的負值，單位 J。只有保守力（例如重力、彈力）才能定義位能；位能的零點可以自己選，只有位能差有意義。`,
-  'f7-2': R`地表附近，[[mass]] $m$ 的物體在高度 $y$（相對你選的零點）時的重力[[pe]]是 $mgy$，單位 J，其中[[g]] $g \approx 9.8$ m/s²。它是把定力 $-mg$ 代入[[@f7-1]]得到的。`,
-  'f7-3': R`[[k]] $k$（N/m）的彈簧偏離平衡位置 $x$（m）時，儲存的彈性[[pe]]是 $\tfrac12 kx^2$，單位 J；不論拉長或壓縮都是正的。它和[[@f6-3]]的數值相同，因為拉彈簧做的功全部存成了位能。`,
-  'f7-4': R`[[mech]] $E$ 的定義是[[ke]] $K$ 加上[[pe]] $U$，單位 J。當只有[[cons]]做功時，機械能守恆：任意兩個狀態 1、2 的 $K + U$ 都相等。它是把 $W_c = -\Delta U$ 代入[[@f6-5]]得到的。`,
-  'f7-5': R`[[noncons]]（例如摩擦力）做的[[work]] $W_{nc}$，等於[[mech]]的變化 $\Delta E = \Delta K + \Delta U$，單位 J。摩擦力的 $W_{nc}$ 是負的，所以機械能減少，少掉的部分變成熱。$W_{nc} = 0$ 時就回到[[@f7-4]]。`,
-  'f7-6': R`一維[[cons]] $F_x$ 等於[[pe]] $U(x)$ 對位置 $x$ 的導數再取負號，單位 N（= J/m）。也就是說，力的大小是位能曲線的斜率，方向指向位能降低的那一側。`,
-  /* Ch8 */
-  'f8-1': R`萬有引力定律：任兩個質量 $m_1$、$m_2$（kg）相距 $r$（m，從質心算）時，彼此吸引的力大小等於[[G]] $G$ 乘上兩質量的乘積，再除以距離的平方，單位 N。`,
-  'f8-2': R`[[g]] $g$ 的定義是只受重力時物體的[[acc]]，單位 m/s²（也等於 N/kg）。離質量 $M$ 的星球中心 $r$ 處，$g = GM/r^2$；在地表 $r = R_E$ 時約 9.8 m/s²。它是由[[@f8-1]]令 $mg = GMm/r^2$ 得到的。`,
-  'f8-3': R`衛星在半徑 $r$（從星球中心算，m）的圓軌道上運行所需的速率 $v = \sqrt{GM/r}$，單位 m/s，$M$ 是中心天體的質量。這是令萬有引力等於[[acent|向心力]] $mv^2/r$ 得到的。`,
-  'f8-4': R`[[period|軌道週期]] $T$（繞一圈的時間，s）的平方，正比於軌道半徑 $r$（橢圓軌道用半長軸，m）的立方，比例常數是 $4\pi^2/(GM)$。由[[@f8-3]]和 $T = 2\pi r/v$ 推得。`,
-  'f8-5': R`質量 $m$ 與質量 $M$ 相距 $r$ 時的重力[[pe]]是 $-GMm/r$，單位 J。取兩者相距無限遠時位能為零，所以距離有限時位能都是負的。它是把[[@f8-1]]代入[[@f7-1]]積分得到的。`,
-  'f8-6': R`脫離速度 $v_{esc}$ 是物體從離中心 $R$ 處出發、不再推進就能飛到無限遠所需的最小速率，單位 m/s。它來自[[mech]]守恆：$\tfrac12 mv^2 - GMm/R = 0$。地表約 11.2 km/s。`,
-  /* Ch9 */
-  'f9-1': R`[[cm]] $\vec r_{cm}$ 的定義是系統中各質點位置以質量為權重的平均，單位 m：每個位置 $\vec r_i$ 乘上質量 $m_i$ 加總後，再除以總質量 $M$。`,
-  'f9-2': R`系統受到的外力合力 $\vec F_{ext}$（N）等於總質量 $M$（kg）乘上[[cm]]的[[acc]] $\vec a_{cm}$（m/s²）。系統內部的力成對抵消，所以不影響質心的運動。這是[[@f5-1]]用在多質點系統的版本。`,
-  'f9-3': R`[[mom]] 的定義是質量乘[[vel|速度]]，$\vec p = m\vec v$，單位 kg·m/s；系統的總動量 $\vec P$ 是每個質點動量的向量和。牛頓第二定律的一般形式是：外力合力等於總動量對時間的變化率 $d\vec P/dt$。`,
-  'f9-4': R`系統所受外力合力為零時，總[[mom]] $\sum m_i\vec v_i$ 不會改變：之前（$\vec v_i$）與之後（$\vec v_i'$）的總動量相等，單位 kg·m/s。它是由[[@f9-3]]令 $\vec F_{ext} = 0$ 得到的，而且每個分量各自守恆。`,
-  'f9-5': R`完全非彈性碰撞的定義：兩物體碰撞後黏在一起，以共同速度 $v_f$（m/s）運動。由[[@f9-4]]，$v_f$ 等於碰撞前的總[[mom]]除以總質量 $m_1 + m_2$。這種碰撞損失的[[ke]]最多。`,
-  'f9-6': R`[[elastic]]的定義是碰撞前後總[[ke]]不變的碰撞。質量 $m_1$、速度 $v_{1i}$ 的物體正面撞上靜止的 $m_2$ 時，同時用[[@f9-4]]和動能守恆，就能解出兩者碰後的速度 $v_{1f}$、$v_{2f}$（m/s）。`,
-  /* Ch10 */
-  'f10-1': R`[[omega]] $\omega$ 的定義是[[theta]] $\theta$ 對時間的變化率，單位 rad/s。剛體上離轉軸 $r$（m）的點，沿圓周移動的線速率是 $v = \omega r$（m/s）；這裡的 $\theta$ 必須用弧度。`,
-  'f10-2': R`[[alpha]] $\alpha$ 固定時，末[[omega]] $\omega$ 的平方等於初角速度 $\omega_0$ 的平方加上 $2\alpha\Delta\theta$。單位：$\omega$ 是 rad/s、$\alpha$ 是 rad/s²、角位移 $\Delta\theta$ 是 rad。它和直線運動的 $v^2 = v_0^2 + 2a\Delta x$ 完全對應。`,
-  'f10-3': R`[[torque]] $\tau$ 的定義是力 $F$ 讓物體繞轉軸轉動的效果，等於轉軸到施力點的距離 $r$ 乘上力的大小 $F$，再乘上兩者夾角的正弦 $\sin\theta$，單位 N·m。也可以看成力乘上力臂 $r\sin\theta$。`,
-  'f10-4': R`作用在剛體上的合[[torque]] $\tau_{net}$（N·m）等於[[inertia]] $I$（kg·m²）乘上[[alpha]] $\alpha$（rad/s²）。它是[[@f5-1]]的轉動版：力對應力矩、質量對應轉動慣量、加速度對應角加速度。`,
-  'f10-5': R`[[inertia]] $I$ 的定義是物體每一部分的質量 $m_i$ 乘上它到轉軸垂直距離 $r_i$ 的平方再加總，連續物體寫成積分，單位 kg·m²。它描述物體「多難轉動」，取決於質量怎麼分布、轉軸在哪裡。`,
-  'f10-6': R`[[krot]] $K_{rot}$ 的定義是剛體繞固定軸轉動時，所有部分[[ke]]的總和，等於 $\tfrac12 I\omega^2$，單位 J；$I$ 是[[inertia]]，$\omega$ 是[[omega]]。`,
-  'f10-7': R`滾動物體的總[[ke]] $K$ 等於質心的平移動能 $\tfrac12 Mv_{cm}^2$ 加上繞質心的[[krot]] $\tfrac12 I_{cm}\omega^2$，單位 J。不打滑時，質心速率和角速度滿足 $v_{cm} = \omega R$（$R$ 是半徑）。`,
-  /* Ch11 */
-  'f11-1': R`[[torque]]向量 $\vec\tau$ 的定義是位置向量 $\vec r$ 與力 $\vec F$ 的外積，大小 $rF\sin\theta$，單位 N·m，方向由右手定則決定、沿著轉軸。它是[[@f10-3]]的向量版。`,
-  'f11-2': R`質點的[[angmom]] $\vec L$ 的定義是它相對參考點的位置向量 $\vec r$ 與[[mom]] $\vec p$ 的外積，單位 kg·m²/s。做圓周運動時，大小就是 $mrv$。`,
-  'f11-3': R`繞對稱軸轉動的剛體，[[angmom]] $L$ 等於[[inertia]] $I$（kg·m²）乘上[[omega]] $\omega$（rad/s），單位 kg·m²/s，方向沿轉軸。`,
-  'f11-4': R`外力的合[[torque]] $\vec\tau_{net}$（N·m）等於[[angmom]] $\vec L$ 對時間的變化率。它是 $\vec F = d\vec P/dt$（[[@f9-3]]）的轉動版。`,
-  'f11-5': R`沒有外力矩時，系統的[[angmom]]不變：轉動慣量與角速度的乘積前後相等，$I_1\omega_1 = I_2\omega_2$，單位 kg·m²/s。它是由[[@f11-4]]令 $\tau_{net} = 0$ 得到的。`,
-  'f11-6': R`陀螺儀受到重力[[torque]] $\tau = Mgr$ 時，自轉軸會在水平面上繞圈，這個繞圈的角速度稱為進動角速度 $\Omega$（rad/s），等於力矩除以自轉的[[angmom]] $L = I\omega$。`,
-  /* Ch12 */
-  'f12-1': R`[[equil]]的第一個條件：作用在物體上所有外力的向量和為零（單位 N），x、y 分量各自為零。這是[[@f5-1]]在加速度為零時的特例。`,
-  'f12-2': R`[[equil]]的第二個條件：所有外力對任意一點的[[torque]]總和為零（單位 N·m），物體就不會開始轉動。`,
-  'f12-3': R`[[cg]] $x_{cg}$ 的定義是全部重量的等效作用點，位置是各部分以質量為權重的平均，單位 m。重力場均勻時，重心就是[[cm]]。`,
-  'f12-4': R`靠在無摩擦牆上的均勻梯子，和地面夾角 $\theta$ 的正切至少要等於 $1/(2\mu)$ 才不會滑倒，$\mu$ 是地面的靜[[mu|摩擦係數]]（無單位）。它來自[[@f12-1]]與[[@f12-2]]兩個條件聯立。`,
-  'f12-5': R`平衡點是[[pe]] $U(x)$ 斜率為零（$dU/dx = 0$，也就是力為零）的位置。若二階導數 $d^2U/dx^2 > 0$（位能的谷底），稍微偏離後力會把物體拉回來，稱為穩定平衡；若小於零（峰頂），則是不穩定平衡。`,
-  /* Ch13 */
-  'f13-1': R`[[period]] $T$ 的定義是完成一次完整振動所需的時間，單位 s。[[freq]] $f$ 是每秒振動的次數，$f = 1/T$，單位赫茲 Hz（= 1/s）。[[angfreq]] $\omega = 2\pi f$，單位 rad/s。`,
-  'f13-2': R`[[shm]]的定義是位移隨時間以餘弦函數變化的運動 $x(t) = A\cos(\omega t + \phi)$：$A$ 是[[amp]]（m），$\omega$ 是[[angfreq]]（rad/s），$\phi$ 是相位常數（rad）。只要回復力和位移成正比（$F = -kx$），就會產生簡諧運動。`,
-  'f13-3': R`質量 $m$（kg）接在[[k]] $k$（N/m）的彈簧上做[[shm]]時，[[angfreq]] $\omega = \sqrt{k/m}$（rad/s），[[period]] $T = 2\pi\sqrt{m/k}$（s），和振幅大小無關。`,
-  'f13-4': R`擺長 $L$（m）的單擺小角度擺動時近似[[shm]]，[[period]] $T = 2\pi\sqrt{L/g}$（s），和擺錘質量、振幅都無關；$g$ 是[[g]]。`,
-  'f13-5': R`繞支點擺動的剛體稱為物理擺，小角度擺動時[[period]] $T = 2\pi\sqrt{I/(mgd)}$（s）；$I$ 是對支點的[[inertia]]，$d$ 是支點到[[cm]]的距離（m）。`,
-  'f13-6': R`做[[shm]]的彈簧振子，總能量 $E$ 等於[[ke]] $\tfrac12 mv^2$ 加彈性[[pe]] $\tfrac12 kx^2$，單位 J，而且永遠等於 $\tfrac12 kA^2$（$A$ 是[[amp]]）。`,
-  'f13-7': R`受到和速度成正比的阻力 $-bv$ 時，振動的[[amp]]會隨時間以 $e^{-bt/2m}$ 指數衰減，這種運動稱為阻尼振盪；$b$ 是阻尼常數（kg/s），$m$ 是質量（kg）。`,
-  /* Ch14 */
-  'f14-1': R`[[wavespeed]] $v$ 的定義是波形前進的速率，單位 m/s。它等於[[lambda]] $\lambda$（相鄰兩個波峰的距離，m）乘上[[freq]] $f$（Hz），也等於 $\lambda/T$。`,
-  'f14-2': R`簡諧波描述介質在位置 $x$、時間 $t$ 的位移 $y$（m）：$y = A\cos(kx - \omega t)$。$A$ 是[[amp]]，$k = 2\pi/\lambda$ 是[[wavenum]]（rad/m），$\omega$ 是[[angfreq]]（rad/s）。`,
-  'f14-3': R`張力 $F$（N）、[[linden]] $\mu$（kg/m）的弦上，橫波的[[wavespeed]] $v = \sqrt{F/\mu}$，單位 m/s。`,
-  'f14-4': R`[[intensity]] $I$ 的定義是單位時間通過單位面積的能量，單位 W/m²。功率 $P$（W）的點波源均勻向四周發射時，距離 $r$ 處的強度是 $P/(4\pi r^2)$。`,
-  'f14-5': R`聲強級 $\beta$ 的定義：聲音的[[intensity]] $I$ 除以聽覺閾值 $I_0 = 10^{-12}$ W/m²，取以 10 為底的對數再乘 10，單位分貝 dB。`,
-  'f14-6': R`駐波是兩列反向傳播的波疊加後，形成位置固定的節點與腹點的振動。兩端固定（或兩端開口）、長度 $L$ 時，第 $n$ 個諧音的[[lambda]] $\lambda_n = 2L/n$，頻率 $f_n = nv/(2L)$（Hz），$v$ 是[[wavespeed]]。`,
-  'f14-7': R`都卜勒效應的定義：波源或觀察者在移動時，觀察者測到的頻率 $f'$ 和波源發出的頻率 $f$ 不同。波源以速率 $u$ 靠近時 $f' = f/(1 - u/v)$，遠離時分母改成 $1 + u/v$；$v$ 是聲音的[[wavespeed]]。`,
-  /* Ch32 */
-  'f32-1': R`兩個同相波源傳到某一點的[[pathdiff]] $\Delta r$（m）若是[[lambda]]的整數倍 $m\lambda$，兩波同相疊加而加強，稱為建設性干涉；若是 $(m + \tfrac12)\lambda$，兩波互相抵消，稱為破壞性干涉。`,
-  'f32-2': R`間距 $d$ 的雙狹縫，在角度 $\theta$ 方向出現亮紋的條件是 $d\sin\theta = m\lambda$；離狹縫 $L$ 的屏幕上，第 $m$ 條亮紋到中央的距離 $y_m \approx m\lambda L/d$（m）。它是把[[pathdiff]] $d\sin\theta$ 代入[[@f32-1]]的結果。`,
-  'f32-3': R`繞射光柵是很多條等距（間距 $d$）的狹縫，亮紋條件和雙狹縫相同，$d\sin\theta = m\lambda$，但亮紋更尖銳。解析度 $\lambda/\Delta\lambda$（無單位）等於級數 $m$ 乘上被照到的刻線數 $N$，代表分開兩個相近波長的能力。`,
-  'f32-4': R`厚度 $d$、折射率 $n$ 的薄膜，上下表面反射的兩道光光程差是 $2nd$。若只有一次反射有半個波長的相位反轉（例如肥皂膜），當 $2nd = (m + \tfrac12)\lambda$ 時反射光加強，看到亮色。判斷方式來自[[@f32-1]]。`,
-  'f32-5': R`寬度 $a$ 的單狹縫，在 $a\sin\theta = m\lambda$（$m = \pm1, \pm2, \dots$）的方向出現暗紋；中央亮紋的寬度是其他亮紋的兩倍。`,
-  'f32-6': R`直徑 $D$ 的圓形孔徑（例如望遠鏡的鏡面）能分辨的最小角度 $\theta_{min} = 1.22\lambda/D$（rad），這是繞射造成的極限，和鏡片做得多好無關。`,
-  /* Ch15 */
-  'f15-1': R`[[rho]] $\rho$ 的定義是單位體積的質量 $m/V$，單位 kg/m³。[[pressure]] $p$ 的定義是垂直作用在單位面積上的力 $F/A$，單位帕斯卡 Pa（= N/m²）；1 atm ≈ 101.3 kPa。`,
-  'f15-2': R`[[rho|密度]] $\rho$ 的靜止液體中，深度 $h$（m）處的[[pressure]] $p$ 等於液面上的壓力 $p_0$ 加上 $\rho gh$，單位 Pa。$\rho gh$ 就是上方液柱每單位面積的重量。`,
-  'f15-3': R`帕斯卡原理：對封閉液體某處加的[[pressure]]，會不減弱地傳到液體每一處。所以液壓機兩個活塞上的力與面積成正比，$F_1/A_1 = F_2/A_2$，兩邊都是同一個壓力（Pa）。`,
-  'f15-4': R`[[buoy]] $F_b$ 的定義是流體對浸在其中的物體向上的合力，單位 N。阿基米德原理說，它等於被排開流體的重量：流體[[rho|密度]] $\rho_f$ × 排開的體積 $V_{sub}$ × [[g]] $g$。`,
-  'f15-5': R`不可壓縮的流體穩定流動時，每秒流過任一截面的體積（體積流率，m³/s）都相同：截面積 $A$（m²）乘上流速 $v$（m/s）是常數。`,
-  'f15-6': R`白努利方程：沿著同一條流線，[[pressure]] $p$、每單位體積的動能 $\tfrac12\rho v^2$、每單位體積的重力位能 $\rho gy$ 三者之和保持不變，每一項的單位都是 Pa（= J/m³）。它是[[@f7-4]]用在流體上的版本。`,
-  'f15-7': R`托里切利定理：液面下深度 $h$（m）的小孔，流出的速率 $v = \sqrt{2gh}$（m/s），和從高度 $h$ 自由落下的速率相同。它是由[[@f15-6]]化簡得到的。`,
-  /* Ch16 */
-  'f16-1': R`[[temp]]的三種溫標：克氏溫度 $T_K$（K）以絕對零度為 0；攝氏 $T_C$（°C）以水的冰點為 0。兩者的刻度一樣大，只差 273.15。華氏 $T_F$（°F）$= \tfrac95 T_C + 32$。`,
-  'f16-2': R`[[heat]] $Q$ 的定義是因為溫差而傳遞的能量，單位 J。[[c]] $c$ 的定義是讓 1 kg 物質升高 1 K 所需的熱量，單位 J/(kg·K)。所以質量 $m$ 的物體溫度改變 $\Delta T$ 時，吸收的熱 $Q = mc\Delta T$。`,
-  'f16-3': R`兩個物體接觸、和外界隔熱時，熱從高溫流到低溫，直到溫度相同，這個最後的溫度 $T$ 稱為平衡溫度。因為一方放出的[[heat]]等於另一方吸收的，$T$ 就是以 $mc$ 為權重的兩個初溫平均。用到[[@f16-2]]。`,
-  'f16-4': R`[[H]] $H$ 的定義是每秒傳過某截面的熱量，單位 W（J/s）。傳導時，$H$ 等於熱導率 $k$（W/(m·K)）× 截面積 $A$ × 溫度梯度 $dT/dx$；負號表示熱往低溫的方向流。`,
-  'f16-5': R`熱阻 $R$ 的定義是材料厚度 $\Delta x$ 除以熱導率 $k$，單位 m²·K/W；$R$ 越大越隔熱。用熱阻表示時，[[H]] $H = A\Delta T/R$。它是[[@f16-4]]改寫而來的。`,
-  'f16-6': R`物體表面每秒以電磁波輻射出去的能量（輻射功率 $P$，W）等於放射率 $e$（0–1）× 史蒂芬－波茲曼常數 $\sigma = 5.67\times10^{-8}$ W/(m²·K⁴) × 表面積 $A$ × 絕對[[temp]] $T$ 的四次方。`,
-  /* Ch17 */
-  'f17-1': R`理想氣體的[[pressure]] $p$（Pa）乘上體積 $V$（m³），等於[[mole]] $n$（mol）× [[R]] $R$ × 絕對[[temp]] $T$（K）；也等於分子數 $N$ × [[kB]] $k$ × $T$。`,
-  'f17-2': R`氣體分子的平均平移[[ke]] $\overline K$ 等於 $\tfrac32 kT$，單位 J；$k$ 是[[kB]]，$T$ 是絕對[[temp]]。這就是溫度的微觀意義。`,
-  'f17-3': R`方均根速率 $v_{rms}$ 的定義是分子速率平方的平均值再開根號，單位 m/s。由[[@f17-2]]得到 $v_{rms} = \sqrt{3kT/m}$，$m$ 是一個分子的質量（kg）。`,
-  'f17-4': R`[[latent]] $L$ 的定義是 1 kg 物質在相變（熔化、汽化等）時吸收或放出的[[heat]]，單位 J/kg。質量 $m$ 的物質完成相變需要 $Q = Lm$，過程中溫度不變。`,
-  'f17-5': R`線膨脹係數 $\alpha$ 的定義是溫度每升高 1 K 時長度增加的比例，單位 1/K。長度 $L$ 的物體升溫 $\Delta T$ 時伸長 $\Delta L = \alpha L\Delta T$（m）。`,
-  'f17-6': R`體膨脹係數 $\beta$ 的定義是溫度每升高 1 K 時體積增加的比例，單位 1/K。體積 $V$ 升溫 $\Delta T$ 時增加 $\Delta V = \beta V\Delta T$；固體的 $\beta \approx 3\alpha$（見[[@f17-5]]）。`,
-  /* Ch18 */
-  'f18-1': R`[[eint]] $E_{int}$ 是系統內所有分子能量的總和，單位 J。熱力學第一定律：內能的變化等於系統吸收的[[heat]] $Q$ 減去系統對外做的[[work]] $W$。它是把能量守恆擴大到熱的版本（參考[[@f7-5]]）。`,
-  'f18-2': R`氣體體積從 $V_1$ 變到 $V_2$ 時對外做的[[work]]，是[[pressure]] $p$ 對體積 $V$ 的積分，單位 J（= Pa·m³）；在 p–V 圖上就是曲線下的面積。它和[[@f6-2]]是同一個想法。`,
-  'f18-3': R`等壓過程的定義是[[pressure]]保持不變的過程。氣體做的[[work]] $W = p\Delta V$（J），吸收的[[heat]] $Q = nC_P\Delta T$，其中 $C_P$ 是定壓[[molarc]]。`,
-  'f18-4': R`等溫過程的定義是[[temp]]保持不變的過程。理想氣體從 $V_1$ 變到 $V_2$ 做的[[work]] $W = nRT\ln(V_2/V_1)$（J）；因為[[eint]]不變，吸收的熱 $Q = W$。`,
-  'f18-5': R`等容過程的定義是體積保持不變的過程。體積沒變，氣體不做功（$W = 0$），吸收的[[heat]]全部變成[[eint]]：$Q = nC_V\Delta T$，$C_V$ 是定容[[molarc]]。`,
-  'f18-6': R`絕熱過程的定義是系統和外界沒有[[heat]]交換（$Q = 0$）的過程。理想氣體絕熱時 $pV^\gamma$ 保持不變，$\gamma$ 是[[gammaratio]]；被壓縮時溫度上升，膨脹時溫度下降。`,
-  'f18-7': R`[[molarc]]的定義是 1 mol 物質升高 1 K 所需的熱，單位 J/(mol·K)，分成定容 $C_V$ 與定壓 $C_P$ 兩種。理想氣體 $C_P = C_V + R$（$R$ 是[[R]]），兩者的比值是[[gammaratio]] $\gamma$。`,
-  /* Ch19 */
-  'f19-1': R`熱機[[eff]] $e$ 的定義是每個循環對外做的[[work]] $W$ 除以從高溫熱源吸收的[[heat]] $Q_h$（無單位，常寫成 %）。因為熱機一定要排出熱 $Q_c$ 到低溫處，$e = 1 - Q_c/Q_h$ 一定小於 1。`,
-  'f19-2': R`在高溫 $T_h$、低溫 $T_c$（都用 K）兩個熱源之間運作的熱機，最高可能的[[eff]]是 $1 - T_c/T_h$，由可逆的卡諾循環達到。`,
-  'f19-3': R`冷凍機性能係數 COP 的定義是從低溫處移走的熱 $Q_c$ 除以輸入的[[work]] $W$（無單位）。在 $T_c$ 與 $T_h$ 之間運作時，最大值是 $T_c/(T_h - T_c)$。`,
-  'f19-4': R`熱泵性能係數 $\text{COP}_{hp}$ 的定義是送進室內的熱 $Q_h$ 除以輸入的[[work]] $W$（無單位），最大值是 $T_h/(T_h - T_c)$。和[[@f19-3]]比較，同一台機器 $\text{COP}_{hp} = \text{COP} + 1$。`,
-  'f19-5': R`[[entropy]] $S$ 是系統的狀態函數，單位 J/K。熵變 $\Delta S$ 的定義是沿一條可逆路徑，把每一小段吸收的[[heat]] $dQ$ 除以當時的絕對[[temp]] $T$ 再加總；溫度固定時 $\Delta S = Q/T$。`,
-  'f19-6': R`熱力學第二定律（熵的說法）：孤立系統的總[[entropy]]變化 $\Delta S_{total}$ 不會小於零；可逆過程等於零，不可逆過程大於零。`
+const SYMSRC = {
+  'f5-1': 'F:^force m:^mass a:^acc',
+  'f5-2': 'a:^acc g:^g n:^normal m:^mass',
+  'f5-3': 'fs:= mu:= n:f5-2',
+  'f5-4': 'fk:= mu:f5-3 n:f5-2',
+  'f5-5': 'F:f5-1 m:^mass v:^vel',
+  'f5-6': 'v:^vel g:^g',
+  'f6-1': 'W:= F:f5-1 r:^disp',
+  'f6-2': 'W:f6-1 F:f5-1',
+  'f6-3': 'W:f6-1 k:=',
+  'f6-4': 'K:= m:^mass v:^vel',
+  'f6-5': 'W:f6-1 K:f6-4',
+  'f6-6': 'P:= F:f5-1 v:^vel',
+  'f7-1': 'U:= W:f6-1 F:f5-1',
+  'f7-2': 'U:f7-1 m:^mass g:^g',
+  'f7-3': 'U:f7-1 k:f6-3',
+  'f7-4': 'K:f6-4 U:f7-1',
+  'f7-5': 'E:f7-4 W:f6-1',
+  'f7-6': 'F:f5-1 U:f7-1',
+  'f8-1': 'F:f5-1 G:= m1:^mass m2:^mass',
+  'f8-2': 'g:= G:f8-1 M:^mass',
+  'f8-3': 'v:^vel G:f8-1 M:^mass',
+  'f8-4': 'T:^period G:f8-1 M:^mass',
+  'f8-5': 'U:f7-1 G:f8-1 M:^mass m:^mass',
+  'f8-6': 'v:= G:f8-1 M:^mass',
+  'f9-1': 'r:= M:^mass m:^mass',
+  'f9-2': 'F:f5-1 M:^mass a:f9-1',
+  'f9-3': 'P:= m:^mass v:^vel F:f5-1',
+  'f9-4': 'm:^mass vi:^vel vf:^vel',
+  'f9-5': 'vf:^vel m1:^mass v1:^vel m2:^mass v2:^vel',
+  'f9-6': 'v1f:^vel v2f:^vel m1:^mass m2:^mass v1i:^vel',
+  'f10-1': 'w:= th:= v:^vel',
+  'f10-2': 'w:f10-1 w0:f10-1 al:= th:f10-1',
+  'f10-3': 'tau:= F:f5-1',
+  'f10-4': 'tau:f10-3 I:f10-5 al:f10-2',
+  'f10-5': 'I:= m:^mass',
+  'f10-6': 'K:= I:f10-5 w:f10-1',
+  'f10-7': 'K:f6-4 M:^mass v:f9-1 I:f10-5 w:f10-1',
+  'f11-1': 'tau:f10-3 r:^disp F:f5-1',
+  'f11-2': 'L:= r:^disp p:f9-3',
+  'f11-3': 'L:f11-2 I:f10-5 w:f10-1',
+  'f11-4': 'tau:f11-1 L:f11-2',
+  'f11-5': 'I1:f10-5 w1:f10-1 I2:f10-5 w2:f10-1',
+  'f11-6': 'W:f10-1 tau:f11-1 L:f11-3 M:^mass r:f9-1 I:f10-5 w:f10-1',
+  'f12-1': 'F:f5-1',
+  'f12-2': 'tau:f10-3',
+  'f12-3': 'x:= m:^mass',
+  'f12-4': 'mu:f5-3',
+  'f12-5': 'U:f7-1',
+  'f13-1': 'f:= T:= w:=',
+  'f13-2': 'x:^disp A:= w:f13-1 ph:=',
+  'f13-3': 'w:f13-1 k:f6-3 m:^mass T:f13-1',
+  'f13-4': 'T:f13-1 g:f8-2',
+  'f13-5': 'T:f13-1 I:f10-5 m:^mass g:f8-2 d:f9-1',
+  'f13-6': 'E:f7-4 m:^mass v:^vel k:f6-3 x:^disp A:f13-2',
+  'f13-7': 'x:f13-2 A:f13-2 b:= m:^mass',
+  'f14-1': 'v:= lam:= f:f13-1 T:f13-1',
+  'f14-2': 'y:^disp A:f13-2 k:= w:f13-1',
+  'f14-3': 'v:f14-1 F:f5-1 mu:=',
+  'f14-4': 'I:= P:f6-6',
+  'f14-5': 'beta:= I:f14-4 I0:=',
+  'f14-6': 'lam:f14-1 f:f13-1 v:f14-1',
+  'f14-7': 'fp:f13-1 f:f13-1 v:f14-1',
+  'f32-1': 'r:= lam:f14-1',
+  'f32-2': 'm:f32-1 lam:f14-1',
+  'f32-3': 'd:f32-2 m:f32-1 lam:f14-1 N:=',
+  'f32-4': 'm:f32-1 lam:f14-1',
+  'f32-5': 'a:= lam:f14-1',
+  'f32-6': 'th:= lam:f14-1 D:=',
+  'f15-1': 'rho:= m:^mass p:= F:f5-1',
+  'f15-2': 'p:f15-1 p0:f15-1 rho:f15-1 g:f8-2',
+  'f15-3': 'F1:f5-1 F2:f5-1',
+  'f15-4': 'Fb:= rho:f15-1 g:f8-2',
+  'f15-5': 'v1:^vel v2:^vel',
+  'f15-6': 'p:f15-1 rho:f15-1 v:^vel g:f8-2',
+  'f15-7': 'v:^vel g:f8-2',
+  'f16-1': 'TK:= TC:= TF:=',
+  'f16-2': 'Q:= m:^mass c:= T:f16-1',
+  'f16-3': 'T:f16-1 m1:^mass c1:f16-2 T1:f16-1 m2:^mass c2:f16-2 T2:f16-1',
+  'f16-4': 'H:= k:= T:f16-1',
+  'f16-5': 'H:f16-4 T:f16-1 R:=',
+  'f16-6': 'P:f6-6 e:= sig:= T:f16-1',
+  'f17-1': 'p:f15-1 n:= R:= T:f16-1 N:= k:=',
+  'f17-2': 'K:f6-4 k:f17-1 T:f16-1',
+  'f17-3': 'v:= k:f17-1 T:f16-1 m:^mass',
+  'f17-4': 'Q:f16-2 L:= m:^mass',
+  'f17-5': 'al:= T:f16-1',
+  'f17-6': 'be:= T:f16-1',
+  'f18-1': 'E:= Q:f16-2 W:f6-1',
+  'f18-2': 'W:f6-1 p:f15-1',
+  'f18-3': 'W:f18-2 p:f15-1 Q:f16-2 n:f17-1 CP:f18-7 T:f16-1',
+  'f18-4': 'W:f18-2 n:f17-1 R:f17-1 T:f16-1',
+  'f18-5': 'W:f18-2 Q:f16-2 n:f17-1 CV:f18-7 T:f16-1',
+  'f18-6': 'p:f15-1 g:f18-7 T:f16-1',
+  'f18-7': 'CP:= CV:= R:f17-1 g:=',
+  'f19-1': 'e:= W:f6-1 Qh:f16-2 Qc:f16-2',
+  'f19-2': 'e:f19-1 Tc:f16-1 Th:f16-1',
+  'f19-3': 'Qc:f16-2 W:f6-1 Tc:f16-1 Th:f16-1',
+  'f19-4': 'Qh:f16-2 W:f6-1 Th:f16-1 Tc:f16-1',
+  'f19-5': 'S:= Q:f16-2 T:f16-1',
+  'f19-6': 'S:f19-5'
 };
 
 /* ===== 模擬動畫 ===== */
@@ -2725,6 +2791,1404 @@ SIMS.carnot = {
   }
 };
 
+/* ===== 情境圖工具：用 SVG 畫「真實情境 + 標好要算／已知的量」 =====
+   每條公式在 SCENES[id] 有一張圖：
+   { cap: 情境一句話, find: '要算的符號 key', given: '已知的符號 key', val: { key: '數值' },
+     xf / xg: [[tex, 名稱, 數值]] 額外的圖例（不是公式符號時用）, calc: 代數字的一行計算, draw: h => SVG 字串 }
+   畫布固定 360 × 200。h.tag(x, y, key, '文字') 依 key 是要算還是已知自動上色。 */
+const SCENES = {};
+const SceneKit = (function () {
+  const ROLES = ['find', 'given', 'obj', 'mute', 'hot', 'cold'];
+  const CJK = /[⺀-鿿＀-￯　-〿]/;
+  const r1 = n => Math.round(n * 10) / 10;
+  const escX = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const rad = d => d * Math.PI / 180;
+  // a_1、F_{net}、x^2 這種寫法拆成一般字、下標、上標
+  function parse(s) {
+    const out = []; let buf = '', i = 0;
+    const flush = () => { if (buf) { out.push({ t: buf }); buf = ''; } };
+    while (i < s.length) {
+      const c = s[i];
+      if ((c === '_' || c === '^') && i + 1 < s.length && s[i + 1] !== ' ') {
+        let t; if (s[i + 1] === '{') { const j = s.indexOf('}', i + 2); t = s.slice(i + 2, j); i = j + 1; } else { const m = s.slice(i + 1).match(/^[A-Za-z0-9]+/); t = m ? m[0] : s[i + 1]; i += 1 + t.length; }
+        flush(); out.push({ t, [c === '_' ? 'sub' : 'sup']: 1 }); continue;
+      }
+      buf += c; i++;
+    }
+    flush(); return out;
+  }
+  function width(s, fs) {
+    let w = 0;
+    parse(s).forEach(p => { const f = p.sub || p.sup ? fs * 0.72 : fs; for (const ch of p.t) w += CJK.test(ch) ? f : ch === ' ' ? f * 0.3 : f * 0.6; });
+    return w;
+  }
+  function seg(str, cls) {
+    const c = cls ? ` class="${cls}"` : '';
+    return parse(str).map(p => p.sub ? `<tspan dy="3.5" font-size="72%"${c}>${escX(p.t)}</tspan><tspan dy="-3.5">​</tspan>`
+      : p.sup ? `<tspan dy="-5" font-size="72%"${c}>${escX(p.t)}</tspan><tspan dy="5">​</tspan>`
+      : `<tspan${c}>${escX(p.t)}</tspan>`).join('');
+  }
+  // 「v_1 = 3 m/s」：等號左邊的符號用斜體
+  function svgText(s) {
+    const m = String(s).match(/^([^=≤≥≈<>⺀-鿿（]*?\S)\s*(=|≤|≥|≈)\s*(.*)$/);
+    if (m && m[1].length <= 14) return seg(m[1], 'sy') + `<tspan> ${m[2]} </tspan>` + seg(m[3], '');
+    return seg(String(s), '');
+  }
+
+  function make(roleOf) {
+    const R = k => ROLES.includes(k) ? k : roleOf(k);
+    const h = {
+      /* 標籤：圓角框，顏色看角色 */
+      tag(x, y, k, s, a) {
+        const w = width(s, 11.5) + 14, x0 = a === 's' ? x : a === 'e' ? x - w : x - w / 2;
+        return `<g class="tg ${R(k)}" data-a="${a || 'm'}" data-x="${x}"><rect x="${r1(x0)}" y="${r1(y - 9.5)}" width="${r1(w)}" height="19" rx="9.5"/><text x="${r1(x0 + w / 2)}" y="${r1(y + 4)}" text-anchor="middle">${svgText(s)}</text></g>`;
+      },
+      note(x, y, s, a, cls) { return `<text class="nt ${cls || ''}" x="${r1(x)}" y="${r1(y)}" text-anchor="${a === 's' ? 'start' : a === 'e' ? 'end' : 'middle'}">${svgText(s)}</text>`; },
+      label(x, y, s, a) { return `<text class="lb" x="${r1(x)}" y="${r1(y)}" text-anchor="${a === 's' ? 'start' : a === 'e' ? 'end' : 'middle'}">${svgText(s)}</text>`; },
+      line(x1, y1, x2, y2, k, dash, w) { return `<line class="ln ${R(k || 'obj')}${dash ? ' dash' : ''}" x1="${r1(x1)}" y1="${r1(y1)}" x2="${r1(x2)}" y2="${r1(y2)}"${w ? ` style="stroke-width:${w}"` : ''}/>`; },
+      path(d, cls) { return `<path class="${cls || 'ln obj'}" d="${d}"/>`; },
+      poly(pts, cls) { return `<polygon class="${cls || 'ob'}" points="${pts.map(p => r1(p[0]) + ',' + r1(p[1])).join(' ')}"/>`; },
+      rect(x, y, w, hh, cls, rx) { return `<rect class="${cls || 'ob'}" x="${r1(x)}" y="${r1(y)}" width="${r1(w)}" height="${r1(hh)}"${rx ? ` rx="${rx}"` : ''}/>`; },
+      circle(cx, cy, r, cls) { return `<circle class="${cls || 'ob'}" cx="${r1(cx)}" cy="${r1(cy)}" r="${r1(r)}"/>`; },
+      ellipse(cx, cy, rx, ry, cls) { return `<ellipse class="${cls || 'ob'}" cx="${r1(cx)}" cy="${r1(cy)}" rx="${r1(rx)}" ry="${r1(ry)}"/>`; },
+      /* 物體方塊：中心、寬高、文字、旋轉角（逆時針為正） */
+      box(cx, cy, w, hh, s, rot, cls) {
+        const t = rot ? ` transform="rotate(${r1(-rot)} ${r1(cx)} ${r1(cy)})"` : '';
+        return `<g${t}><rect class="${cls || 'ob'}" x="${r1(cx - w / 2)}" y="${r1(cy - hh / 2)}" width="${r1(w)}" height="${r1(hh)}" rx="3"/>${s ? `<text class="lb" x="${r1(cx)}" y="${r1(cy + 4)}" text-anchor="middle">${svgText(s)}</text>` : ''}</g>`;
+      },
+      /* 箭頭（力、速度…） */
+      arrow(x1, y1, x2, y2, k, o) {
+        o = o || {};
+        const L = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / L, uy = (y2 - y1) / L, hl = o.hl || 10, hw = o.hw || 5;
+        const bx = x2 - ux * hl, by = y2 - uy * hl;
+        return `<g class="ar ${R(k)}${o.dash ? ' dash' : ''}"${o.w ? ` style="--aw:${o.w}"` : ''}><line x1="${r1(x1)}" y1="${r1(y1)}" x2="${r1(bx + ux * 2)}" y2="${r1(by + uy * 2)}"/><path d="M${r1(x2)} ${r1(y2)}L${r1(bx - uy * hw)} ${r1(by + ux * hw)}L${r1(bx + uy * hw)} ${r1(by - ux * hw)}Z"/></g>`;
+      },
+      /* 量長度的標示線（兩端短橫線），文字放在中間 */
+      dim(x1, y1, x2, y2, k, s, o) {
+        o = o || {};
+        const L = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / L, uy = (y2 - y1) / L, nx = -uy, ny = ux, off = o.off || 0;
+        const a = [x1 + nx * off, y1 + ny * off], b = [x2 + nx * off, y2 + ny * off], t = o.t == null ? 0.5 : o.t;
+        let out = `<g class="dm ${R(k)}">`;
+        if (off) out += `<line class="ext" x1="${r1(x1)}" y1="${r1(y1)}" x2="${r1(a[0] + nx * 4 * Math.sign(off))}" y2="${r1(a[1] + ny * 4 * Math.sign(off))}"/><line class="ext" x1="${r1(x2)}" y1="${r1(y2)}" x2="${r1(b[0] + nx * 4 * Math.sign(off))}" y2="${r1(b[1] + ny * 4 * Math.sign(off))}"/>`;
+        out += `<line x1="${r1(a[0])}" y1="${r1(a[1])}" x2="${r1(b[0])}" y2="${r1(b[1])}"/>`;
+        [a, b].forEach(p => { out += `<line x1="${r1(p[0] - nx * 5)}" y1="${r1(p[1] - ny * 5)}" x2="${r1(p[0] + nx * 5)}" y2="${r1(p[1] + ny * 5)}"/>`; });
+        const hd = (p, s) => `<path d="M${r1(p[0])} ${r1(p[1])}L${r1(p[0] + s * ux * 7 - nx * 3.2)} ${r1(p[1] + s * uy * 7 - ny * 3.2)}L${r1(p[0] + s * ux * 7 + nx * 3.2)} ${r1(p[1] + s * uy * 7 + ny * 3.2)}Z"/>`;
+        if (L > 26) out += hd(a, 1) + hd(b, -1);
+        out += '</g>';
+        if (s) { const lo = o.lo || 0; out += h.tag(a[0] + (b[0] - a[0]) * t + nx * lo + (o.dx || 0), a[1] + (b[1] - a[1]) * t + ny * lo + (o.dy || 0), k, s, o.a); }
+        return out;
+      },
+      /* 角度弧：角度用數學慣例（0° 朝右、逆時針為正） */
+      angle(cx, cy, r, a1, a2, k, s, o) {
+        o = o || {};
+        const P = (a, rr) => [cx + rr * Math.cos(rad(a)), cy - rr * Math.sin(rad(a))];
+        const p1 = P(a1, r), p2 = P(a2, r), large = Math.abs(a2 - a1) > 180 ? 1 : 0, sweep = a2 > a1 ? 0 : 1;
+        let out = `<path class="an ${R(k)}" d="M${r1(p1[0])} ${r1(p1[1])}A${r} ${r} 0 ${large} ${sweep} ${r1(p2[0])} ${r1(p2[1])}"/>`;
+        if (s) { const am = o.am == null ? (a1 + a2) / 2 : o.am, q = P(am, o.lr || r + 18); out += h.tag(q[0] + (o.dx || 0), q[1] + (o.dy || 0), k, s, o.a); }
+        return out;
+      },
+      /* 轉動方向的彎箭頭：從 a1 轉到 a2 */
+      rot(cx, cy, r, a1, a2, k, s, o) {
+        o = o || {};
+        const ry = o.ry || r, P = a => [cx + r * Math.cos(rad(a)), cy - ry * Math.sin(rad(a))];
+        const p1 = P(a1), p2 = P(a2), large = Math.abs(a2 - a1) > 180 ? 1 : 0, sweep = a2 > a1 ? 0 : 1, dir = a2 > a1 ? 1 : -1;
+        const tx = -Math.sin(rad(a2)) * r * dir, ty = -Math.cos(rad(a2)) * ry * dir, L = Math.hypot(tx, ty) || 1, ux = tx / L, uy = ty / L;
+        const hl = 9, hw = 4.6, bx = p2[0] - ux * hl, by = p2[1] - uy * hl;
+        let out = `<g class="ar ${R(k)}"><path class="arc" d="M${r1(p1[0])} ${r1(p1[1])}A${r} ${ry} 0 ${large} ${sweep} ${r1(p2[0] - ux * 4)} ${r1(p2[1] - uy * 4)}"/><path d="M${r1(p2[0] + ux * 3)} ${r1(p2[1] + uy * 3)}L${r1(bx - uy * hw)} ${r1(by + ux * hw)}L${r1(bx + uy * hw)} ${r1(by - ux * hw)}Z"/></g>`;
+        if (s) { const am = o.am == null ? (a1 + a2) / 2 : o.am, lr = o.lr || 16; out += h.tag(cx + (r + lr) * Math.cos(rad(am)) + (o.dx || 0), cy - (ry + lr) * Math.sin(rad(am)) + (o.dy || 0), k, s, o.a); }
+        return out;
+      },
+      /* 彈簧：兩端點之間的鋸齒線 */
+      spring(x1, y1, x2, y2, o) {
+        o = o || {};
+        const n = o.n || 8, amp = o.amp || 7, lead = o.lead == null ? 8 : o.lead, L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+        const pts = [[x1, y1], [x1 + ux * lead, y1 + uy * lead]], body = L - 2 * lead;
+        for (let i = 0; i < n * 2; i++) { const t = lead + body * (i + 0.5) / (n * 2), s = i % 2 ? -amp : amp; pts.push([x1 + ux * t - uy * s, y1 + uy * t + ux * s]); }
+        pts.push([x2 - ux * lead, y2 - uy * lead], [x2, y2]);
+        return `<polyline class="sp ${R(o.k || 'obj')}" points="${pts.map(p => r1(p[0]) + ',' + r1(p[1])).join(' ')}"/>`;
+      },
+      /* 正弦波 */
+      wave(x1, x2, yc, A, lam, o) {
+        o = o || {};
+        let d = ''; for (let x = x1; x <= x2 + 0.01; x += 2) d += (d ? 'L' : 'M') + r1(x) + ' ' + r1(yc - A * Math.cos(2 * Math.PI * (x - x1) / lam + (o.ph || 0)));
+        return `<path class="${o.cls || 'ln obj'}" d="${d}"${o.w ? ` style="stroke-width:${o.w}"` : ''}/>`;
+      },
+      /* 地面、牆（斜線陰影） */
+      ground(y, x1, x2) {
+        x1 = x1 == null ? 8 : x1; x2 = x2 == null ? 352 : x2;
+        let out = `<g class="gd"><line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`;
+        for (let x = x1 + 8; x <= x2; x += 10) out += `<line class="ht" x1="${x}" y1="${y + 1}" x2="${x - 6}" y2="${y + 7}"/>`;
+        return out + '</g>';
+      },
+      wall(x, y1, y2, side) {
+        const s = side === 'r' ? 1 : -1; let out = `<g class="gd"><line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}"/>`;
+        for (let y = y1 + 6; y <= y2; y += 10) out += `<line class="ht" x1="${x}" y1="${y}" x2="${x + s * 6}" y2="${y - 6}"/>`;
+        return out + '</g>';
+      },
+      ceil(y, x1, x2) {
+        let out = `<g class="gd"><line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/>`;
+        for (let x = x1 + 6; x <= x2; x += 10) out += `<line class="ht" x1="${x}" y1="${y - 1}" x2="${x - 6}" y2="${y - 7}"/>`;
+        return out + '</g>';
+      },
+      /* 人：腳底在 (x, y)；pose：stand、push、armsOut、armsIn、up；dir 面向 1 右 −1 左 */
+      person(x, y, o) {
+        o = o || {};
+        const s = o.s || 1, d = o.dir || 1, hy = y - 52 * s, sh = y - 40 * s, hip = y - 22 * s, P = (a, b) => r1(x + a * s * d) + ' ' + r1(y - b * s);
+        let arms;
+        switch (o.pose) {
+          case 'push': arms = `M${P(0, 40)}L${P(15, 36)}M${P(0, 40)}L${P(15, 31)}`; break;
+          case 'armsOut': arms = `M${P(-22, 42)}L${P(22, 42)}`; break;
+          case 'armsIn': arms = `M${P(0, 40)}L${P(-6, 32)}L${P(2, 30)}M${P(0, 40)}L${P(6, 32)}L${P(-2, 30)}`; break;
+          case 'up': arms = `M${P(0, 40)}L${P(-10, 56)}M${P(0, 40)}L${P(10, 56)}`; break;
+          case 'sit': arms = `M${P(0, 40)}L${P(10, 30)}`; break;
+          default: arms = `M${P(0, 40)}L${P(-8, 26)}M${P(0, 40)}L${P(8, 26)}`;
+        }
+        const legs = o.pose === 'sit' ? `M${P(0, 22)}L${P(13, 22)}L${P(13, 8)}` : `M${P(0, 22)}L${P(-7, 0)}M${P(0, 22)}L${P(7, 0)}`;
+        return `<g class="pp"><circle cx="${r1(x)}" cy="${r1(hy)}" r="${r1(6.5 * s)}"/><path d="M${P(0, 45.5)}L${P(0, 22)}${arms}${legs}"/></g>`;
+      },
+      /* 車：左端 x、地面 y */
+      car(x, y, o) {
+        o = o || {};
+        const w = o.w || 90, d = o.dir || 1, hb = w * 0.22, top = y - w * 0.42;
+        const X = t => r1(d > 0 ? x + t * w : x + w - t * w);
+        const body = `M${X(0.02)} ${r1(y - 9)}L${X(0.02)} ${r1(y - hb - 4)}Q${X(0.04)} ${r1(y - hb - 8)} ${X(0.16)} ${r1(y - hb - 9)}L${X(0.3)} ${r1(top + 3)}Q${X(0.34)} ${r1(top)} ${X(0.42)} ${r1(top)}L${X(0.66)} ${r1(top)}Q${X(0.72)} ${r1(top)} ${X(0.78)} ${r1(y - hb - 9)}L${X(0.95)} ${r1(y - hb - 6)}Q${X(1)} ${r1(y - hb - 4)} ${X(1)} ${r1(y - hb + 4)}L${X(1)} ${r1(y - 9)}Z`;
+        const wr = w * 0.1;
+        return `<g class="car"><path class="ob" d="${body}"/><path class="win" d="M${X(0.34)} ${r1(y - hb - 9)}L${X(0.42)} ${r1(top + 5)}L${X(0.53)} ${r1(top + 5)}L${X(0.53)} ${r1(y - hb - 9)}ZM${X(0.57)} ${r1(y - hb - 9)}L${X(0.57)} ${r1(top + 5)}L${X(0.66)} ${r1(top + 5)}L${X(0.74)} ${r1(y - hb - 9)}Z"/>${o.mark ? `<text class="lb" x="${X(0.5)}" y="${r1(y - hb + 4)}" text-anchor="middle">${svgText(o.mark)}</text>` : ''}<circle class="wh" cx="${X(0.22)}" cy="${r1(y - wr)}" r="${r1(wr)}"/><circle class="wh" cx="${X(0.8)}" cy="${r1(y - wr)}" r="${r1(wr)}"/></g>`;
+      },
+      /* 小推車：左端 x、地面 y */
+      cart(x, y, w, s, k) {
+        const hh = 26;
+        return `<g><rect class="${k ? 'ob ' + R(k) + 'f' : 'ob'}" x="${r1(x)}" y="${r1(y - hh - 10)}" width="${r1(w)}" height="${hh}" rx="3"/>${s ? `<text class="lb" x="${r1(x + w / 2)}" y="${r1(y - hh / 2 - 6)}" text-anchor="middle">${svgText(s)}</text>` : ''}<circle class="wh" cx="${r1(x + w * 0.22)}" cy="${y - 5}" r="5"/><circle class="wh" cx="${r1(x + w * 0.78)}" cy="${y - 5}" r="5"/></g>`;
+      },
+      ball(cx, cy, r, s, cls) { return `<g><circle class="${cls || 'ob'}" cx="${r1(cx)}" cy="${r1(cy)}" r="${r1(r)}"/>${s ? `<text class="lb" x="${r1(cx)}" y="${r1(cy + 4)}" text-anchor="middle">${svgText(s)}</text>` : ''}</g>`; },
+      /* 水：矩形水體與水面線 */
+      water(x, y, w, hh, o) { o = o || {}; return `<rect class="wt" x="${r1(x)}" y="${r1(y)}" width="${r1(w)}" height="${r1(hh)}"/>${o.noTop ? '' : `<line class="wts" x1="${r1(x)}" y1="${r1(y)}" x2="${r1(x + w)}" y2="${r1(y)}"/>`}`; },
+      /* 容器（上方開口） */
+      tank(x, y, w, hh) { return `<path class="tk" d="M${r1(x)} ${r1(y)}L${r1(x)} ${r1(y + hh)}L${r1(x + w)} ${r1(y + hh)}L${r1(x + w)} ${r1(y)}"/>`; },
+      /* 氣體分子小點（固定亂數，每次畫一樣） */
+      dots(x, y, w, hh, n, o) {
+        o = o || {}; let seed = o.seed || 7, out = '';
+        const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+        for (let i = 0; i < n; i++) out += `<circle class="${o.cls || 'mol'}" cx="${r1(x + 4 + rnd() * (w - 8))}" cy="${r1(y + 4 + rnd() * (hh - 8))}" r="${o.r || 2.6}"/>`;
+        return out;
+      },
+      flame(cx, yb, s) {
+        s = s || 1; const P = (a, b) => r1(cx + a * s) + ' ' + r1(yb - b * s);
+        return `<g class="fl"><path class="fo" d="M${P(0, 0)}C${P(-12, 0)} ${P(-13, 12)} ${P(-6, 20)}C${P(-4, 14)} ${P(-1, 16)} ${P(0, 28)}C${P(3, 18)} ${P(8, 18)} ${P(7, 12)}C${P(12, 16)} ${P(13, 2)} ${P(0, 0)}Z"/><path class="fi" d="M${P(0, 1)}C${P(-6, 1)} ${P(-6, 8)} ${P(-2, 13)}C${P(-1, 10)} ${P(1, 10)} ${P(1, 15)}C${P(4, 10)} ${P(6, 6)} ${P(0, 1)}Z"/></g>`;
+      },
+      /* 溫度計：管子頂端 (x, y)、高度、液柱比例 */
+      therm(x, y, hh, frac) {
+        return `<g class="th"><rect class="tt" x="${r1(x - 4)}" y="${r1(y)}" width="8" height="${r1(hh)}" rx="4"/><rect class="tm" x="${r1(x - 2)}" y="${r1(y + hh * (1 - frac))}" width="4" height="${r1(hh * frac + 2)}"/><circle class="tb" cx="${r1(x)}" cy="${r1(y + hh + 6)}" r="7"/></g>`;
+      },
+      planet(cx, cy, r, kind) { return `<circle class="pl ${kind || 'earth'}" cx="${r1(cx)}" cy="${r1(cy)}" r="${r1(r)}"/>`; },
+      /* ⊙ 指出紙面、⊗ 指進紙面 */
+      out(x, y, k) { return `<g class="ar ${R(k)}"><circle class="ring" cx="${r1(x)}" cy="${r1(y)}" r="7"/><circle cx="${r1(x)}" cy="${r1(y)}" r="2.4"/></g>`; },
+      into(x, y, k) { return `<g class="ar ${R(k)}"><circle class="ring" cx="${r1(x)}" cy="${r1(y)}" r="7"/><path class="arc" d="M${r1(x - 4)} ${r1(y - 4)}L${r1(x + 4)} ${r1(y + 4)}M${r1(x + 4)} ${r1(y - 4)}L${r1(x - 4)} ${r1(y + 4)}"/></g>`; },
+      /* 質心記號 */
+      cm(x, y, k) { return `<g class="cmk ${R(k)}"><circle cx="${r1(x)}" cy="${r1(y)}" r="7"/><path d="M${r1(x)} ${r1(y - 7)}A7 7 0 0 1 ${r1(x + 7)} ${r1(y)}L${r1(x)} ${r1(y)}ZM${r1(x)} ${r1(y + 7)}A7 7 0 0 1 ${r1(x - 7)} ${r1(y)}L${r1(x)} ${r1(y)}Z"/></g>`; },
+      /* 熱流：波浪箭頭 */
+      heat(x1, y1, x2, y2, k) {
+        const L = Math.hypot(x2 - x1, y2 - y1), ux = (x2 - x1) / L, uy = (y2 - y1) / L, nx = -uy, ny = ux; let d = '';
+        for (let t = 0; t <= L - 10; t += 2) { const s = 3.2 * Math.sin(t / 4.2); d += (d ? 'L' : 'M') + r1(x1 + ux * t + nx * s) + ' ' + r1(y1 + uy * t + ny * s); }
+        const bx = x2 - ux * 10, by = y2 - uy * 10;
+        return `<g class="ar ${R(k)}"><path class="arc" d="${d}"/><path d="M${r1(x2)} ${r1(y2)}L${r1(bx - uy * 5)} ${r1(by + ux * 5)}L${r1(bx + uy * 5)} ${r1(by - ux * 5)}Z"/></g>`;
+      },
+      /* 座標軸與函數圖 */
+      axes(B, xl, yl, o) {
+        o = o || {};
+        const { x0, y0, w, hh } = B, top = o.top == null ? y0 - hh : o.top, ax = o.ax == null ? y0 : o.ax;
+        return `<g class="ax"><line x1="${x0}" y1="${ax}" x2="${x0 + w}" y2="${ax}"/><line x1="${x0}" y1="${o.bottom || y0}" x2="${x0}" y2="${top}"/><path d="M${x0 + w + 6} ${ax}L${x0 + w - 2} ${ax - 4}L${x0 + w - 2} ${ax + 4}Z"/><path d="M${x0} ${top - 6}L${x0 - 4} ${top + 2}L${x0 + 4} ${top + 2}Z"/></g>` +
+          (xl ? h.note(x0 + w + 4, ax + 16, xl, 'e') : '') + (yl ? h.note(x0 + 6, top - 2, yl, 's') : '');
+      },
+      X(B, x) { return B.x0 + (x - B.xr[0]) / (B.xr[1] - B.xr[0]) * B.w; },
+      Y(B, y) { return B.y0 - (y - B.yr[0]) / (B.yr[1] - B.yr[0]) * B.hh; },
+      plot(fn, B, o) {
+        o = o || {};
+        const a = o.from == null ? B.xr[0] : o.from, b = o.to == null ? B.xr[1] : o.to, n = o.n || 90; let d = '';
+        for (let i = 0; i <= n; i++) { const x = a + (b - a) * i / n; d += (i ? 'L' : 'M') + r1(h.X(B, x)) + ' ' + r1(h.Y(B, fn(x))); }
+        if (o.area) return `<path class="area ${R(o.area)}" d="${d}L${r1(h.X(B, b))} ${r1(h.Y(B, o.base || 0))}L${r1(h.X(B, a))} ${r1(h.Y(B, o.base || 0))}Z"/>`;
+        return `<path class="${o.cls || 'cv'}${o.k ? ' ' + R(o.k) : ''}" d="${d}"/>`;
+      }
+    };
+    return h;
+  }
+  return { make, width };
+})();
+
+/* ===== 情境圖：第一次段考 Ch5–9 ===== */
+(function () {
+  const cos = d => Math.cos(d * Math.PI / 180), sin = d => Math.sin(d * Math.PI / 180);
+  const S = (id, o) => { SCENES[id] = o; };
+
+  /* ---------- Ch5 ---------- */
+  S('f5-1', {
+    cap: '用 50 N、往上斜 30° 的繩子，拉 10 kg 的箱子在光滑地面上前進',
+    find: 'a', given: 'F m', val: { F: '50 N（取水平分量）', m: '10 kg' },
+    calc: R`\find{a_x} = \frac{\sum F_x}{m} = \frac{\given{50}\cos 30^\circ}{\given{10}} = \find{4.3\ \text{m/s}^2}`,
+    draw: h => {
+      const ox = 172, oy = 126;
+      return h.ground(160) + h.box(124, 137, 96, 46, '') + h.tag(124, 137, 'm', 'm = 10 kg') +
+        h.line(ox, oy, ox + 128 * cos(30), oy - 128 * sin(30), 'mute') +
+        h.arrow(ox, oy, ox + 92 * cos(30), oy - 92 * sin(30), 'F') + h.tag(ox + 104 * cos(30) + 14, oy - 104 * sin(30) - 12, 'F', 'F = 50 N') +
+        h.arrow(ox, oy, ox + 92 * cos(30), oy, 'F', { dash: 1 }) + h.tag(ox + 60, oy + 18, 'F', 'F_x = F cos 30°') +
+        h.angle(ox, oy, 30, 0, 30, 'given', '30°', { lr: 46 }) +
+        h.arrow(84, 96, 162, 96, 'a') + h.tag(123, 80, 'a', 'a_x = ?') + h.note(60, 182, '光滑地面（沒有摩擦）');
+    }
+  });
+  S('f5-2', {
+    cap: '65 kg 的滑雪者沿 32° 的無摩擦山坡滑下',
+    find: 'a n', given: 'g th m', val: { g: '9.8 m/s²', th: '32°', m: '65 kg' },
+    calc: R`\find{a} = \given{g}\sin\given{\theta} = (9.8)\sin 32^\circ = \find{5.2\ \text{m/s}^2},\quad \find{n} = mg\cos\theta = \find{540\ \text{N}}`,
+    draw: h => {
+      const A = [30, 172], th = 32, L = 250, ux = cos(th), uy = -sin(th), nx = -sin(th), ny = -cos(th);
+      const top = [A[0] + L * ux, A[1] + L * uy], P = [A[0] + 150 * ux, A[1] + 150 * uy], C = [P[0] + 15 * nx, P[1] + 15 * ny];
+      const s = [C[0] - 26 * ux, C[1] - 26 * uy], e = [s[0] - 54 * ux, s[1] - 54 * uy];
+      return h.poly([A, top, [top[0], A[1]]], 'ob') + h.ground(A[1], 8, 352) +
+        h.box(C[0], C[1], 48, 28, '滑雪者', th) +
+        h.arrow(C[0], C[1] - 0, C[0], C[1] + 62, 'm') + h.tag(C[0] + 4, C[1] + 76, 'g', 'mg（g = 9.8 m/s²）', 's') +
+        h.arrow(C[0] + 14 * nx, C[1] + 14 * ny, C[0] + 66 * nx, C[1] + 66 * ny, 'n') + h.tag(C[0] + 62 * nx - 34, C[1] + 62 * ny + 6, 'n', 'n = ?') +
+        h.arrow(s[0], s[1], e[0], e[1], 'a') + h.tag((s[0] + e[0]) / 2 + 20 * nx - 6, (s[1] + e[1]) / 2 + 20 * ny, 'a', 'a = ?') +
+        h.tag(C[0] + 64, C[1] - 30, 'm', 'm = 65 kg') +
+        h.angle(A[0], A[1], 40, 0, th, 'th', 'θ = 32°', { lr: 64, dy: -2 }) + h.note(300, 190, '無摩擦斜面', 'e');
+    }
+  });
+  S('f5-3', {
+    cap: '推一個 40 kg 的木箱：推力小於最大靜摩擦力時，木箱推不動',
+    find: 'fs', given: 'mu n', val: { mu: '0.50', n: '392 N（= mg）' },
+    calc: R`\find{f_{s,\max}} = \given{\mu_s}\given{n} = (0.50)(392\ \text{N}) = \find{196\ \text{N}}`,
+    draw: h => h.ground(160) + h.box(200, 128, 84, 64, '木箱 40 kg') + h.person(84, 160, { pose: 'push', s: 1.05 }) +
+      h.arrow(106, 122, 156, 122, 'obj') + h.tag(130, 106, 'obj', 'F_推') +
+      h.arrow(236, 154, 168, 154, 'fs', { w: 3 }) + h.tag(202, 180, 'fs', 'f_s ≤ ?') +
+      h.arrow(200, 96, 200, 46, 'n') + h.tag(246, 58, 'n', 'n = mg = 392 N') +
+      h.tag(296, 146, 'mu', 'μ_s = 0.50') + h.line(266, 152, 244, 159, 'mute')
+  });
+  S('f5-4', {
+    cap: '1200 kg 的車緊急煞車、輪子鎖死，在乾燥路面上滑行',
+    find: 'fk', given: 'mu n', val: { mu: '0.61', n: '1.18×10⁴ N（= mg）' },
+    calc: R`\find{f_k} = \given{\mu_k}\given{n} = (0.61)(1200)(9.8) = \find{7.2\times10^{3}\ \text{N}}`,
+    draw: h => h.ground(158) + h.line(30, 156, 140, 156, 'mute', 0, 3) + h.line(48, 152, 140, 152, 'mute', 0, 1) +
+      h.car(126, 158, { w: 110 }) +
+      h.arrow(240, 104, 300, 104, 'obj') + h.tag(270, 88, 'obj', 'v（還在往前滑）') +
+      h.arrow(124, 128, 60, 128, 'fk', { w: 3 }) + h.tag(88, 110, 'fk', 'f_k = ?') +
+      h.arrow(181, 106, 181, 52, 'n') + h.tag(181, 38, 'n', 'n = mg = 11,760 N') +
+      h.tag(160, 182, 'mu', 'μ_k = 0.61（輪胎與路面）') + h.note(86, 146, '煞車痕')
+  });
+  S('f5-5', {
+    cap: '雲霄飛車在半徑 6.3 m 的環形軌道頂端，剛好只靠重力轉彎',
+    find: 'v', given: 'F r', val: { F: 'mg（頂端只有重力）', r: '6.3 m' }, xg: [[R`g`, '重力加速度', '9.8 m/s²']],
+    calc: R`\given{m g} = \frac{m\,\find{v}^2}{\given{r}} \;\Rightarrow\; \find{v} = \sqrt{g r} = \sqrt{(9.8)(6.3)} = \find{7.9\ \text{m/s}}`,
+    draw: h => {
+      const cx = 170, cy = 106, R0 = 74;
+      return h.ground(182) + h.circle(cx, cy, R0, 'tk') + h.line(cx - 40, 182, cx - 12, cy + R0 - 1, 'obj') + h.line(cx + 40, 182, cx + 12, cy + R0 - 1, 'obj') +
+        h.box(cx, cy - R0 + 11, 34, 16, '') + h.circle(cx, cy, 2.5, 'ob') +
+        h.arrow(cx, cy - R0 + 20, cx, cy - 18, 'F') + h.tag(cx + 46, cy - 34, 'F', 'ΣF_r = mg') +
+        h.dim(cx, cy, cx + R0 * cos(205), cy - R0 * sin(205), 'r', 'r = 6.3 m', { lo: -12 }) +
+        h.arrow(cx + 20, cy - R0 + 11, cx + 80, cy - R0 + 11, 'v') + h.tag(cx + 108, cy - R0 + 11, 'v', 'v = ?') +
+        h.note(300, 150, '車子在軌道內側', 'm') + h.note(300, 166, '頂端，頭朝下', 'm');
+    }
+  });
+  S('f5-6', {
+    cap: '半徑 200 m 的彎道，讓 25 m/s 的車不靠摩擦轉彎（車尾的剖面圖）',
+    find: 'th', given: 'v r g', val: { v: '25 m/s', r: '200 m', g: '9.8 m/s²' },
+    calc: R`\find{\theta} = \tan^{-1}\frac{\given{v}^2}{\given{r}\given{g}} = \tan^{-1}\frac{25^2}{(200)(9.8)} = \find{17.7^\circ}`,
+    draw: h => {
+      const th = 17.7, A = [40, 170], L = 270, ux = cos(th), uy = -sin(th), nx = -sin(th), ny = -cos(th);
+      const B = [A[0] + L * ux, A[1] + L * uy], P = [A[0] + 168 * ux, A[1] + 168 * uy], C = [P[0] + 13 * nx, P[1] + 13 * ny];
+      return h.poly([A, B, [B[0], A[1]]], 'ob') + h.ground(A[1]) +
+        h.box(C[0], C[1], 56, 26, '', th) + h.into(C[0], C[1], 'v') + h.tag(C[0] + 52, C[1] + 34, 'v', 'v = 25 m/s（開進紙面）') +
+        h.arrow(C[0] + 13 * nx, C[1] + 13 * ny, C[0] + 70 * nx, C[1] + 70 * ny, 'obj') + h.tag(C[0] + 78 * nx - 12, C[1] + 78 * ny - 2, 'obj', 'n') +
+        h.arrow(C[0] - 34, C[1] - 4, C[0] - 150, C[1] - 4, 'r') + h.tag(C[0] - 96, C[1] - 22, 'r', 'r = 200 m（往彎道圓心）') +
+        h.arrow(C[0] + 20, C[1] + 4, C[0] + 20, C[1] + 34, 'obj', { hl: 8 }) + h.tag(280, 188, 'g', 'g = 9.8 m/s²') +
+        h.angle(A[0], A[1], 46, 0, th, 'th', 'θ = ?', { lr: 84, am: 7 });
+    }
+  });
+  /* ---------- Ch6 ---------- */
+  const suitcase = (h, x, y, ghost) => h.rect(x, y - 58, 46, 52, ghost ? 'ghost' : 'ob', 4) + (ghost ? '' : h.circle(x + 9, y - 4, 4, 'wh') + h.circle(x + 37, y - 4, 4, 'wh'));
+  S('f6-1', {
+    cap: '用 60 N、與水平夾 35° 的力拉行李箱，在地上走了 45 m',
+    find: 'W', given: 'F r th', val: { F: '60 N', r: '45 m', th: '35°' },
+    calc: R`\find{W} = \given{F}\,\given{\Delta r}\cos\given{\theta} = (60)(45)\cos 35^\circ = \find{2.2\times10^{3}\ \text{J}}`,
+    draw: h => {
+      const hx = 266, hy = 104;
+      return h.ground(160) + suitcase(h, 34, 160, 1) + suitcase(h, 220, 160) + h.line(260, 104, hx, hy, 'obj') +
+        h.line(hx, hy, hx + 62, hy, 'mute', 1) +
+        h.arrow(hx, hy, hx + 78 * cos(35), hy - 78 * sin(35), 'F') + h.tag(hx + 60, hy - 64, 'F', 'F = 60 N') +
+        h.angle(hx, hy, 30, 0, 35, 'th', 'θ = 35°', { lr: 52, dx: 8 }) +
+        h.dim(57, 178, 243, 178, 'r', 'Δr = 45 m') +
+        h.tag(150, 92, 'W', 'W = ?（拉力做的功）') + h.note(57, 92, '起點', 'm');
+    }
+  });
+  S('f6-2', {
+    cap: '推力隨位置變大：F(x) = 6x² N，把物體從 x = 1 m 推到 3 m',
+    find: 'W', given: 'F x1 x2', val: { F: '6x² N', x1: '1 m', x2: '3 m' },
+    calc: R`\find{W} = \int_{\given{1}}^{\given{3}} \given{6x^2}\,dx = \Big[2x^3\Big]_1^3 = 2(27 - 1) = \find{52\ \text{J}}`,
+    draw: h => {
+      const B = { x0: 52, y0: 170, w: 270, hh: 140, xr: [0, 4], yr: [0, 100] }, f = x => 6 * x * x;
+      return h.axes(B, 'x（m）', 'F（N）') + h.plot(f, B, { area: 'W', from: 1, to: 3 }) + h.plot(f, B, { to: 4 }) +
+        [1, 2, 3, 4].map(x => h.line(h.X(B, x), 170, h.X(B, x), 175, 'obj')).join('') +
+        h.tag(h.X(B, 1), 188, 'x1', 'x_1 = 1') + h.tag(h.X(B, 3), 188, 'x2', 'x_2 = 3') +
+        h.tag(h.X(B, 2.35), h.Y(B, 14), 'W', 'W = 面積 = ?') + h.tag(h.X(B, 3.2), h.Y(B, 88), 'F', 'F(x) = 6x²', 'e');
+    }
+  });
+  S('f6-3', {
+    cap: '把彈力常數 250 N/m 的拉力器彈簧，從原長拉長 0.40 m',
+    find: 'W', given: 'k x', val: { k: '250 N/m', x: '0.40 m' },
+    calc: R`\find{W} = \tfrac12\given{k}\given{x}^2 = \tfrac12(250)(0.40)^2 = \find{20\ \text{J}}`,
+    draw: h => h.ground(162, 20, 352) + h.wall(32, 70, 162) + h.spring(32, 128, 212, 128, { n: 10, amp: 9 }) +
+      h.line(140, 80, 140, 160, 'mute', 1) + h.note(140, 72, '原長的位置') +
+      h.box(230, 128, 36, 36, '') + h.arrow(248, 128, 300, 128, 'obj') + h.tag(296, 108, 'obj', '手的拉力 F = kx') +
+      h.dim(140, 92, 212, 92, 'x', 'x = 0.40 m') + h.tag(84, 104, 'k', 'k = 250 N/m') +
+      h.tag(178, 184, 'W', 'W = ?（手對彈簧做的功）')
+  });
+  S('f6-4', {
+    cap: '1400 kg 的車以 25 m/s（時速 90 km）行駛',
+    find: 'K', given: 'm v', val: { m: '1400 kg', v: '25 m/s' },
+    calc: R`\find{K} = \tfrac12\given{m}\given{v}^2 = \tfrac12(1400)(25)^2 = \find{4.4\times10^{5}\ \text{J}}`,
+    draw: h => h.ground(160) + h.car(110, 160, { w: 120 }) + h.tag(170, 84, 'm', 'm = 1400 kg') +
+      h.arrow(240, 128, 316, 128, 'v') + h.tag(278, 110, 'v', 'v = 25 m/s') + h.tag(66, 104, 'K', 'K = ?')
+  });
+  S('f6-5', {
+    cap: '1400 kg 的車從 70 km/h 加速到 95 km/h',
+    find: 'W K', given: 'v1 v2', val: { v1: '70 km/h = 19.4 m/s', v2: '95 km/h = 26.4 m/s' }, xg: [[R`m`, '車的質量', '1400 kg']],
+    calc: R`\find{W_{net}} = \tfrac12 m(\given{v_2}^2 - \given{v_1}^2) = \tfrac12(1400)(26.4^2 - 19.4^2) = \find{2.2\times10^{5}\ \text{J}}`,
+    draw: h => h.ground(166) + h.car(14, 166, { w: 86 }) + h.car(186, 166, { w: 86 }) +
+      h.arrow(104, 132, 140, 132, 'v1') + h.tag(122, 114, 'v1', 'v_1 = 19.4 m/s') +
+      h.arrow(276, 132, 338, 132, 'v2') + h.tag(304, 114, 'v2', 'v_2 = 26.4 m/s') +
+      h.arrow(110, 70, 230, 70, 'W', { dash: 1 }) + h.tag(170, 52, 'W', 'W_net = ΔK = ?') + h.tag(57, 96, 'given', 'm = 1400 kg') +
+      h.note(57, 186, '之前') + h.note(229, 186, '之後')
+  });
+  S('f6-6', {
+    cap: '騎腳踏車以 5.0 m/s 等速前進，要一直出 30 N 的力抵抗風阻',
+    find: 'P', given: 'F v', val: { F: '30 N（= 風阻）', v: '5.0 m/s' },
+    calc: R`\find{P} = \given{F}\,\given{v} = (30)(5.0) = \find{150\ \text{W}}`,
+    draw: h => {
+      const b = 'M138 150L166 120L208 120L192 150Z M166 120L160 108 M208 120L212 104L222 104';
+      return h.ground(166) + h.circle(138, 150, 16, 'wh') + h.circle(210, 150, 16, 'wh') + h.path(b, 'ln obj') +
+        `<g class="pp"><circle cx="176" cy="70" r="7"/><path d="M174 78L160 106M174 80L212 104M160 106L180 128L190 150"/></g>` +
+        h.arrow(232, 112, 292, 112, 'F') + h.tag(296, 134, 'F', 'F = 30 N（往前推進）') +
+        h.arrow(124, 92, 70, 92, 'obj') + h.tag(84, 74, 'obj', '風阻 30 N') +
+        h.arrow(176, 44, 246, 44, 'v') + h.tag(278, 44, 'v', 'v = 5.0 m/s', 's') + h.tag(66, 140, 'P', 'P = ?');
+    }
+  });
+
+  /* ---------- Ch7 ---------- */
+  S('f7-1', {
+    cap: '把 2.0 kg 的箱子從地上搬到 1.5 m 高的架子，重力做了負功',
+    find: 'U', given: 'W F', val: { W: '−mgh = −29 J', F: '重力 mg = 19.6 N' },
+    calc: R`\find{\Delta U} = -\given{W_c} = -(-mgh) = (2.0)(9.8)(1.5) = \find{29\ \text{J}}`,
+    draw: h => h.ground(172) + h.rect(196, 66, 120, 8, 'ob') + h.line(206, 74, 206, 172, 'obj') + h.line(306, 74, 306, 172, 'obj') +
+      h.box(70, 152, 40, 40, 'A') + h.box(256, 46, 40, 40, 'B') +
+      h.path('M92 136 Q118 58 232 46', 'ln mute dash') + h.arrow(214, 47, 233, 46, 'mute') +
+      h.rect(130, 56, 26, 26, 'ghost') + h.arrow(143, 72, 143, 118, 'F') + h.tag(150, 132, 'F', 'mg = 19.6 N', 's') +
+      h.dim(334, 172, 334, 66, 'given', 'h = 1.5 m', { a: 'e', dx: -10 }) +
+      h.tag(118, 186, 'W', 'W_c = −29 J（重力做的功）') + h.tag(256, 100, 'U', 'ΔU = ?')
+  });
+  S('f7-2', {
+    cap: '55 kg 的工程師，以 33 樓為位能零點，她在 59 樓（每層 3.5 m）',
+    find: 'U', given: 'm g y', val: { m: '55 kg', g: '9.8 m/s²', y: '26 層 × 3.5 m = 91 m' },
+    calc: R`\find{U} = \given{m}\given{g}\given{y} = (55)(9.8)(91) = \find{4.9\times10^{4}\ \text{J}}`,
+    draw: h => {
+      let fl = ''; for (let y = 34; y < 182; y += 16) fl += h.line(70, y, 170, y, 'mute');
+      return h.ground(182) + h.rect(70, 18, 100, 164, 'ob') + fl + h.line(40, 130, 330, 130, 'given', 1) + h.tag(280, 116, 'given', 'U = 0（33 樓）') +
+        h.person(120, 50, { s: 0.62 }) + h.line(40, 50, 250, 50, 'mute', 1) + h.note(52, 46, '59 樓', 's') + h.note(52, 126, '33 樓', 's') +
+        h.dim(200, 130, 200, 50, 'y', 'y = 91 m', { dx: 0 }) + h.tag(274, 50, 'U', 'U = ?') +
+        h.tag(120, 80, 'm', 'm = 55 kg') + h.tag(270, 160, 'g', 'g = 9.8 m/s²');
+    }
+  });
+  S('f7-3', {
+    cap: '汽車懸吊彈簧 k = 120 kN/m，要存下 44 kJ（約 1 g 汽油的能量）得壓縮多少',
+    find: 'x', given: 'U k', val: { U: '44 kJ', k: '1.2×10⁵ N/m' },
+    calc: R`\given{U} = \tfrac12\given{k}\find{x}^2 \Rightarrow \find{x} = \sqrt{\frac{2U}{k}} = \sqrt{\frac{2(44{,}000)}{120{,}000}} = \find{0.86\ \text{m}}`,
+    draw: h => h.ground(184) + h.circle(150, 160, 24, 'wh') + h.circle(150, 160, 6, 'ob') + h.rect(132, 128, 36, 8, 'ob') +
+      h.spring(150, 128, 150, 92, { n: 7, amp: 12, lead: 4 }) + h.rect(70, 72, 160, 20, 'ob') + h.label(150, 86, '車身') +
+      h.rect(70, 34, 160, 20, 'ghost') + h.note(150, 26, '彈簧沒被壓時，車身在這裡') +
+      h.arrow(110, 54, 110, 70, 'obj', { hl: 7 }) + h.arrow(190, 54, 190, 70, 'obj', { hl: 7 }) +
+      h.dim(250, 54, 250, 92, 'x', 'x = ?', { dx: 26 }) + h.tag(90, 112, 'k', 'k = 120 kN/m') + h.tag(270, 150, 'U', 'U = 44 kJ')
+  });
+  S('f7-4', {
+    cap: '滑板手從 5.0 m 高的斜坡頂靜止滑下（忽略摩擦）',
+    find: '', given: '', xf: [[R`K_2`, '坡底的動能 → 速率 v₂']], xg: [[R`U_1`, '坡頂的重力位能 mgh'], [R`K_1`, '坡頂靜止', '0'], [R`U_2`, '坡底的位能', '0']],
+    calc: R`0 + mgh = \tfrac12 m\find{v_2}^2 + 0 \;\Rightarrow\; \find{v_2} = \sqrt{2gh} = \sqrt{2(9.8)(5.0)} = \find{9.9\ \text{m/s}}`,
+    draw: h => h.ground(168, 60, 352) + h.rect(64, 44, 50, 124, 'ob') + h.path('M114 44 Q124 168 224 168', 'tk') +
+      h.person(90, 44, { s: 0.6 }) + h.person(262, 168, { s: 0.6 }) + h.line(254, 167, 272, 167, 'obj', 0, 3) +
+      h.dim(40, 168, 40, 44, 'given', 'h = 5.0 m') +
+      h.tag(170, 32, 'given', 'U_1 = mgh') + h.tag(170, 56, 'given', 'K_1 = 0') +
+      h.arrow(282, 150, 338, 150, 'find') + h.tag(310, 132, 'find', 'v_2 = ?') + h.tag(262, 92, 'find', 'K_2 = ?') + h.tag(262, 186, 'given', 'U_2 = 0', 'm')
+  });
+  S('f7-5', {
+    cap: '2.0 kg 的木塊以 4.0 m/s 滑上粗糙地面，摩擦力 6.0 N，滑多遠停下',
+    find: 'W', given: 'E', val: { E: '0 − ½mv² = −16 J' }, xf: [[R`d`, '滑行距離']], xg: [[R`f`, '摩擦力', '6.0 N']],
+    calc: R`\find{W_{nc}} = -f\,\find{d} = \given{\Delta E} = -16\ \text{J} \Rightarrow \find{d} = \frac{16}{6.0} = \find{2.7\ \text{m}}`,
+    draw: h => {
+      let rough = ''; for (let x = 20; x < 340; x += 7) rough += h.line(x, 152, x + 3, 149, 'mute');
+      return h.ground(152) + rough + h.box(62, 130, 40, 40, '') + h.rect(270, 110, 40, 40, 'ghost') +
+        h.arrow(84, 104, 130, 104, 'given') + h.tag(108, 86, 'given', 'v = 4.0 m/s') +
+        h.arrow(60, 146, 22, 146, 'obj', { hl: 8 }) + h.tag(40, 170, 'given', 'f = 6.0 N') +
+        h.note(290, 102, '停下 v = 0') + h.dim(62, 176, 290, 176, 'find', 'd = ?') +
+        h.tag(190, 40, 'E', 'ΔE = 0 − ½(2.0)(4.0)² = −16 J') + h.tag(190, 68, 'W', 'W_nc = −f d = ?');
+    }
+  });
+  S('f7-6', {
+    cap: '位能曲線就像地形：U(x) = x²（J），在 x = 1.5 m 處受的力',
+    find: 'F', given: 'U x', val: { U: 'x² J', x: '1.5 m' },
+    calc: R`\find{F_x} = -\frac{d\given{U}}{dx} = -2\given{x} = -2(1.5) = \find{-3.0\ \text{N}}\ \ \text{（指向下坡）}`,
+    draw: h => {
+      const B = { x0: 40, y0: 178, w: 290, hh: 150, xr: [-3, 3], yr: [0, 10] }, X = x => h.X(B, x), Y = y => h.Y(B, y);
+      const px = X(1.5), py = Y(2.25), sl = 3 * (B.hh / 10) / (B.w / 6);
+      return `<g class="ax"><line x1="40" y1="178" x2="330" y2="178"/><line x1="${X(0)}" y1="182" x2="${X(0)}" y2="24"/></g>` + h.note(330, 194, 'x（m）', 'e') + h.note(X(0) + 6, 22, 'U（J）', 's') +
+        h.plot(x => x * x, B, { k: 'U', cls: 'cv' }) +
+        h.line(px - 42, py + 42 * sl, px + 42, py - 42 * sl, 'given', 1) + h.tag(300, 160, 'given', '斜率 dU/dx = 3 J/m') +
+        h.ball(px, py - 8, 8, '', 'ob') + h.arrow(px - 10, py - 8, px - 60, py - 8, 'F') + h.tag(px - 50, py - 28, 'F', 'F_x = ?') +
+        h.tag(X(-2.1), Y(7.4), 'U', 'U = x²') + h.tag(px - 34, 189, 'x', 'x = 1.5 m');
+    }
+  });
+
+  /* ---------- Ch8 ---------- */
+  S('f8-1', {
+    cap: '地球和月球之間的萬有引力（圖不按比例）',
+    find: 'F', given: 'G m1 m2 r', val: { G: '6.67×10⁻¹¹ N·m²/kg²', m1: '5.97×10²⁴ kg', m2: '7.35×10²² kg', r: '3.84×10⁸ m' },
+    calc: R`\find{F} = \frac{(6.67\times10^{-11})(5.97\times10^{24})(7.35\times10^{22})}{(3.84\times10^{8})^2} = \find{2.0\times10^{20}\ \text{N}}`,
+    draw: h => h.planet(76, 92, 46, 'earth') + h.planet(300, 92, 14, 'moon') + h.label(76, 96, '地球') + h.label(300, 70, '月球') +
+      h.arrow(124, 92, 176, 92, 'F') + h.arrow(284, 92, 232, 92, 'F') + h.tag(204, 70, 'F', 'F = ?') +
+      h.dim(76, 158, 300, 158, 'r', 'r = 3.84×10⁸ m') + h.line(76, 138, 76, 164, 'mute', 1) + h.line(300, 106, 300, 164, 'mute', 1) +
+      h.tag(76, 26, 'm1', 'm_1 = 5.97×10²⁴ kg') + h.tag(300, 124, 'm2', 'm_2 = 7.35×10²² kg') + h.tag(200, 186, 'G', 'G = 6.67×10⁻¹¹ N·m²/kg²')
+  });
+  S('f8-2', {
+    cap: '國際太空站在離地 380 km 的高度，那裡的重力加速度',
+    find: 'g', given: 'G M r', val: { G: '6.67×10⁻¹¹', M: '5.97×10²⁴ kg', r: '6.37×10⁶ + 3.8×10⁵ = 6.75×10⁶ m' },
+    calc: R`\find{g} = \frac{GM}{r^2} = \frac{(6.67\times10^{-11})(5.97\times10^{24})}{(6.75\times10^{6})^2} = \find{8.7\ \text{m/s}^2}`,
+    draw: h => {
+      const c = [112, 112], a = 28, R0 = 96, s = [c[0] + R0 * cos(a), c[1] - R0 * sin(a)];
+      return h.planet(c[0], c[1], 72, 'earth') + h.circle(c[0], c[1], 2.5, 'ob') + h.tag(c[0] - 6, c[1] + 30, 'M', 'M = 5.97×10²⁴ kg') +
+        h.dim(c[0], c[1], s[0], s[1], 'r', 'r = 6.75×10⁶ m', { off: -14, t: 0.42 }) +
+        h.rect(s[0] - 12, s[1] - 3, 24, 6, 'ob') + h.rect(s[0] - 3, s[1] - 8, 6, 16, 'ob') + h.note(s[0] + 4, s[1] - 14, '太空站', 's') +
+        h.arrow(s[0] + 10 * cos(a), s[1] + 18, s[0] - 44 * cos(a) + 10, s[1] + 44 * sin(a) + 18, 'g') + h.tag(s[0] + 52, s[1] + 34, 'g', 'g = ?') +
+        h.tag(280, 160, 'G', 'G = 6.67×10⁻¹¹ N·m²/kg²') + h.note(300, 30, '離地 380 km', 'm');
+    }
+  });
+  S('f8-3', {
+    cap: '太空站繞地球的圓軌道（離地 380 km）要跑多快',
+    find: 'v', given: 'G M r', val: { G: '6.67×10⁻¹¹', M: '5.97×10²⁴ kg', r: '6.75×10⁶ m' },
+    calc: R`\find{v} = \sqrt{\frac{(6.67\times10^{-11})(5.97\times10^{24})}{6.75\times10^{6}}} = \find{7.7\times10^{3}\ \text{m/s}}`,
+    draw: h => h.circle(130, 104, 82, 'ghost') + h.planet(130, 104, 48, 'earth') + h.tag(130, 166, 'M', 'M = 5.97×10²⁴ kg') +
+      h.dim(130, 104, 212, 104, 'r', 'r = 6.75×10⁶ m', { off: 14, t: 0.62 }) + h.rect(204, 100, 16, 8, 'ob') +
+      h.arrow(212, 96, 212, 34, 'v') + h.tag(244, 40, 'v', 'v = ?') + h.arrow(204, 112, 184, 112, 'obj', { hl: 7 }) +
+      h.note(274, 92, '萬有引力 = 向心力', 'm') + h.tag(280, 168, 'G', 'G = 6.67×10⁻¹¹ N·m²/kg²')
+  });
+  S('f8-4', {
+    cap: '同步衛星繞地球一圈剛好 24 h，它的軌道半徑',
+    find: 'r', given: 'T G M', val: { T: '24 h = 86,400 s', G: '6.67×10⁻¹¹', M: '5.97×10²⁴ kg' },
+    calc: R`\find{r} = \left(\frac{GMT^2}{4\pi^2}\right)^{1/3} = \left(\frac{(3.98\times10^{14})(86{,}400)^2}{4\pi^2}\right)^{1/3} = \find{4.22\times10^{7}\ \text{m}}`,
+    draw: h => {
+      const c = [110, 108], R0 = 74, a = -24, s = [c[0] + R0 * cos(a), c[1] - R0 * sin(a)];
+      return h.circle(c[0], c[1], R0, 'ghost') + h.planet(c[0], c[1], 28, 'earth') + h.label(c[0], c[1] + 4, '地球') +
+        h.dim(c[0], c[1], s[0], s[1], 'r', 'r = ?', { t: 0.62, lo: -14 }) + h.box(s[0], s[1], 18, 10, '') +
+        h.rot(c[0], c[1], R0 + 12, 30, 100, 'T', 'T = 24 h（繞一圈）', { am: 30, lr: 4, a: 's', dx: 6, dy: -8 }) +
+        h.tag(280, 160, 'G', 'G = 6.67×10⁻¹¹') + h.tag(280, 184, 'M', 'M = 5.97×10²⁴ kg') + h.note(286, 110, '和地球自轉同步', 'm');
+    }
+  });
+  S('f8-5', {
+    cap: '把 11,000 kg 的材料從地表送到同步軌道，重力位能增加多少（圖不按比例）',
+    find: 'U', given: 'G M m r', val: { G: '6.67×10⁻¹¹', M: '5.97×10²⁴ kg', m: '11,000 kg', r: '從 6.37×10⁶ m 到 4.22×10⁷ m' },
+    calc: R`\find{\Delta U} = GMm\left(\frac{1}{R_E} - \frac{1}{r}\right) = (3.98\times10^{14})(11{,}000)(1.33\times10^{-7}) = \find{5.8\times10^{11}\ \text{J}}`,
+    draw: h => h.planet(80, 104, 52, 'earth') + h.circle(80, 104, 2.5, 'ob') + h.box(140, 104, 14, 14, '') + h.box(310, 104, 14, 14, '') +
+      h.path('M150 96 Q228 54 300 96', 'ln mute dash') + h.arrow(292, 91, 302, 97, 'mute', { hl: 7 }) +
+      h.dim(80, 132, 133, 132, 'r', 'R_E', { dy: 18 }) + h.dim(80, 172, 303, 172, 'r', 'r = 4.22×10⁷ m') +
+      h.tag(140, 70, 'given', 'U_1 = −GMm/R_E', 'e') + h.tag(310, 70, 'given', 'U_2 = −GMm/r') + h.tag(226, 38, 'U', 'ΔU = U_2 − U_1 = ?') +
+      h.tag(310, 128, 'm', 'm = 11,000 kg', 'e') + h.tag(80, 104, 'M', 'M')
+  });
+  S('f8-6', {
+    cap: '火箭從地表出發，要多快才能完全脫離地球重力（飛到無限遠）',
+    find: 'v', given: 'G M R', val: { G: '6.67×10⁻¹¹', M: '5.97×10²⁴ kg', R: '6.37×10⁶ m（地球半徑）' },
+    calc: R`\find{v_{esc}} = \sqrt{\frac{2(6.67\times10^{-11})(5.97\times10^{24})}{6.37\times10^{6}}} = \find{1.12\times10^{4}\ \text{m/s}}`,
+    draw: h => {
+      const c = [104, 128], a = 45, R0 = 62, p = [c[0] + R0 * cos(a), c[1] - R0 * sin(a)];
+      return h.planet(c[0], c[1], R0, 'earth') + h.circle(c[0], c[1], 2.5, 'ob') +
+        h.box(p[0] + 8 * cos(a), p[1] - 8 * sin(a), 26, 9, '', a) +
+        h.line(p[0] + 30 * cos(a), p[1] - 30 * sin(a), 330, 6, 'mute', 1) + h.note(352, 14, '無限遠：K = 0、U = 0', 'e') +
+        h.arrow(p[0] + 24 * cos(a), p[1] - 24 * sin(a), p[0] + 80 * cos(a), p[1] - 80 * sin(a), 'v') + h.tag(244, 62, 'v', 'v_esc = ?') +
+        h.dim(c[0], c[1], c[0] - R0, c[1], 'R', 'R = 6.37×10⁶ m', { dy: -16 }) + h.tag(c[0], c[1] + 30, 'M', 'M = 5.97×10²⁴ kg') + h.tag(270, 160, 'G', 'G = 6.67×10⁻¹¹');
+    }
+  });
+
+  /* ---------- Ch9 ---------- */
+  S('f9-1', {
+    cap: '1.5 m 長的輕桿兩端掛 50 kg 和 80 kg 的重物，質心在哪裡',
+    find: 'r', given: 'm ri M', val: { m: '50 kg、80 kg', ri: '0、1.5 m', M: '130 kg' },
+    calc: R`\find{x_{cm}} = \frac{\given{m_1}\given{x_1} + \given{m_2}\given{x_2}}{\given{M}} = \frac{(50)(0) + (80)(1.5)}{130} = \find{0.92\ \text{m}}\ \text{（離 50 kg 那端）}`,
+    draw: h => {
+      const X = x => 60 + x * 160, xc = 120 / 130;
+      return h.rect(60, 97, 240, 6, 'ob') + h.ball(X(0), 100, 18, '50 kg', 'ob solid') + h.ball(X(1.5), 100, 23, '80 kg', 'ob solid') +
+        h.cm(X(xc), 100, 'r') + h.line(X(xc), 108, X(xc), 150, 'find', 1) +
+        h.line(40, 150, 330, 150, 'obj') + [0, 0.5, 1, 1.5].map(x => h.line(X(x), 146, X(x), 154, 'obj')).join('') +
+        h.tag(X(0), 172, 'ri', 'x_1 = 0') + h.tag(X(1.5), 172, 'ri', 'x_2 = 1.5 m') + h.tag(X(xc), 172, 'r', 'x_cm = ?') +
+        h.tag(X(0), 62, 'm', 'm_1 = 50 kg') + h.tag(X(1.5), 58, 'm', 'm_2 = 80 kg') + h.tag(180, 34, 'M', 'M = 130 kg');
+    }
+  });
+  S('f9-2', {
+    cap: '煙火在最高點炸開：碎片四散，但質心照樣沿原來的拋物線落下',
+    find: 'a', given: 'F M', val: { F: 'Mg（只有重力）', M: '全部碎片的總質量' },
+    calc: R`\find{a_{cm}} = \frac{\given{F_{ext}}}{\given{M}} = \frac{Mg}{M} = \find{g = 9.8\ \text{m/s}^2}\ \text{（向下）}`,
+    draw: h => {
+      const y = x => 40 + (x - 170) * (x - 170) * 130 / (150 * 150);
+      let d = ''; for (let x = 20; x <= 320; x += 4) d += (d ? 'L' : 'M') + x + ' ' + y(x).toFixed(1);
+      const c = [250, y(250)], fr = [[222, 52], [292, 60], [236, 116], [284, 108]];
+      return h.ground(172) + h.path(d, 'ln mute dash') + h.ball(80, y(80), 6, '', 'ob') + h.note(170, 26, '在這裡炸開') +
+        fr.map(p => h.line(170, 40, p[0], p[1], 'mute', 1) + h.ball(p[0], p[1], 4.5, '', 'ob')).join('') +
+        h.cm(c[0], c[1], 'a') + h.arrow(c[0], c[1] + 9, c[0], c[1] + 48, 'a') + h.tag(c[0] + 42, c[1] + 40, 'a', 'a_cm = ?') +
+        h.tag(80, 120, 'F', 'F_ext = Mg') + h.tag(80, 146, 'M', 'M = 總質量') + h.note(c[0] + 46, c[1] - 4, '質心', 's');
+    }
+  });
+  S('f9-3', {
+    cap: '消防水柱每秒噴出 45 kg 的水，以 32 m/s 打在窗戶上停下',
+    find: 'F', given: 'm v', val: { m: '每秒 45 kg（dm/dt）', v: '32 m/s' },
+    calc: R`\find{F} = \frac{dP}{dt} = \given{\frac{dm}{dt}}\,\given{v} = (45)(32) = \find{1.4\times10^{3}\ \text{N}}`,
+    draw: h => {
+      let jet = ''; for (let i = 0; i < 4; i++) jet += h.line(98 + i * 6, 94 + i * 4, 254, 94 + i * 4, 'cold', 0, 2);
+      return h.path('M20 120 Q40 120 50 104 L90 92 L90 112 L50 116 Q40 136 20 136', 'ob') + jet +
+        h.rect(256, 36, 14, 130, 'ob') + h.rect(270, 36, 4, 130, 'ob') + h.note(263, 30, '窗戶') +
+        h.ball(250, 132, 2.5, '', 'mol') + h.ball(244, 146, 2.5, '', 'mol') + h.ball(252, 160, 2.5, '', 'mol') +
+        h.arrow(280, 100, 336, 100, 'F') + h.tag(306, 80, 'F', 'F = ?') +
+        h.tag(170, 70, 'm', 'dm/dt = 45 kg/s') + h.arrow(130, 132, 200, 132, 'v') + h.tag(166, 150, 'v', 'v = 32 m/s');
+    }
+  });
+  S('f9-4', {
+    cap: '冰上兩人原本靜止，互推後分開：60 kg 的人以 2.0 m/s 往左',
+    find: 'vf', given: 'm vi', val: { m: '60 kg、40 kg', vi: '0（一開始都靜止）' },
+    calc: R`\given{0} = \given{m_1}v_1' + \given{m_2}\find{v_2'} \Rightarrow \find{v_2'} = -\frac{(60)(-2.0)}{40} = \find{+3.0\ \text{m/s}}\ \text{（往右）}`,
+    draw: h => h.line(10, 170, 350, 170, 'cold') + h.note(30, 186, '冰面', 's') +
+      h.person(150, 170, { pose: 'push', s: 1.15 }) + h.person(212, 170, { pose: 'push', dir: -1, s: 1.0 }) +
+      h.arrow(130, 132, 76, 132, 'given') + h.tag(84, 114, 'given', 'v_1′ = −2.0 m/s') +
+      h.arrow(234, 132, 300, 132, 'vf') + h.tag(286, 114, 'vf', 'v_2′ = ?') +
+      h.tag(150, 92, 'm', 'm_1 = 60 kg') + h.tag(212, 70, 'm', 'm_2 = 40 kg') + h.tag(180, 30, 'vi', '推之前：v = 0')
+  });
+  S('f9-5', {
+    cap: '160 g 的冰球射進靜止的 6.4 kg 沙箱並卡在裡面，沙箱以 1.2 m/s 滑出',
+    find: 'v1', given: 'm1 m2 vf v2', val: { m1: '0.16 kg', m2: '6.4 kg', vf: '1.2 m/s', v2: '0（靜止）' },
+    calc: R`\find{v_1} = \frac{(\given{m_1} + \given{m_2})\given{v_f}}{\given{m_1}} = \frac{(6.56)(1.2)}{0.16} = \find{49\ \text{m/s}}`,
+    draw: h => h.line(10, 86, 350, 86, 'cold') + h.line(10, 176, 350, 176, 'cold') + h.note(14, 20, '碰撞前', 's') + h.note(14, 112, '碰撞後', 's') +
+      h.ball(60, 80, 6, '', 'ob') + h.arrow(70, 80, 130, 80, 'v1') + h.tag(100, 62, 'v1', 'v_1 = ?') + h.tag(60, 44, 'm1', 'm_1 = 0.16 kg') +
+      h.box(240, 66, 64, 40, '沙箱') + h.tag(240, 30, 'm2', 'm_2 = 6.4 kg') + h.tag(310, 66, 'v2', 'v_2 = 0') +
+      h.box(200, 156, 64, 40, '沙箱') + h.ball(176, 160, 5, '', 'ob') + h.arrow(236, 150, 292, 150, 'vf') + h.tag(270, 132, 'vf', 'v_f = 1.2 m/s')
+  });
+  S('f9-6', {
+    cap: '2.0 kg 的推車以 3.0 m/s 彈性碰撞靜止的 1.0 kg 推車',
+    find: 'v1f v2f', given: 'm1 m2 v1i', val: { m1: '2.0 kg', m2: '1.0 kg', v1i: '3.0 m/s' },
+    calc: R`\find{v_{1f}} = \frac{\given{m_1} - \given{m_2}}{m_1 + m_2}\given{v_{1i}} = \tfrac13(3.0) = \find{1.0\ \text{m/s}},\quad \find{v_{2f}} = \frac{2m_1}{m_1 + m_2}v_{1i} = \find{4.0\ \text{m/s}}`,
+    draw: h => h.ground(88) + h.ground(178) + h.note(14, 18, '碰撞前', 's') + h.note(14, 108, '碰撞後', 's') +
+      h.cart(40, 88, 66, 'm_1 = 2.0 kg') + h.arrow(110, 64, 160, 64, 'v1i') + h.tag(152, 42, 'v1i', 'v_1i = 3.0 m/s') +
+      h.cart(220, 88, 60, 'm_2 = 1.0 kg') + h.note(250, 34, '靜止') +
+      h.cart(110, 178, 66, 'm_1') + h.arrow(180, 154, 206, 154, 'v1f') + h.tag(176, 132, 'v1f', 'v_1f = ?') +
+      h.cart(246, 178, 60, 'm_2') + h.arrow(310, 154, 352, 154, 'v2f') + h.tag(312, 132, 'v2f', 'v_2f = ?')
+  });
+})();
+
+/* ===== 情境圖：第二次段考 Ch10–14、32 ===== */
+(function () {
+  const cos = d => Math.cos(d * Math.PI / 180), sin = d => Math.sin(d * Math.PI / 180);
+  const S = (id, o) => { SCENES[id] = o; };
+  const f1 = n => Math.round(n * 10) / 10;
+  // 風機：塔、三片葉片
+  const turbine = (h, cx, cy, L, angs) => h.poly([[cx - 5, cy + 4], [cx + 5, cy + 4], [cx + 11, 190], [cx - 11, 190]], 'ob') +
+    angs.map(a => { const ux = cos(a), uy = -sin(a), nx = -uy, ny = ux; return h.poly([[cx + nx * 5, cy + ny * 5], [cx + ux * L, cy + uy * L], [cx - nx * 5, cy - ny * 5]], 'ob solid'); }).join('') +
+    h.circle(cx, cy, 7, 'ob solid');
+
+  /* ---------- Ch10 ---------- */
+  S('f10-1', {
+    cap: '風力發電機葉片長 28 m，每分鐘轉 21 圈，葉尖跑多快',
+    find: 'v', given: 'w r', val: { w: '21 rpm = 2.2 rad/s', r: '28 m' },
+    calc: R`\given{\omega} = \frac{21 \times 2\pi}{60} = 2.2\ \text{rad/s},\quad \find{v} = \given{\omega}\given{r} = (2.2)(28) = \find{62\ \text{m/s}}`,
+    draw: h => {
+      const cx = 140, cy = 96, L = 80, tip = [cx + L * cos(30), cy - L * sin(30)];
+      return h.ground(190) + turbine(h, cx, cy, L, [30, 150, 270]) +
+        h.dim(cx, cy, tip[0], tip[1], 'r', 'r = 28 m', { off: 16, t: 0.6 }) +
+        h.rot(cx, cy, 30, 160, 70, 'w') + h.tag(70, 40, 'w', 'ω = 21 rpm = 2.2 rad/s') +
+        h.arrow(tip[0], tip[1], tip[0] + 56 * 0.5, tip[1] + 56 * 0.866, 'v') + h.tag(tip[0] + 58, tip[1] + 50, 'v', 'v = ?') + h.note(tip[0] + 6, tip[1] - 8, '葉尖', 's');
+    }
+  });
+  S('f10-2', {
+    cap: '風停了，風機以 0.12 rad/s² 等減速，從 2.2 rad/s 慢慢停下',
+    find: 'th', given: 'w0 w al', val: { w0: '2.2 rad/s', w: '0（停下）', al: '−0.12 rad/s²' },
+    calc: R`\find{\Delta\theta} = \frac{\given{\omega}^2 - \given{\omega_0}^2}{2\given{\alpha}} = \frac{0 - 2.2^2}{2(-0.12)} = 20\ \text{rad} = \find{3.2\ \text{圈}}`,
+    draw: h => {
+      const cx = 120, cy = 100;
+      return h.ground(190) + turbine(h, cx, cy, 72, [20, 140, 260]) +
+        h.rot(cx, cy, 86, 100, -195, 'th', 'Δθ = ?', { am: 150, lr: 10, dx: -6 }) +
+        h.rot(cx, cy, 34, 120, 40, 'w0') + h.rot(cx, cy, 46, -30, 30, 'al') +
+        h.tag(286, 42, 'w0', 'ω_0 = 2.2 rad/s（剛停風）') + h.tag(286, 70, 'w', 'ω = 0（最後停下）') + h.tag(286, 98, 'al', 'α = −0.12 rad/s²') +
+        h.note(286, 120, '（α 和轉動方向相反）');
+    }
+  });
+  S('f10-3', {
+    cap: '輪胎螺帽要鎖到 95 N·m，45 cm 長的扳手斜 67°，你水平拉扳手末端',
+    find: 'F', given: 'tau r th', val: { tau: '95 N·m', r: '0.45 m', th: '67°' },
+    calc: R`\find{F} = \frac{\given{\tau}}{\given{r}\sin\given{\theta}} = \frac{95}{(0.45)\sin 67^\circ} = \find{2.3\times10^{2}\ \text{N}}`,
+    draw: h => {
+      const N = [100, 160], a = 67, L = 112, E = [N[0] + L * cos(a), N[1] - L * sin(a)];
+      const ux = cos(a), uy = -sin(a), nx = -uy, ny = ux;
+      return h.circle(N[0], N[1], 44, 'ghost') + h.poly([[N[0] + nx * 6, N[1] + ny * 6], [E[0] + nx * 5, E[1] + ny * 5], [E[0] - nx * 5, E[1] - ny * 5], [N[0] - nx * 6, N[1] - ny * 6]], 'ob solid') +
+        h.poly([0, 60, 120, 180, 240, 300].map(t => [N[0] + 11 * cos(t), N[1] - 11 * sin(t)]), 'ob') +
+        h.line(E[0], E[1], E[0] + 34 * ux, E[1] + 34 * uy, 'mute', 1) + h.line(E[0], E[1], E[0] + 40, E[1], 'mute', 1) +
+        h.arrow(E[0], E[1], E[0] + 74, E[1], 'F', { w: 3 }) + h.tag(E[0] + 50, E[1] + 20, 'F', 'F = ?') +
+        h.angle(E[0], E[1], 22, 0, a, 'th', 'θ = 67°', { lr: 40, am: 40, dx: 18 }) +
+        h.dim(N[0], N[1], E[0], E[1], 'r', 'r = 0.45 m', { off: 20, t: 0.5, lo: 14 }) +
+        h.rot(N[0], N[1], 26, 160, 20, 'tau') + h.tag(N[0] - 50, N[1] - 46, 'tau', 'τ = 95 N·m') + h.note(N[0], N[1] + 34, '螺帽');
+    }
+  });
+  S('f10-4', {
+    cap: '用 20 N 的力拉纏在車輪上的繩子，輪子半徑 0.30 m、I = 0.50 kg·m²',
+    find: 'al', given: 'tau I', val: { tau: 'rF = 6.0 N·m', I: '0.50 kg·m²' },
+    calc: R`\find{\alpha} = \frac{\given{\tau}}{\given{I}} = \frac{(0.30)(20)}{0.50} = \find{12\ \text{rad/s}^2}`,
+    draw: h => {
+      const c = [120, 106], r = 62;
+      return h.circle(c[0], c[1], r, 'ob') + h.circle(c[0], c[1], r - 8, 'ghost') + h.circle(c[0], c[1], 5, 'ob solid') +
+        h.line(c[0], c[1] - r, 250, c[1] - r, 'obj', 0, 2) + h.arrow(250, c[1] - r, 304, c[1] - r, 'obj') + h.tag(290, c[1] - r - 20, 'obj', 'F = 20 N') +
+        h.dim(c[0], c[1], c[0], c[1] - r, 'given', 'r = 0.30 m', { a: 'e', dx: -8 }) +
+        h.tag(c[0], c[1] + 26, 'I', 'I = 0.50 kg·m²') + h.tag(268, 92, 'tau', 'τ = rF = 6.0 N·m') +
+        h.rot(c[0], c[1], r + 12, -15, -100, 'al', 'α = ?', { am: -40, lr: 20, dx: 18 });
+    }
+  });
+  S('f10-5', {
+    cap: '85 cm 長的輕桿兩端各有 0.64 kg 的小球，轉軸在離一端 1/4 桿長處',
+    find: 'I', given: 'm r', val: { m: '0.64 kg（每顆）', r: '0.21 m、0.64 m' },
+    calc: R`\find{I} = \sum \given{m_i}\given{r_i}^2 = (0.64)(0.2125^2 + 0.6375^2) = \find{0.29\ \text{kg·m}^2}`,
+    draw: h => h.rect(50, 105, 260, 6, 'ob') + h.ball(50, 108, 14, '', 'ob solid') + h.ball(310, 108, 14, '', 'ob solid') +
+      h.line(115, 34, 115, 182, 'given', 1) + h.rot(115, 46, 26, 210, -30, 'obj', '', { ry: 7 }) + h.note(140, 30, '轉軸', 's') +
+      h.dim(115, 148, 50, 148, 'r', 'r_1 = 0.21 m') + h.dim(115, 148, 310, 148, 'r', 'r_2 = 0.64 m') +
+      h.tag(50, 76, 'm', 'm = 0.64 kg') + h.tag(310, 76, 'm', 'm = 0.64 kg') + h.tag(224, 50, 'I', 'I = ?')
+  });
+  S('f10-6', {
+    cap: '135 kg、半徑 30 cm 的實心飛輪以每分鐘 31,000 轉旋轉，存了多少能量',
+    find: 'K', given: 'I w', val: { I: '½MR² = 6.1 kg·m²', w: '31,000 rpm = 3.2×10³ rad/s' },
+    calc: R`\find{K_{rot}} = \tfrac12\given{I}\given{\omega}^2 = \tfrac12(6.1)(3.25\times10^{3})^2 = \find{3.2\times10^{7}\ \text{J}}`,
+    draw: h => {
+      const c = [112, 104];
+      let sp = ''; for (let a = 0; a < 360; a += 60) sp += h.line(c[0] + 14 * cos(a), c[1] - 14 * sin(a), c[0] + 52 * cos(a), c[1] - 52 * sin(a), 'obj');
+      return h.circle(c[0], c[1], 66, 'ob') + h.circle(c[0], c[1], 54, 'ghost') + sp + h.circle(c[0], c[1], 12, 'ob solid') +
+        h.rot(c[0], c[1], 80, 140, 40, 'w') + h.tag(260, 34, 'w', 'ω = 3.2×10³ rad/s') +
+        h.tag(270, 150, 'I', 'I = ½MR² = 6.1 kg·m²') + h.tag(270, 92, 'K', 'K_rot = ?');
+    }
+  });
+  S('f10-7', {
+    cap: '實心球從靜止沿坡滾下，質心降低 2.0 m，滾到底時多快',
+    find: 'v w', given: 'I M', val: { I: '⅖MR²（實心球）', M: '會消掉' }, xg: [[R`h`, '質心下降的高度', '2.0 m']],
+    calc: R`Mgh = \tfrac12 M\find{v}^2 + \tfrac12\given{\tfrac25 MR^2}\left(\frac{\find{v}}{R}\right)^2 \Rightarrow \find{v} = \sqrt{\tfrac{10}{7}gh} = \sqrt{\tfrac{10}{7}(9.8)(2.0)} = \find{5.3\ \text{m/s}}`,
+    draw: h => {
+      const u = [230 / 257.1, 115 / 257.1], n = [u[1], -u[0]], P = [20 + 30 * u[0], 50 + 30 * u[1]], C1 = [P[0] + 14 * n[0], P[1] + 14 * n[1]], C2 = [290, 151];
+      return h.poly([[20, 50], [250, 165], [20, 165]], 'ob') + h.ground(165) +
+        h.ball(C1[0], C1[1], 14, '', 'ob solid') + h.ball(C2[0], C2[1], 14, '', 'ob solid') + h.line(C2[0], C2[1], C2[0], C2[1] - 14, 'obj') +
+        h.line(C1[0] + 16, C1[1], 350, C1[1], 'mute', 1) + h.line(C2[0] + 16, C2[1], 350, C2[1], 'mute', 1) +
+        h.dim(342, C2[1], 342, C1[1], 'given', 'h = 2.0 m', { a: 'e', dx: -10 }) +
+        h.arrow(262, 124, 322, 124, 'v') + h.tag(250, 124, 'v', 'v = ?', 'e') + h.rot(C2[0], C2[1], 22, 150, 40, 'w') + h.tag(222, 150, 'w', 'ω = v/R') +
+        h.tag(196, 64, 'I', 'I = ⅖MR²（實心球）') + h.note(C1[0] + 20, C1[1] - 18, '靜止出發', 's');
+    }
+  });
+
+  /* ---------- Ch11 ---------- */
+  S('f11-1', {
+    cap: '扳手沿 x 軸長 2 m，在末端施 3 N、沿 +y 的力',
+    find: 'tau', given: 'r F', val: { r: '(2 m) x̂', F: '(3 N) ŷ' },
+    calc: R`\find{\vec\tau} = \given{\vec r}\times\given{\vec F} = (2\,\hat x)\times(3\,\hat y) = \find{6\ \text{N·m}\ \hat z}\ \text{（指出紙面）}`,
+    draw: h => {
+      const O = [110, 150];
+      return `<g class="ax"><line x1="${O[0]}" y1="${O[1]}" x2="318" y2="${O[1]}"/><line x1="${O[0]}" y1="${O[1]}" x2="${O[0]}" y2="26"/></g>` + h.note(324, O[1] + 4, 'x', 's') + h.note(O[0], 20, 'y') +
+        h.rect(O[0], O[1] - 7, 126, 14, 'ob solid', 6) + h.poly([0, 60, 120, 180, 240, 300].map(t => [O[0] + 12 * cos(t), O[1] - 12 * sin(t)]), 'ob') +
+        h.arrow(O[0] + 14, O[1], 230, O[1], 'r') + h.tag(170, O[1] + 24, 'r', 'r = (2 m) x̂') +
+        h.arrow(230, O[1], 230, 64, 'F') + h.tag(266, 92, 'F', 'F = (3 N) ŷ') +
+        h.out(O[0] - 40, O[1] - 36, 'tau') + h.tag(O[0] - 40, O[1] - 62, 'tau', 'τ = ?') + h.note(O[0] - 40, O[1] - 14, '⊙ 指出紙面', 'm') +
+        h.note(300, 40, '右手：四指從 r 彎向 F，', 'e') + h.note(300, 56, '拇指就是 τ 的方向', 'e');
+    }
+  });
+  S('f11-2', {
+    cap: '0.20 kg 的球綁在 0.50 m 的繩子上，以 3.0 m/s 繞圓心轉',
+    find: 'L', given: 'r p', val: { r: '0.50 m', p: 'mv = 0.60 kg·m/s' },
+    calc: R`\find{L} = \given{r}\given{p}\sin 90^\circ = (0.50)(0.20)(3.0) = \find{0.30\ \text{kg·m}^2/\text{s}}`,
+    draw: h => {
+      const O = [130, 106], R0 = 72, B = [O[0] + R0, O[1]];
+      return h.circle(O[0], O[1], R0, 'ghost') + h.line(O[0], O[1], B[0], B[1], 'obj') + h.ball(B[0], B[1], 9, '', 'ob solid') +
+        h.dim(O[0], O[1], B[0], B[1], 'r', 'r = 0.50 m', { off: 16 }) +
+        h.arrow(B[0], B[1] - 10, B[0], B[1] - 66, 'p') + h.tag(B[0] + 64, B[1] - 46, 'p', 'p = mv = 0.60 kg·m/s') +
+        h.out(O[0], O[1], 'L') + h.tag(O[0] - 4, O[1] - 26, 'L', 'L = ?') + h.note(O[0], O[1] + 46, '⊙ 角動量指出紙面') +
+        h.note(300, 176, '0.20 kg 的球，速率 3.0 m/s', 'e');
+    }
+  });
+  S('f11-3', {
+    cap: '腳踏車輪 I = 0.12 kg·m²，以 20 rad/s 繞輪軸旋轉',
+    find: 'L', given: 'I w', val: { I: '0.12 kg·m²', w: '20 rad/s' },
+    calc: R`\find{L} = \given{I}\given{\omega} = (0.12)(20) = \find{2.4\ \text{kg·m}^2/\text{s}}\ \text{（沿輪軸方向）}`,
+    draw: h => h.line(80, 104, 250, 104, 'obj', 0, 4) + h.ellipse(170, 104, 18, 66, 'ob') + h.ellipse(170, 104, 12, 58, 'ghost') +
+      h.line(170, 40, 170, 168, 'mute') + h.circle(80, 104, 6, 'ob solid') + h.circle(250, 104, 6, 'ob solid') +
+      h.rot(170, 104, 44, 200, -20, 'w', '', { ry: 76 }) + h.tag(100, 30, 'w', 'ω = 20 rad/s') +
+      h.arrow(254, 104, 320, 104, 'L', { w: 3 }) + h.tag(294, 84, 'L', 'L = ?') + h.tag(96, 150, 'I', 'I = 0.12 kg·m²') +
+      h.note(300, 136, '右手四指沿轉向彎，', 'm') + h.note(300, 152, '拇指指向 L', 'm')
+  });
+  S('f11-4', {
+    cap: '小孩沿切線推旋轉木馬（俯視），施加 6.0 N·m 的力矩推 2.0 s',
+    find: 'L', given: 'tau', val: { tau: '6.0 N·m，持續 2.0 s' },
+    calc: R`\find{\Delta L} = \given{\tau}\,\Delta t = (6.0)(2.0) = \find{12\ \text{kg·m}^2/\text{s}}`,
+    draw: h => {
+      const O = [130, 108];
+      return h.circle(O[0], O[1], 72, 'ob') + h.circle(O[0], O[1], 6, 'ob solid') + h.line(O[0] - 72, O[1], O[0] + 72, O[1], 'mute') + h.line(O[0], O[1] - 72, O[0], O[1] + 72, 'mute') +
+        h.person(O[0] - 34, O[1] - 76, { s: 0.55, pose: 'push' }) + h.arrow(O[0] - 14, O[1] - 80, O[0] + 46, O[1] - 80, 'tau') +
+        h.tag(O[0] + 112, O[1] - 80, 'tau', 'τ = 6.0 N·m，推 2.0 s') +
+        h.rot(O[0], O[1], 50, 150, 30, 'obj') + h.out(O[0] + 30, O[1] + 30, 'L') + h.tag(O[0] + 74, O[1] + 30, 'L', 'ΔL = ?', 's') +
+        h.note(300, 176, '旋轉木馬（從上往下看）', 'e');
+    }
+  });
+  S('f11-5', {
+    cap: '溜冰選手原本張開手臂旋轉，把手收進來',
+    find: 'w2', given: 'I1 w1 I2', val: { I1: '3.0 kg·m²', w1: '2.0 rad/s', I2: '1.0 kg·m²' },
+    calc: R`\find{\omega_2} = \frac{\given{I_1}\given{\omega_1}}{\given{I_2}} = \frac{(3.0)(2.0)}{1.0} = \find{6.0\ \text{rad/s}}\ \text{（轉得更快）}`,
+    draw: h => h.ground(180) + h.person(96, 180, { s: 1.25, pose: 'armsOut' }) + h.person(266, 180, { s: 1.25, pose: 'armsIn' }) +
+      h.rot(96, 130, 40, 210, -30, 'w1', '', { ry: 9 }) + h.rot(266, 130, 26, 210, -30, 'w2', '', { ry: 7 }) +
+      h.arrow(150, 120, 210, 120, 'obj') + h.note(180, 108, '收手') +
+      h.tag(96, 30, 'I1', 'I_1 = 3.0 kg·m²') + h.tag(96, 56, 'w1', 'ω_1 = 2.0 rad/s') +
+      h.tag(266, 30, 'I2', 'I_2 = 1.0 kg·m²') + h.tag(266, 56, 'w2', 'ω_2 = ?')
+  });
+  S('f11-6', {
+    cap: '玩具陀螺儀一端架在支點上，輪子快速自轉，整根軸會繞支點水平轉（進動）',
+    find: 'W', given: 'M r I w', val: { M: '0.10 kg', r: '4.0 cm', I: '2.0×10⁻⁴ kg·m²', w: '200 rad/s' }, xg: [[R`g`, '重力加速度', '9.8 m/s²']],
+    calc: R`\find{\Omega} = \frac{\given{M}g\given{r}}{\given{I}\given{\omega}} = \frac{(0.10)(9.8)(0.040)}{(2.0\times10^{-4})(200)} = \find{0.98\ \text{rad/s}}`,
+    draw: h => h.rect(80, 176, 60, 8, 'ob') + h.line(110, 176, 110, 74, 'obj', 0, 4) + h.circle(110, 68, 6, 'ob solid') +
+      h.line(110, 68, 236, 68, 'obj', 0, 3) + h.ellipse(200, 68, 11, 36, 'ob solid') +
+      h.arrow(200, 108, 200, 150, 'obj') + h.tag(234, 140, 'M', 'Mg（M = 0.10 kg）', 's') +
+      h.dim(110, 166, 200, 166, 'r', 'r = 4.0 cm') + h.line(200, 110, 200, 168, 'mute', 1) +
+      h.arrow(240, 68, 304, 68, 'obj') + h.note(312, 72, 'L = Iω', 's') +
+      h.rot(110, 40, 58, 210, -30, 'W', '', { ry: 12 }) + h.tag(40, 22, 'W', 'Ω = ?') +
+      h.tag(280, 22, 'I', 'I = 2.0×10⁻⁴ kg·m²') + h.tag(280, 104, 'w', 'ω = 200 rad/s')
+  });
+
+  /* ---------- Ch12 ---------- */
+  S('f12-1', {
+    cap: '15 kg 的紅綠燈用兩條纜繩吊著，纜繩都和水平夾 30°',
+    find: '', given: '', xf: [[R`T`, '每條纜繩的張力']], xg: [[R`mg`, '燈的重量', '147 N'], [R`\theta`, '纜繩與水平的夾角', '30°']],
+    calc: R`\sum F_y = 2\find{T}\sin\given{30^\circ} - \given{mg} = 0 \Rightarrow \find{T} = \frac{147}{2\sin 30^\circ} = \find{147\ \text{N}}`,
+    draw: h => {
+      const K = [180, 20 + 150 * Math.tan(Math.PI / 6)];
+      return h.rect(14, 10, 22, 14, 'ob') + h.rect(324, 10, 22, 14, 'ob') + h.line(30, 20, K[0], K[1], 'obj', 0, 2) + h.line(330, 20, K[0], K[1], 'obj', 0, 2) +
+        h.rect(K[0] - 13, K[1] + 6, 26, 46, 'ob solid', 4) + h.circle(K[0], K[1] + 18, 4.5, 'fo') + h.circle(K[0], K[1] + 29, 4.5, 'fi') + h.circle(K[0], K[1] + 40, 4.5, 'mol') +
+        h.arrow(K[0] - 4, K[1] - 2, K[0] - 56 * cos(30), K[1] - 56 * sin(30), 'find', { w: 3 }) + h.arrow(K[0] + 4, K[1] - 2, K[0] + 56 * cos(30), K[1] - 56 * sin(30), 'find', { w: 3 }) +
+        h.tag(100, 36, 'find', 'T = ?') + h.tag(260, 36, 'find', 'T = ?') +
+        h.line(K[0], K[1], K[0] + 46, K[1], 'mute', 1) + h.angle(K[0], K[1], 30, 0, 30, 'given', '30°', { lr: 46, am: 14 }) +
+        h.arrow(K[0], K[1] + 56, K[0], K[1] + 86, 'given') + h.tag(K[0] + 54, K[1] + 76, 'given', 'mg = 147 N');
+    }
+  });
+  S('f12-2', {
+    cap: '蹺蹺板：25 kg 的小孩坐在支點左邊 2.0 m，40 kg 的小孩要坐在右邊多遠才平衡',
+    find: '', given: '', xf: [[R`x_2`, '右邊小孩到支點的距離']], xg: [[R`m_1`, '左邊小孩', '25 kg'], [R`x_1`, '左邊小孩到支點', '2.0 m'], [R`m_2`, '右邊小孩', '40 kg']],
+    calc: R`\sum\tau = \given{m_1}g\,\given{x_1} - \given{m_2}g\,\find{x_2} = 0 \Rightarrow \find{x_2} = \frac{(25)(2.0)}{40} = \find{1.25\ \text{m}}`,
+    draw: h => h.ground(180) + h.poly([[180, 150], [164, 180], [196, 180]], 'ob') + h.rect(30, 144, 300, 6, 'ob solid') +
+      h.person(60, 144, { s: 0.8 }) + h.person(255, 144, { s: 0.95 }) +
+      h.tag(60, 76, 'given', 'm_1 = 25 kg') + h.tag(255, 70, 'given', 'm_2 = 40 kg') +
+      h.dim(60, 162, 180, 162, 'given', 'x_1 = 2.0 m') + h.dim(180, 162, 255, 162, 'find', 'x_2 = ?') + h.note(180, 196, '支點')
+  });
+  S('f12-3', {
+    cap: '扁擔長 1.5 m，兩端挑著 10 kg 和 15 kg 的水桶，肩膀要放哪裡才平衡',
+    find: 'x', given: 'm xi', val: { m: '10 kg、15 kg', xi: '0、1.5 m' },
+    calc: R`\find{x_{cg}} = \frac{\given{m_1}\given{x_1} + \given{m_2}\given{x_2}}{m_1 + m_2} = \frac{(10)(0) + (15)(1.5)}{25} = \find{0.90\ \text{m}}`,
+    draw: h => {
+      const X = x => 30 + x * 200;
+      return h.ground(186) + h.rect(26, 98, 308, 5, 'ob solid') + h.line(X(0), 103, X(0), 128, 'obj') + h.line(X(1.5), 103, X(1.5), 128, 'obj') +
+        h.rect(X(0) - 18, 128, 36, 36, 'ob', 4) + h.rect(X(1.5) - 20, 128, 40, 40, 'ob', 4) +
+        h.person(X(0.9), 186, { s: 2.2 }) + h.line(X(0.9), 40, X(0.9), 95, 'find', 1) +
+        h.tag(X(0.9), 30, 'x', 'x_cg = ?（肩膀放這裡）') + h.tag(10, 80, 'xi', 'x_1 = 0', 's') + h.tag(350, 80, 'xi', 'x_2 = 1.5 m', 'e') +
+        h.tag(8, 180, 'm', 'm_1 = 10 kg', 's') + h.tag(352, 186, 'm', 'm_2 = 15 kg', 'e');
+    }
+  });
+  S('f12-4', {
+    cap: '梯子靠在光滑的牆上，地面靜摩擦係數 0.40，梯子最斜可以放到幾度',
+    find: 'th', given: 'mu', val: { mu: '0.40' },
+    calc: R`\tan\find{\theta_{\min}} = \frac{1}{2\given{\mu}} = \frac{1}{2(0.40)} = 1.25 \Rightarrow \find{\theta_{\min} = 51^\circ}`,
+    draw: h => {
+      const th = 51.3, L = 170, F = [300 - L * cos(th), 170], T = [300, 170 - L * sin(th)], ux = cos(th), uy = -sin(th), nx = -uy, ny = ux;
+      let rungs = ''; for (let t = 14; t < L; t += 16) rungs += h.line(F[0] + ux * t + nx * 6, F[1] + uy * t + ny * 6, F[0] + ux * t - nx * 6, F[1] + uy * t - ny * 6, 'obj');
+      const M = [(F[0] + T[0]) / 2, (F[1] + T[1]) / 2];
+      return h.ground(170, 8, 300) + h.wall(300, 20, 170, 'r') + h.line(F[0] + nx * 6, F[1] + ny * 6, T[0] + nx * 6, T[1] + ny * 6, 'obj', 0, 2) + h.line(F[0] - nx * 6, F[1] - ny * 6, T[0] - nx * 6, T[1] - ny * 6, 'obj', 0, 2) + rungs +
+        h.arrow(F[0], F[1] - 2, F[0], F[1] - 48, 'obj') + h.note(F[0] - 6, F[1] - 50, 'n', 'e') +
+        h.arrow(F[0] + 2, F[1] - 3, F[0] + 42, F[1] - 3, 'obj', { hl: 8 }) + h.tag(F[0] + 30, 188, 'obj', 'f_s ≤ μn') +
+        h.arrow(T[0] - 4, T[1] + 4, T[0] - 46, T[1] + 4, 'obj') + h.note(T[0] - 50, T[1] + 8, '牆的推力', 'e') +
+        h.arrow(M[0], M[1], M[0], M[1] + 40, 'obj') + h.note(M[0] + 6, M[1] + 40, 'mg', 's') +
+        h.angle(F[0], F[1], 30, 0, th, 'th', 'θ_min = ?', { lr: 60, am: 18, dx: -100, dy: 8 }) +
+        h.tag(70, 188, 'mu', 'μ = 0.40') + h.note(340, 100, '光滑牆', 'm');
+    }
+  });
+  S('f12-5', {
+    cap: '電子的位能曲線 U(x) = ax² − bx⁴（a = 8 aJ/nm²、b = 1 aJ/nm⁴），哪裡平衡、穩不穩',
+    find: 'x', given: 'U', val: { x: '平衡點和穩定性', U: '8x² − x⁴（aJ，x 用 nm）' },
+    calc: R`\frac{dU}{dx} = 16x - 4x^3 = 0 \Rightarrow \find{x = 0}\ \text{（穩定）、}\ \find{x = \pm 2\ \text{nm}}\ \text{（不穩定）}`,
+    draw: h => {
+      const B = { x0: 30, y0: 178, w: 300, hh: 150, xr: [-2.8, 2.8], yr: [-4, 20] }, X = x => h.X(B, x), Y = y => h.Y(B, y), U = x => 8 * x * x - x ** 4;
+      return `<g class="ax"><line x1="30" y1="${Y(0)}" x2="334" y2="${Y(0)}"/><line x1="${X(0)}" y1="186" x2="${X(0)}" y2="24"/></g>` + h.note(334, Y(0) + 16, 'x（nm）', 'e') + h.note(X(0) + 6, 22, 'U', 's') +
+        h.plot(U, B, { k: 'U', cls: 'cv', from: -2.75, to: 2.75 }) +
+        h.line(X(0) - 26, Y(0), X(0) + 26, Y(0), 'find', 0, 3) + h.ball(X(0), Y(0) - 8, 8, '', 'ob solid') +
+        h.line(X(2) - 26, Y(16), X(2) + 26, Y(16), 'find', 0, 3) + h.ball(X(2), Y(16) - 8, 8, '', 'ob solid') +
+        h.tag(X(0), Y(0) + 22, 'x', 'x = 0：穩定') + h.tag(X(2) + 4, Y(16) - 32, 'x', 'x = 2 nm：不穩定') +
+        h.tag(X(-1.7), 40, 'U', 'U = 8x² − x⁴');
+    }
+  });
+
+  /* ---------- Ch13 ---------- */
+  S('f13-1', {
+    cap: '一把尺壓在桌邊撥一下，10 s 內振了 28 次',
+    find: 'f w', given: 'T', val: { T: '10 s ÷ 28 = 0.36 s' },
+    calc: R`\find{f} = \frac{1}{\given{T}} = \frac{28}{10\ \text{s}} = \find{2.8\ \text{Hz}},\quad \find{\omega} = 2\pi f = \find{18\ \text{rad/s}}`,
+    draw: h => h.rect(16, 112, 150, 18, 'ob') + h.line(30, 130, 30, 190, 'obj', 0, 3) + h.line(150, 130, 150, 190, 'obj', 0, 3) +
+      h.rect(124, 96, 34, 14, 'ob solid', 3) + h.note(141, 90, '壓住') +
+      h.rect(110, 108, 190, 4, 'ob solid') + h.path('M166 110 Q236 110 300 76', 'ghost') + h.path('M166 110 Q236 110 300 144', 'ghost') +
+      h.arrow(316, 104, 316, 74, 'obj', { hl: 7 }) + h.arrow(316, 116, 316, 146, 'obj', { hl: 7 }) +
+      h.tag(250, 34, 'T', 'T = 10 s ÷ 28 次 = 0.36 s') + h.tag(220, 176, 'f', 'f = ?') + h.tag(290, 176, 'w', 'ω = ?')
+  });
+  S('f13-2', {
+    cap: '彈簧上的物體做簡諧運動：A = 0.10 m、ω = 2π rad/s、φ = 0，t = 0.125 s 時在哪',
+    find: 'x', given: 'A w t ph', val: { A: '0.10 m', w: '2π rad/s', t: '0.125 s', ph: '0' },
+    calc: R`\find{x} = \given{A}\cos(\given{\omega}\given{t} + \given{\phi}) = (0.10)\cos(2\pi \times 0.125) = 0.10\cos 45^\circ = \find{0.071\ \text{m}}`,
+    draw: h => {
+      const B = { x0: 120, y0: 110, w: 225, hh: 50, xr: [0, 1.5], yr: [0, 1] }, X = t => 120 + t * 150, Y = v => 110 - 50 * v;
+      const pt = [X(0.125), Y(Math.cos(Math.PI / 4))];
+      return h.ceil(18, 20, 80) + h.spring(50, 18, 50, pt[1] - 11, { n: 6, amp: 8, lead: 4 }) + h.box(50, pt[1], 30, 22, '') +
+        h.line(14, 110, 345, 110, 'mute', 1) + h.note(14, 106, '平衡', 's') + `<g class="ax"><line x1="120" y1="176" x2="120" y2="40"/></g>` + h.note(345, 126, 't（s）', 'e') +
+        h.plot(t => Math.cos(2 * Math.PI * t), B, { cls: 'cv' }) + h.line(66, pt[1], pt[0], pt[1], 'find', 1) +
+        h.ball(pt[0], pt[1], 5, '', 'ob findf') + h.tag(pt[0] + 44, pt[1] - 18, 'x', 'x = ?') +
+        h.dim(X(1), 110, X(1), 60, 'A', 'A = 0.10 m', { a: 's', dx: 8 }) +
+        h.line(pt[0], pt[1], pt[0], 110, 'given', 1) + h.tag(pt[0] + 6, 126, 't', 't = 0.125 s', 's') +
+        h.tag(250, 186, 'w', 'ω = 2π rad/s（T = 1 s）') + h.tag(150, 186, 'ph', 'φ = 0');
+    }
+  });
+  S('f13-3', {
+    cap: '紐約花旗大樓頂的 373 t 混凝土塊接在彈簧上，振一次要 6.80 s（用來減震）',
+    find: 'k', given: 'm T', val: { m: '373 t = 3.73×10⁵ kg', T: '6.80 s' },
+    calc: R`\find{k} = \frac{4\pi^2\given{m}}{\given{T}^2} = \frac{4\pi^2(3.73\times10^{5})}{(6.80)^2} = \find{3.2\times10^{5}\ \text{N/m}}`,
+    draw: h => h.ground(156, 30, 330) + h.wall(30, 70, 156) + h.line(330, 70, 330, 156, 'obj', 0, 2) + h.line(30, 70, 330, 70, 'obj', 0, 2) +
+      h.note(180, 62, '大樓最頂層') + h.spring(30, 130, 160, 130, { n: 8, amp: 9, k: 'k' }) + h.box(200, 130, 80, 46, '混凝土塊') +
+      h.tag(95, 104, 'k', 'k = ?') + h.tag(200, 90, 'm', 'm = 3.73×10⁵ kg') +
+      h.arrow(250, 130, 290, 130, 'obj', { hl: 7 }) + h.arrow(150, 178, 110, 178, 'mute', { hl: 6 }) +
+      h.tag(280, 180, 'T', 'T = 6.80 s（來回一次）')
+  });
+  S('f13-4', {
+    cap: '公園的盪鞦韆，繩長 2.5 m，來回盪一次要多久',
+    find: 'T', given: 'L g', val: { L: '2.5 m', g: '9.8 m/s²' },
+    calc: R`\find{T} = 2\pi\sqrt{\frac{\given{L}}{\given{g}}} = 2\pi\sqrt{\frac{2.5}{9.8}} = \find{3.2\ \text{s}}`,
+    draw: h => {
+      const P = [180, 24], L = 128, a = 20, S2 = [P[0] + L * sin(a), P[1] + L * cos(a)], S1 = [P[0] - L * sin(a), P[1] + L * cos(a)];
+      return h.ground(186) + h.line(80, 24, 280, 24, 'obj', 0, 4) + h.line(90, 24, 70, 186, 'obj', 0, 3) + h.line(90, 24, 110, 186, 'obj', 0, 3) + h.line(270, 24, 250, 186, 'obj', 0, 3) + h.line(270, 24, 290, 186, 'obj', 0, 3) +
+        h.line(P[0], P[1], P[0], P[1] + L + 10, 'mute', 1) + h.line(P[0], P[1], S1[0], S1[1], 'mute', 1) + h.path(`M${f1(S1[0])} ${f1(S1[1] + 12)}A${L + 12} ${L + 12} 0 0 0 ${f1(S2[0])} ${f1(S2[1] + 12)}`, 'ghost') +
+        h.line(P[0], P[1], S2[0], S2[1], 'obj', 0, 2) + h.rect(S2[0] - 12, S2[1], 24, 5, 'ob solid') + h.ball(S2[0], S2[1] - 10, 9, '', 'ob solid') +
+        h.dim(P[0], P[1], S2[0], S2[1], 'L', 'L = 2.5 m', { off: -16, t: 0.45 }) +
+        h.arrow(S2[0] + 14, S2[1] - 4, S2[0] + 14, S2[1] + 30, 'g', { hl: 8 }) + h.tag(S2[0] + 54, S2[1] + 20, 'g', 'g = 9.8 m/s²') +
+        h.tag(110, 120, 'T', 'T = ?（來回一次）');
+    }
+  });
+  S('f13-5', {
+    cap: '走路時離地的腿像繞髖關節擺動的均勻細桿，腿長 0.90 m',
+    find: 'T', given: 'I m g d', val: { I: '⅓mL²（細桿繞一端）', m: '會消掉', g: '9.8 m/s²', d: 'L/2 = 0.45 m' },
+    calc: R`\find{T} = 2\pi\sqrt{\frac{\given{I}}{\given{m}\given{g}\given{d}}} = 2\pi\sqrt{\frac{\tfrac13 mL^2}{mg\,\tfrac{L}{2}}} = 2\pi\sqrt{\frac{2(0.90)}{3(9.8)}} = \find{1.6\ \text{s}}`,
+    draw: h => {
+      const P = [170, 40], L = 130, leg = (a, cls) => { const ux = sin(a), uy = cos(a), nx = -uy, ny = ux, E = [P[0] + L * ux, P[1] + L * uy]; return h.poly([[P[0] + nx * 8, P[1] + ny * 8], [E[0] + nx * 7, E[1] + ny * 7], [E[0] - nx * 7, E[1] - ny * 7], [P[0] - nx * 8, P[1] - ny * 8]], cls); };
+      const C = [P[0] + 65 * sin(15), P[1] + 65 * cos(15)];
+      return h.rect(146, 4, 48, 34, 'ob', 6) + h.note(140, 24, '身體', 'e') + leg(-15, 'ghost') + leg(15, 'ob solid') + h.circle(P[0], P[1], 7, 'ob') + h.note(184, 44, '髖關節（支點）', 's') +
+        h.cm(C[0], C[1], 'd') + h.dim(P[0], P[1], C[0], C[1], 'd', 'd = 0.45 m', { off: -22, a: 'e', dx: -6 }) +
+        h.arrow(C[0] + 10, C[1] + 6, C[0] + 10, C[1] + 44, 'obj', { hl: 8 }) + h.note(C[0] + 16, C[1] + 44, 'mg', 's') +
+        h.tag(290, 70, 'I', 'I = ⅓mL²') + h.tag(290, 96, 'g', 'g = 9.8 m/s²') + h.tag(80, 176, 'T', 'T = ?（擺一次）') +
+        h.path(`M${f1(P[0] - 140 * sin(15))} ${f1(P[1] + 140 * cos(15))}A140 140 0 0 0 ${f1(P[0] + 140 * sin(15))} ${f1(P[1] + 140 * cos(15))}`, 'ghost');
+    }
+  });
+  S('f13-6', {
+    cap: '0.50 kg 的木塊接在 200 N/m 的彈簧上，振幅 5.0 cm，經過 x = 3.0 cm 時多快',
+    find: 'v', given: 'k A x m', val: { k: '200 N/m', A: '0.050 m', x: '0.030 m', m: '0.50 kg' },
+    calc: R`\find{v} = \sqrt{\frac{\given{k}(\given{A}^2 - \given{x}^2)}{\given{m}}} = \sqrt{\frac{200(0.050^2 - 0.030^2)}{0.50}} = \find{0.80\ \text{m/s}}`,
+    draw: h => h.ground(150, 30, 352) + h.wall(30, 86, 150) + h.spring(30, 130, 212, 130, { n: 9, amp: 8 }) + h.box(230, 130, 36, 40, '') +
+      h.line(170, 96, 170, 150, 'mute', 1) + h.note(170, 90, '平衡 x = 0') + h.line(270, 96, 270, 150, 'mute', 1) + h.note(276, 90, '最遠 x = A', 's') +
+      h.arrow(222, 100, 172, 100, 'v') + h.tag(130, 100, 'v', 'v = ?') +
+      h.dim(170, 166, 230, 166, 'x', 'x = 3.0 cm') + h.dim(170, 188, 270, 188, 'A', 'A = 5.0 cm', { dx: 60 }) +
+      h.tag(84, 172, 'k', 'k = 200 N/m') + h.tag(318, 130, 'm', 'm = 0.50 kg')
+  });
+  S('f13-7', {
+    cap: '汽車避震器：振幅 5.0 cm 開始，b = 500 kg/s、m = 250 kg，2.0 s 後剩多大',
+    find: 'x', given: 'A b m', val: { A: '5.0 cm', b: '500 kg/s', m: '250 kg' }, xg: [[R`t`, '經過時間', '2.0 s']],
+    calc: R`\given{A}e^{-\given{b}t/2\given{m}} = (5.0)e^{-(500)(2.0)/(2\times250)} = 5.0e^{-2} = \find{0.68\ \text{cm}}`,
+    draw: h => {
+      const B = { x0: 40, y0: 105, w: 300, hh: 70, xr: [0, 2.5], yr: [0, 5] }, X = t => 40 + t * 120, Y = v => 105 - 14 * v;
+      let up = '', dn = ''; for (let t = 0; t <= 2.5; t += 0.05) { up += (up ? 'L' : 'M') + f1(X(t)) + ' ' + f1(Y(5 * Math.exp(-t))); dn += (dn ? 'L' : 'M') + f1(X(t)) + ' ' + f1(Y(-5 * Math.exp(-t))); }
+      return `<g class="ax"><line x1="40" y1="105" x2="344" y2="105"/><line x1="40" y1="186" x2="40" y2="24"/></g>` + h.note(344, 121, 't（s）', 'e') +
+        h.path(up, 'ln mute dash') + h.path(dn, 'ln mute dash') + h.plot(t => 5 * Math.exp(-t) * Math.cos(2 * Math.PI * 1.6 * t), B, { cls: 'cv', n: 240 }) +
+        h.dim(48, 105, 48, 35, 'A', 'A = 5.0 cm', { a: 's', dx: 4, t: 0.3 }) +
+        h.line(X(2), 105, X(2), Y(5 * Math.exp(-2)), 'find', 0, 3) + h.line(X(2), 105, X(2), 112, 'obj') + h.note(X(2), 124, '2.0 s') +
+        h.tag(X(2), 64, 'x', '振幅剩 ? cm') + h.line(X(2), 74, X(2), Y(5 * Math.exp(-2)) - 2, 'find', 1) +
+        h.tag(270, 160, 'b', 'b = 500 kg/s') + h.tag(270, 184, 'm', 'm = 250 kg');
+    }
+  });
+
+  /* ---------- Ch14 ---------- */
+  S('f14-1', {
+    cap: '海浪的波峰相距 14 m，衝浪板從波谷升到波峰花 1.5 s',
+    find: 'v', given: 'lam T', val: { lam: '14 m', T: '2 × 1.5 s = 3.0 s' },
+    calc: R`\find{v} = \frac{\given{\lambda}}{\given{T}} = \frac{14}{3.0} = \find{4.7\ \text{m/s}}`,
+    draw: h => {
+      let d = 'M0 200'; for (let x = 0; x <= 360; x += 3) d += 'L' + x + ' ' + f1(104 - 16 * Math.cos(2 * Math.PI * (x - 45) / 140)); d += 'L360 200Z';
+      return `<path class="wt" d="${d}"/>` + h.wave(0, 360, 104, 16, 140, { ph: -2 * Math.PI * 45 / 140, cls: 'wts' }) +
+        h.person(185, 84, { s: 0.6, pose: 'armsOut' }) + h.line(170, 87, 200, 87, 'obj', 0, 3) +
+        h.dim(45, 52, 185, 52, 'lam', 'λ = 14 m') + h.line(45, 56, 45, 84, 'mute', 1) + h.line(185, 56, 185, 70, 'mute', 1) +
+        h.tag(270, 30, 'T', '波谷→波峰 1.5 s，T = 3.0 s') +
+        h.arrow(210, 156, 290, 156, 'v') + h.tag(250, 176, 'v', 'v = ?（波往前跑多快）');
+    }
+  });
+  S('f14-2', {
+    cap: '繩子上的簡諧波：A = 5.0 cm、λ = 2.0 m、ω = 3π rad/s，t = 0 時 x = 0.25 m 處的位移',
+    find: 'y', given: 'A k x w t', val: { A: '5.0 cm', k: '2π/λ = π rad/m', x: '0.25 m', w: '3π rad/s', t: '0' },
+    calc: R`\find{y} = \given{A}\cos(\given{k}\given{x} - \given{\omega}\given{t}) = (5.0)\cos(\pi\times0.25 - 0) = \find{3.5\ \text{cm}}`,
+    draw: h => {
+      const X = xm => 40 + xm * 120, Y = v => 100 - 40 * v, pt = [X(0.25), Y(Math.cos(Math.PI / 4))];
+      return h.line(30, 100, 345, 100, 'mute') + h.wave(40, 340, 100, 40, 240, { cls: 'cv' }) +
+        h.ball(pt[0], pt[1], 5, '', 'ob findf') + h.line(pt[0], pt[1] + 6, pt[0], 100, 'find', 0, 3) + h.tag(pt[0] + 6, 30, 'y', 'y = ?', 's') + h.line(pt[0] + 4, 40, pt[0] + 2, pt[1] - 6, 'find', 1) +
+        h.tag(pt[0], 118, 'x', 'x = 0.25 m') +
+        h.dim(X(0), 172, X(2), 172, 'k', 'λ = 2.0 m → k = π rad/m') + h.line(X(2), 60, X(2), 168, 'mute', 1) + h.line(X(0), 60, X(0), 168, 'mute', 1) +
+        h.dim(X(2) + 14, 100, X(2) + 14, 60, 'A', 'A = 5.0 cm', { a: 'e', dx: -24, dy: 12 }) +
+        h.tag(200, 30, 'w', 'ω = 3π rad/s、t = 0');
+    }
+  });
+  S('f14-3', {
+    cap: '兩位攀岩者之間 43 m、5.0 kg 的繩子；一人敲繩子，1.4 s 後另一人感覺到',
+    find: 'F', given: 'v mu', val: { v: '43 m ÷ 1.4 s = 31 m/s', mu: '5.0 kg ÷ 43 m = 0.12 kg/m' },
+    calc: R`\find{F} = \given{\mu}\given{v}^2 = (0.116)(30.7)^2 = \find{1.1\times10^{2}\ \text{N}}`,
+    draw: h => {
+      let d = ''; for (let x = 48; x <= 312; x += 3) d += (d ? 'L' : 'M') + x + ' ' + f1(126 - 20 * Math.exp(-(((x - 150) / 16) ** 2)));
+      return h.ground(172) + h.person(34, 172, { s: 1 }) + h.person(326, 172, { s: 1, dir: -1 }) + h.path(d, 'cv') +
+        h.arrow(130, 86, 196, 86, 'v') + h.tag(164, 66, 'v', 'v = 43 m ÷ 1.4 s = 31 m/s') +
+        h.arrow(86, 130, 50, 130, 'F', { w: 3 }) + h.arrow(274, 130, 310, 130, 'F', { w: 3 }) + h.tag(270, 106, 'F', 'F = ?（張力）') +
+        h.tag(180, 156, 'mu', 'μ = 5.0 kg ÷ 43 m = 0.12 kg/m');
+    }
+  });
+  S('f14-4', {
+    cap: '書離 75 W 的燈泡 1.9 m，照到書上的光強度',
+    find: 'I', given: 'P r', val: { P: '75 W', r: '1.9 m' },
+    calc: R`\find{I} = \frac{\given{P}}{4\pi\given{r}^2} = \frac{75}{4\pi(1.9)^2} = \find{1.7\ \text{W/m}^2}`,
+    draw: h => {
+      let arcs = ''; [40, 72, 104, 136, 168].forEach(R0 => { arcs += h.path(`M${f1(60 + R0 * cos(40))} ${f1(100 - R0 * sin(40))}A${R0} ${R0} 0 0 1 ${f1(60 + R0 * cos(40))} ${f1(100 + R0 * sin(40))}`, 'ghost'); });
+      return arcs + h.circle(60, 96, 15, 'pl sun') + h.rect(53, 110, 14, 12, 'ob solid') + h.poly([[236, 84], [262, 92], [262, 128], [236, 120]], 'ob') + h.poly([[262, 92], [288, 84], [288, 120], [262, 128]], 'ob') +
+        h.dim(60, 154, 262, 154, 'r', 'r = 1.9 m') + h.tag(60, 62, 'P', 'P = 75 W') + h.tag(262, 64, 'I', 'I = ?') +
+        h.note(180, 186, '光的能量平均攤在半徑 r 的球面（4πr²）上');
+    }
+  });
+  S('f14-5', {
+    cap: '耳朵處的聲音強度是 1.0×10⁻⁵ W/m²，換算成分貝',
+    find: 'beta', given: 'I I0', val: { I: '1.0×10⁻⁵ W/m²', I0: '1.0×10⁻¹² W/m²' },
+    calc: R`\find{\beta} = 10\log_{10}\frac{\given{I}}{\given{I_0}} = 10\log_{10}\frac{1.0\times10^{-5}}{1.0\times10^{-12}} = 10(7) = \find{70\ \text{dB}}`,
+    draw: h => {
+      let arcs = ''; [30, 56, 82, 108].forEach(R0 => { arcs += h.path(`M${f1(70 + R0 * cos(35))} ${f1(100 - R0 * sin(35))}A${R0} ${R0} 0 0 1 ${f1(70 + R0 * cos(35))} ${f1(100 + R0 * sin(35))}`, 'ghost'); });
+      return h.rect(26, 62, 40, 76, 'ob solid', 4) + h.circle(46, 84, 9, 'ob') + h.circle(46, 116, 13, 'ob') + arcs +
+        h.path('M296 74 C318 70 326 92 314 106 C306 116 306 122 300 128 C294 134 284 130 286 122', 'ln obj') + h.path('M302 92 C310 92 312 102 304 106', 'ln obj') +
+        h.tag(180, 34, 'I', 'I = 1.0×10⁻⁵ W/m²（在耳朵處）') + h.tag(300, 58, 'beta', 'β = ? dB') +
+        h.tag(180, 168, 'I0', 'I_0 = 1.0×10⁻¹² W/m²（剛好聽得到）');
+    }
+  });
+  S('f14-6', {
+    cap: '吉他弦長 0.65 m，弦上的波速 286 m/s，撥出的基音（n = 1）',
+    find: 'lam f', given: 'L n v', val: { L: '0.65 m', n: '1（基音）', v: '286 m/s' },
+    calc: R`\find{\lambda_1} = \frac{2\given{L}}{\given{n}} = 1.30\ \text{m},\quad \find{f_1} = \frac{\given{v}}{\lambda_1} = \frac{286}{1.30} = \find{220\ \text{Hz}}`,
+    draw: h => {
+      const env = s => { let d = ''; for (let x = 40; x <= 320; x += 3) d += (d ? 'L' : 'M') + x + ' ' + f1(100 - s * 34 * Math.sin(Math.PI * (x - 40) / 280)); return d; };
+      return h.poly([[40, 100], [30, 118], [50, 118]], 'ob solid') + h.poly([[320, 100], [310, 118], [330, 118]], 'ob solid') +
+        h.path(env(1), 'cv') + h.path(env(-1), 'ln obj dash') + h.ball(40, 100, 3.5, '', 'ob solid') + h.ball(320, 100, 3.5, '', 'ob solid') +
+        h.note(40, 140, '節點') + h.note(320, 140, '節點') + h.note(180, 150, '腹點') +
+        h.dim(40, 170, 320, 170, 'L', 'L = 0.65 m') + h.tag(180, 30, 'n', 'n = 1（只有半個波長）') +
+        h.tag(70, 50, 'lam', 'λ_1 = ?') + h.tag(296, 50, 'f', 'f_1 = ?') + h.tag(296, 188, 'v', 'v = 286 m/s');
+    }
+  });
+  S('f14-7', {
+    cap: '救護車鳴笛 700 Hz，以 25 m/s 朝你開過來',
+    find: 'fp', given: 'f u v', val: { f: '700 Hz', u: '25 m/s', v: '343 m/s' },
+    calc: R`\find{f'} = \frac{\given{f}}{1 - \given{u}/\given{v}} = \frac{700}{1 - 25/343} = \find{755\ \text{Hz}}\ \text{（聽起來比較高）}`,
+    draw: h => [[40, 120], [70, 86], [100, 52], [130, 18]].map(([x, r]) => h.circle(x, 112, r, 'ghost')).join('') +
+      h.ground(170) + h.car(70, 170, { w: 100, mark: '＋' }) + h.arrow(176, 128, 230, 128, 'u') + h.tag(204, 110, 'u', 'u = 25 m/s') +
+      h.person(318, 170, { s: 0.95, dir: -1 }) + h.tag(312, 58, 'fp', 'f′ = ?') + h.tag(120, 30, 'f', 'f = 700 Hz（警笛）') +
+      h.tag(100, 188, 'v', 'v = 343 m/s（聲速）') + h.note(236, 160, '前方波前被擠密', 'm')
+  });
+
+  /* ---------- Ch32 ---------- */
+  S('f32-1', {
+    cap: '兩個同步發聲的喇叭（波長 1.0 m），你離兩個喇叭分別 5.0 m 和 6.5 m',
+    find: 'r m', given: 'lam', val: { lam: '1.0 m' }, xg: [[R`r_1,\ r_2`, '到兩個喇叭的距離', '5.0 m、6.5 m']],
+    calc: R`\find{\Delta r} = 6.5 - 5.0 = 1.5\ \text{m} = \left(\find{1} + \tfrac12\right)\given{\lambda} \Rightarrow \text{破壞性干涉（很安靜）}`,
+    draw: h => {
+      const P = [300, 98];
+      return h.rect(28, 38, 18, 26, 'ob solid', 3) + h.rect(28, 136, 18, 26, 'ob solid', 3) + h.note(37, 30, '喇叭 1') + h.note(37, 180, '喇叭 2') +
+        h.line(46, 51, P[0], P[1], 'given', 1) + h.line(46, 149, P[0], P[1], 'given', 1) + h.person(306, 152, { s: 1.05, dir: -1 }) +
+        h.tag(170, 58, 'given', 'r_1 = 5.0 m') + h.tag(170, 144, 'given', 'r_2 = 6.5 m') + h.tag(80, 100, 'lam', 'λ = 1.0 m') +
+        h.tag(196, 186, 'r', 'Δr = r_2 − r_1 = ? 個波長');
+    }
+  });
+  S('f32-2', {
+    cap: '雷射照雙狹縫（間距 0.075 mm），1.5 m 外的屏幕上第 3 條亮紋離中央 3.8 cm',
+    find: 'lam', given: 'd y m L', val: { d: '0.075 mm', y: '3.8 cm', m: '3', L: '1.5 m' },
+    calc: R`\find{\lambda} = \frac{\given{y}\given{d}}{\given{m}\given{L}} = \frac{(0.038)(7.5\times10^{-5})}{(3)(1.5)} = \find{6.3\times10^{-7}\ \text{m} = 633\ \text{nm}}`,
+    draw: h => {
+      let fr = ''; for (let k = -3; k <= 3; k++) fr += h.rect(316, 100 + k * 22 - 3, 9, 6, k === -3 ? 'ob findf' : 'fr');
+      return h.rect(10, 92, 40, 16, 'ob solid', 3) + h.line(50, 100, 100, 100, 'ray') + h.note(30, 84, '雷射') +
+        h.line(100, 20, 100, 92, 'obj', 0, 3) + h.line(100, 96, 100, 104, 'obj', 0, 3) + h.line(100, 108, 100, 180, 'obj', 0, 3) +
+        h.line(320, 18, 320, 182, 'obj', 0, 2) + fr + h.line(100, 100, 320, 34, 'mute', 1) + h.line(100, 100, 320, 100, 'mute', 1) +
+        h.dim(100, 186, 320, 186, 'L', 'L = 1.5 m') + h.dim(338, 100, 338, 34, 'y', 'y_3 = 3.8 cm', { a: 'e', dx: -18 }) +
+        h.tag(60, 140, 'd', 'd = 0.075 mm') + h.line(86, 140, 98, 102, 'mute', 1) + h.tag(250, 16, 'm', 'm = 3（第 3 亮紋）') + h.tag(30, 60, 'lam', 'λ = ?');
+    }
+  });
+  S('f32-3', {
+    cap: '氫原子的紅光 Hα（656.3 nm）照到每公分 6000 條刻線的光柵',
+    find: 'th', given: 'd m lam', val: { d: '1/6000 cm = 1667 nm', m: '1', lam: '656.3 nm' },
+    calc: R`\find{\theta} = \sin^{-1}\frac{\given{m}\given{\lambda}}{\given{d}} = \sin^{-1}\frac{656.3}{1667} = \find{23.2^\circ}`,
+    draw: h => {
+      let tk = ''; for (let y = 34; y <= 166; y += 6) tk += h.line(146, y, 154, y, 'obj');
+      return h.circle(30, 100, 11, 'pl sun') + h.line(42, 100, 150, 100, 'ray') + h.line(150, 30, 150, 170, 'obj', 0, 2) + tk +
+        h.line(150, 100, 330, 100, 'ray') + h.line(150, 100, 330, 100 - 180 * Math.tan(23.2 * Math.PI / 180), 'ray r') + h.line(150, 100, 330, 100 - 180 * Math.tan(16.96 * Math.PI / 180), 'ray b') +
+        h.angle(150, 100, 56, 0, 23.2, 'th', 'θ = ?', { lr: 84, am: 9 }) + h.note(334, 104, 'm = 0', 's') + h.note(334, 48, 'Hβ', 's') +
+        h.tag(282, 14, 'lam', 'λ = 656.3 nm（Hα 紅光）') + h.tag(150, 186, 'd', 'd = 1/6000 cm') + h.tag(260, 140, 'm', 'm = 1（第一級）');
+    }
+  });
+  S('f32-4', {
+    cap: '肥皂膜（n = 1.33）在 550 nm 綠光下，看起來亮的最薄厚度',
+    find: 'd', given: 'n m lam', val: { n: '1.33', m: '0（最薄）', lam: '550 nm' },
+    calc: R`2\given{n}\find{d} = \left(\given{m} + \tfrac12\right)\given{\lambda} \Rightarrow \find{d} = \frac{\lambda}{4n} = \frac{550}{4(1.33)} = \find{103\ \text{nm}}`,
+    draw: h => h.rect(10, 82, 340, 36, 'film') + h.note(330, 50, '空氣', 'm') + h.note(330, 160, '空氣', 'm') +
+      h.arrow(54, 14, 128, 80, 'obj', { w: 2 }) + h.arrow(130, 82, 200, 16, 'obj', { w: 2 }) + h.path('M130 82 L152 118 L174 82', 'ray') + h.arrow(174, 82, 244, 16, 'obj', { w: 2 }) +
+      h.dim(330, 82, 330, 118, 'd', 'd = ?', { a: 'e', dx: -12 }) + h.tag(220, 100, 'n', 'n = 1.33') + h.tag(56, 64, 'lam', 'λ = 550 nm') +
+      h.tag(110, 150, 'm', 'm = 0') + h.note(220, 150, '兩道反射光互相加強 → 看起來亮', 'm')
+  });
+  S('f32-5', {
+    cap: '633 nm 的雷射穿過 0.10 mm 寬的單狹縫，第一條暗紋在哪個角度',
+    find: 'th', given: 'a m lam', val: { a: '0.10 mm', m: '1（第一暗紋）', lam: '633 nm' },
+    calc: R`\sin\find{\theta} = \frac{\given{m}\given{\lambda}}{\given{a}} = \frac{633\times10^{-9}}{1.0\times10^{-4}} = 6.3\times10^{-3} \Rightarrow \find{\theta = 0.36^\circ}`,
+    draw: h => {
+      let d = ''; for (let y = 18; y <= 182; y += 2) { const u = (y - 100) / 50 * Math.PI, I = u === 0 ? 1 : (Math.sin(u) / u) ** 2; d += (d ? 'L' : 'M') + f1(322 + 30 * I) + ' ' + y; }
+      return h.rect(10, 92, 40, 16, 'ob solid', 3) + h.line(50, 100, 110, 100, 'ray') + h.note(30, 84, '雷射') +
+        h.line(110, 20, 110, 96, 'obj', 0, 3) + h.line(110, 104, 110, 180, 'obj', 0, 3) + h.line(320, 18, 320, 182, 'obj', 0, 2) + h.path(d, 'cv') +
+        h.line(110, 100, 320, 50, 'mute', 1) + h.line(110, 100, 320, 100, 'mute', 1) + h.ball(320, 50, 3.5, '', 'ob findf') +
+        h.angle(110, 100, 60, 0, 13.4, 'th', 'θ = ?', { lr: 90, am: 6 }) + h.tag(70, 140, 'a', 'a = 0.10 mm') + h.line(92, 134, 108, 102, 'mute', 1) +
+        h.tag(44, 60, 'lam', 'λ = 633 nm') + h.tag(250, 28, 'm', 'm = 1（第一暗紋）') + h.note(240, 186, '（角度誇大畫）', 'm');
+    }
+  });
+  S('f32-6', {
+    cap: '哈伯望遠鏡口徑 2.4 m，用 550 nm 的光，最小能分辨多小的角度',
+    find: 'th', given: 'lam D', val: { lam: '550 nm', D: '2.4 m' },
+    calc: R`\find{\theta_{\min}} = 1.22\frac{\given{\lambda}}{\given{D}} = 1.22\frac{550\times10^{-9}}{2.4} = \find{2.8\times10^{-7}\ \text{rad}}`,
+    draw: h => h.rect(10, 66, 62, 68, 'ob', 4) + h.ellipse(72, 100, 8, 34, 'ob solid') + h.note(40, 152, '望遠鏡') +
+      h.dim(90, 66, 90, 134, 'D', 'D = 2.4 m', { a: 's', dx: 6 }) +
+      h.line(72, 100, 330, 76, 'mute', 1) + h.line(72, 100, 330, 124, 'mute', 1) + h.ball(330, 76, 4, '', 'ob solid') + h.ball(330, 124, 4, '', 'ob solid') +
+      h.angle(72, 100, 150, -5.3, 5.3, 'th', 'θ_min = ?', { lr: 186, am: 0, a: 's', dx: -20 }) + h.note(300, 60, '剛好分得開的兩點') +
+      h.tag(180, 30, 'lam', 'λ = 550 nm') + h.note(250, 186, '（角度誇大畫）', 'm')
+  });
+})();
+
+/* ===== 情境圖：第三次段考 Ch15–19 ===== */
+(function () {
+  const S = (id, o) => { SCENES[id] = o; };
+  // 汽缸：外框 x..x+w、y..y+hh，活塞在 py；gas 是否畫分子
+  const cyl = (h, x, y, w, hh, py, o) => {
+    o = o || {};
+    return h.tank(x, y, w, hh) + h.dots(x + 2, py + 10, w - 4, y + hh - py - 12, o.n || 16, { seed: o.seed || 5 }) +
+      h.rect(x + 2, py, w - 4, 10, 'ob solid', 2) + h.line(x + w / 2, py, x + w / 2, o.rod == null ? py - 34 : o.rod, 'obj', 0, 4);
+  };
+  // 熱機／冷凍機示意：高溫熱庫、裝置、低溫熱庫
+  const engine = (h, label, hot, cold) => h.rect(70, 8, 220, 36, 'hot-f', 8) + h.rect(70, 158, 220, 36, 'cold-f', 8) +
+    h.circle(180, 100, 27, 'ob solid') + h.label(180, 104, label) + hot + cold;
+
+  /* ---------- Ch15 ---------- */
+  S('f15-1', {
+    cap: '60 kg 的人走路時，全身重量一度只壓在面積 1.0 cm² 的鞋跟上',
+    find: 'p', given: 'F A', val: { F: 'mg = 588 N', A: '1.0 cm² = 1.0×10⁻⁴ m²' },
+    calc: R`\find{p} = \frac{\given{F}}{\given{A}} = \frac{(60)(9.8)}{1.0\times10^{-4}} = \find{5.9\times10^{6}\ \text{Pa}}\ \text{（約 58 atm）}`,
+    draw: h => h.ground(170) + h.path('M106 92 L130 92 Q172 108 216 146 L262 150 Q280 156 272 168 L214 168 Q172 142 132 124 L132 170 L120 170 L120 124 Q104 112 106 92 Z', 'ob') +
+      h.rect(118, 165, 16, 5, 'ob givenf') + h.arrow(126, 24, 126, 86, 'F', { w: 3 }) + h.tag(190, 40, 'F', 'F = mg = 588 N') +
+      h.tag(70, 186, 'A', 'A = 1.0 cm²') + h.line(100, 182, 118, 170, 'mute', 1) + h.tag(176, 186, 'p', 'p = ?（鞋跟下的壓力）')
+  });
+  S('f15-2', {
+    cap: '潛水時，水深多少壓力會變成水面的兩倍（2 atm）',
+    find: 'h', given: 'p p0 rho g', val: { p: '2 atm = 200 kPa', p0: '1 atm = 100 kPa', rho: '1000 kg/m³', g: '9.8 m/s²' },
+    calc: R`\find{h} = \frac{\given{p} - \given{p_0}}{\given{\rho}\given{g}} = \frac{(200 - 100)\times10^{3}}{(1000)(9.8)} = \find{10\ \text{m}}`,
+    draw: h => h.water(0, 40, 360, 160) + h.person(220, 192, { s: 0.95, pose: 'up' }) +
+      h.dim(300, 40, 300, 150, 'h', 'h = ?', { a: 'e', dx: -10 }) + h.line(220, 150, 300, 150, 'mute', 1) +
+      h.tag(90, 22, 'p0', 'p_0 = 1 atm（水面）') + h.tag(150, 150, 'p', 'p = 2 atm', 'e') +
+      h.tag(80, 80, 'rho', 'ρ = 1000 kg/m³') + h.tag(80, 106, 'g', 'g = 9.8 m/s²')
+  });
+  S('f15-3', {
+    cap: '液壓機：大活塞（直徑 120 cm）上放 3200 kg 的車，小活塞直徑 15 cm',
+    find: 'F1', given: 'F2 A1 A2', val: { F2: '3200 × 9.8 = 3.1×10⁴ N', A1: '直徑 15 cm', A2: '直徑 120 cm' },
+    calc: R`\find{F_1} = \given{F_2}\frac{\given{A_1}}{\given{A_2}} = (3.14\times10^{4})\left(\frac{15}{120}\right)^2 = \find{490\ \text{N}}`,
+    draw: h => `<path class="wt" d="M42 104 L68 104 L68 160 L172 160 L172 114 L328 114 L328 178 L42 178 Z"/>` +
+      h.path('M40 50 L40 180 L330 180 L330 70 M70 50 L70 158 L170 158 L170 70', 'tk') +
+      h.rect(42, 96, 26, 8, 'ob solid', 2) + h.rect(172, 106, 156, 8, 'ob solid', 2) + h.car(196, 106, { w: 108 }) +
+      h.arrow(55, 26, 55, 92, 'F1', { w: 3 }) + h.tag(100, 36, 'F1', 'F_1 = ?', 's') + h.tag(250, 30, 'F2', 'F_2 = 3200 kg × g') +
+      h.tag(120, 134, 'A1', 'A_1：直徑 15 cm') + h.tag(250, 148, 'A2', 'A_2：直徑 120 cm')
+  });
+  S('f15-4', {
+    cap: '冰山浮在海上，冰的密度是海水的 0.86 倍，有多少比例在水面下',
+    find: 'V', given: 'rho Fb', val: { rho: '海水；冰是它的 0.86 倍', Fb: '= 冰山的重量（浮著）' },
+    calc: R`\given{\rho_{f}}\find{V_{sub}}g = \rho_{冰}Vg \Rightarrow \frac{\find{V_{sub}}}{V} = \frac{\rho_{冰}}{\rho_f} = \find{0.86}\ \text{（86\% 在水面下）}`,
+    draw: h => h.water(0, 70, 360, 130) +
+      h.poly([[150, 70], [222, 70], [252, 110], [240, 160], [200, 186], [148, 176], [118, 130], [130, 92]], 'ob findf') +
+      h.poly([[150, 70], [166, 44], [190, 34], [210, 48], [222, 70]], 'ob') +
+      h.arrow(186, 160, 186, 96, 'Fb', { w: 3 }) + h.tag(296, 128, 'Fb', 'F_b = 冰山重量') + h.line(254, 128, 192, 128, 'mute', 1) +
+      h.tag(62, 150, 'V', 'V_sub / V = ?') + h.tag(286, 30, 'rho', 'ρ_冰 = 0.86 ρ_海水') + h.note(70, 64, '水面', 'm')
+  });
+  S('f15-5', {
+    cap: '水管出口用手指壓小，水噴得更快',
+    find: 'v2', given: 'A1 v1 A2', val: { A1: '2.0 cm²', v1: '1.5 m/s', A2: '0.50 cm²' },
+    calc: R`\find{v_2} = \frac{\given{A_1}\given{v_1}}{\given{A_2}} = \frac{(2.0)(1.5)}{0.50} = \find{6.0\ \text{m/s}}`,
+    draw: h => `<path class="wt" d="M20 60 L160 60 L210 85 L340 85 L340 115 L210 115 L160 140 L20 140 Z"/>` +
+      h.path('M20 60 L160 60 L210 85 L340 85 M20 140 L160 140 L210 115 L340 115', 'tk') +
+      h.arrow(40, 100, 96, 100, 'v1') + h.tag(70, 80, 'v1', 'v_1 = 1.5 m/s') + h.arrow(222, 100, 322, 100, 'v2', { w: 3 }) + h.tag(272, 66, 'v2', 'v_2 = ?') +
+      h.dim(140, 60, 140, 140, 'A1', 'A_1 = 2.0 cm²', { dy: 58, dx: -36 }) + h.dim(330, 85, 330, 115, 'A2', 'A_2 = 0.50 cm²', { dy: 56, dx: -30 })
+  });
+  S('f15-6', {
+    cap: '水平水管變窄：寬處壓力 150 kPa、流速 2.0 m/s，窄處流速 6.0 m/s',
+    find: '', given: 'rho v', val: { rho: '1000 kg/m³', v: '2.0 m/s → 6.0 m/s' }, xf: [[R`p_2`, '窄處的壓力']], xg: [[R`p_1`, '寬處的壓力', '150 kPa'], [R`y`, '水管水平，高度一樣', '']],
+    calc: R`\find{p_2} = \given{p_1} - \tfrac12\given{\rho}(\given{v_2}^2 - \given{v_1}^2) = 150{,}000 - \tfrac12(1000)(6.0^2 - 2.0^2) = \find{134\ \text{kPa}}`,
+    draw: h => `<path class="wt" d="M20 110 L150 110 L200 128 L340 128 L340 152 L200 152 L150 170 L20 170 Z M84 40 L96 40 L96 110 L84 110 Z M264 86 L276 86 L276 128 L264 128 Z"/>` +
+      h.path('M20 110 L84 110 L84 20 M96 20 L96 110 L150 110 L200 128 L264 128 L264 20 M276 20 L276 128 L340 128 M20 170 L150 170 L200 152 L340 152', 'tk') +
+      h.line(78, 40, 102, 40, 'wts') + h.line(258, 86, 282, 86, 'wts') +
+      h.arrow(30, 146, 74, 146, 'v') + h.tag(56, 188, 'v', 'v_1 = 2.0 m/s') + h.arrow(214, 140, 300, 140, 'v', { w: 3 }) + h.tag(256, 188, 'v', 'v_2 = 6.0 m/s') +
+      h.tag(150, 40, 'given', 'p_1 = 150 kPa', 's') + h.tag(290, 86, 'find', 'p_2 = ?', 's') + h.tag(180, 70, 'rho', 'ρ = 1000 kg/m³') +
+      h.note(180, 100, '管子裡水柱越低 → 壓力越小')
+  });
+  S('f15-7', {
+    cap: '大水塔裡的水面比底部小孔高 1.8 m，水從小孔噴出的速率',
+    find: 'v', given: 'g h', val: { g: '9.8 m/s²', h: '1.8 m' },
+    calc: R`\find{v} = \sqrt{2\given{g}\given{h}} = \sqrt{2(9.8)(1.8)} = \find{5.9\ \text{m/s}}`,
+    draw: h => h.ground(190) + h.water(62, 50, 116, 128) + h.tank(60, 30, 120, 150) + h.rect(178, 156, 4, 8, 'ob solid') +
+      h.path('M182 160 Q252 160 304 190', 'ln cold') + h.path('M182 162 Q248 164 296 190', 'ln cold') +
+      h.arrow(186, 150, 238, 150, 'v', { w: 3 }) + h.tag(212, 130, 'v', 'v = ?') +
+      h.dim(44, 50, 44, 160, 'h', 'h = 1.8 m') + h.line(44, 160, 178, 160, 'mute', 1) + h.tag(290, 60, 'g', 'g = 9.8 m/s²') + h.note(120, 44, '水面', 'm')
+  });
+
+  /* ---------- Ch16 ---------- */
+  S('f16-1', {
+    cap: '人的體溫 37 °C，換成克氏溫度和華氏溫度',
+    find: 'TK TF', given: 'TC', val: { TC: '37 °C' },
+    calc: R`\find{T_K} = \given{37} + 273.15 = \find{310\ \text{K}},\quad \find{T_F} = \tfrac95(\given{37}) + 32 = \find{98.6\ ^\circ\text{F}}`,
+    draw: h => h.therm(180, 20, 140, 0.389) + h.line(170, 150, 190, 150, 'obj') + h.line(170, 30, 190, 30, 'obj') +
+      h.note(164, 154, '0 °C', 'e') + h.note(164, 34, '100 °C', 'e') + h.note(196, 154, '273 K', 's') + h.note(196, 34, '373 K', 's') +
+      h.line(40, 105.6, 330, 105.6, 'mute', 1) + h.tag(110, 105.6, 'TC', 'T_C = 37 °C') + h.tag(244, 105.6, 'TK', 'T_K = ?') + h.tag(310, 105.6, 'TF', 'T_F = ?')
+  });
+  S('f16-2', {
+    cap: '熱水器裡 150 kg 的水從 18 °C 加熱到 50 °C',
+    find: 'Q', given: 'm c T', val: { m: '150 kg', c: '4184 J/(kg·K)（水）', T: '50 − 18 = 32 K' },
+    calc: R`\find{Q} = \given{m}\given{c}\given{\Delta T} = (150)(4184)(32) = \find{2.0\times10^{7}\ \text{J}}\ \text{（5.0 kW 要約 67 分鐘）}`,
+    draw: h => h.rect(110, 26, 110, 158, 'ob', 14) + h.water(116, 40, 98, 138) + h.spring(128, 168, 202, 168, { n: 6, amp: 5, lead: 0, k: 'hot' }) +
+      h.heat(140, 160, 140, 116, 'Q') + h.heat(165, 160, 165, 116, 'Q') + h.heat(190, 160, 190, 116, 'Q') +
+      h.tag(165, 70, 'm', 'm = 150 kg') + h.tag(56, 136, 'Q', 'Q = ?') + h.therm(270, 46, 110, 0.75) +
+      h.tag(300, 26, 'T', 'ΔT = 50 − 18 = 32 K') + h.tag(296, 188, 'c', 'c = 4184 J/(kg·K)')
+  });
+  S('f16-3', {
+    cap: '1.5 kg、180 °C 的鋁鍋丟進 8.0 kg、20 °C 的水裡，最後一樣熱時幾度',
+    find: 'T', given: 'm1 c1 T1 m2 c2 T2', val: { m1: '1.5 kg', c1: '900', T1: '180 °C', m2: '8.0 kg', c2: '4184', T2: '20 °C' },
+    calc: R`\find{T} = \frac{(\given{1.5})(\given{900})(\given{180}) + (\given{8.0})(\given{4184})(\given{20})}{(1.5)(900) + (8.0)(4184)} = \find{26\ ^\circ\text{C}}`,
+    draw: h => h.water(122, 106, 196, 72) + h.tank(120, 86, 200, 94) + h.rect(130, 34, 54, 30, 'hot-f', 4) + h.line(184, 40, 214, 34, 'obj', 0, 3) +
+      h.arrow(160, 68, 176, 102, 'mute', { dash: 1, hl: 8 }) + h.note(157, 54, '鋁鍋') +
+      h.tag(60, 30, 'm1', 'm_1 = 1.5 kg') + h.tag(60, 56, 'T1', 'T_1 = 180 °C') +
+      h.tag(250, 130, 'm2', 'm_2 = 8.0 kg') + h.tag(250, 156, 'T2', 'T_2 = 20 °C') + h.tag(270, 54, 'T', 'T = ?（最後的溫度）')
+  });
+  S('f16-4', {
+    cap: '湖面 1.5 km²、深 8.0 m，表面 30 °C、湖底 4.0 °C，熱往下傳的速率',
+    find: 'H', given: 'k A T', val: { k: '0.61 W/(m·K)', A: '1.5 km²', T: '(30 − 4.0) ÷ 8.0 m' },
+    calc: R`\find{H} = \given{k}\given{A}\frac{\given{\Delta T}}{\Delta x} = (0.61)(1.5\times10^{6})\left(\frac{26}{8.0}\right) = \find{3.0\times10^{6}\ \text{W}}`,
+    draw: h => `<defs><linearGradient id="scnLake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF9F5A" stop-opacity=".4"/><stop offset="1" stop-color="#3D7BFF" stop-opacity=".4"/></linearGradient></defs><rect x="20" y="44" width="300" height="118" fill="url(#scnLake)"/>` +
+      h.line(20, 44, 320, 44, 'wts') + h.ground(162, 20, 320) +
+      h.heat(100, 52, 100, 150, 'H') + h.heat(180, 52, 180, 150, 'H') + h.heat(260, 52, 260, 150, 'H') + h.tag(140, 100, 'H', 'H = ?') +
+      h.tag(250, 26, 'T', 'T = 30 °C（湖面）') + h.tag(250, 182, 'T', 'T = 4.0 °C（湖底）') +
+      h.dim(338, 44, 338, 162, 'given', 'Δx = 8.0 m', { a: 'e', dx: -8 }) + h.tag(90, 26, 'A', 'A = 1.5 km²') + h.tag(90, 186, 'k', 'k = 0.61 W/(m·K)')
+  });
+  S('f16-5', {
+    cap: '20 m² 的外牆貼了 R = 3.0 的隔熱層，室內 22 °C、室外 2 °C',
+    find: 'H', given: 'A T R', val: { A: '20 m²', T: '22 − 2 = 20 K', R: '3.0 m²·K/W' },
+    calc: R`\find{H} = \frac{\given{A}\given{\Delta T}}{\given{R}} = \frac{(20)(20)}{3.0} = \find{1.3\times10^{2}\ \text{W}}`,
+    draw: h => {
+      let hatch = ''; for (let y = 28; y < 176; y += 12) hatch += h.line(162, y + 8, 208, y - 4, 'mute');
+      return h.rect(12, 20, 148, 160, 'hot-f', 6) + h.rect(210, 20, 138, 160, 'cold-f', 6) + h.rect(160, 20, 50, 160, 'ins') + hatch +
+        h.heat(110, 70, 260, 70, 'H') + h.heat(110, 110, 260, 110, 'H') + h.heat(110, 150, 260, 150, 'H') +
+        h.tag(70, 40, 'given', '室內 22 °C') + h.tag(290, 40, 'given', '室外 2 °C') + h.tag(185, 196 - 8, 'T', 'ΔT = 20 K') +
+        h.tag(70, 130, 'A', 'A = 20 m²') + h.tag(185, 36, 'R', 'R = 3.0') + h.tag(296, 130, 'H', 'H = ?');
+    }
+  });
+  S('f16-6', {
+    cap: '把太陽當成黑體：輻射功率 3.9×10²⁶ W、半徑 7.0×10⁸ m，表面溫度多高',
+    find: 'T', given: 'P e sig A', val: { P: '3.9×10²⁶ W', e: '1（黑體）', sig: '5.67×10⁻⁸ W/(m²·K⁴)', A: '4πR² = 6.2×10¹⁸ m²' },
+    calc: R`\find{T} = \left(\frac{\given{P}}{\given{e}\given{\sigma}\given{A}}\right)^{1/4} = \left(\frac{3.9\times10^{26}}{(1)(5.67\times10^{-8})(6.2\times10^{18})}\right)^{1/4} = \find{5.8\times10^{3}\ \text{K}}`,
+    draw: h => [-50, -25, 0, 25, 50].map(a => { const c = Math.cos(a * Math.PI / 180), s = Math.sin(a * Math.PI / 180); return h.heat(110 + 80 * c, 100 - 80 * s, 110 + 124 * c, 100 - 124 * s, 'hot'); }).join('') +
+      h.circle(110, 100, 70, 'pl sun') + h.dim(110, 100, 40, 100, 'A', 'R = 7.0×10⁸ m', { dy: -16 }) + h.tag(110, 136, 'T', 'T = ?') +
+      h.tag(286, 30, 'P', 'P = 3.9×10²⁶ W') + h.tag(290, 160, 'e', 'e = 1（黑體）') + h.tag(270, 186, 'sig', 'σ = 5.67×10⁻⁸')
+  });
+
+  /* ---------- Ch17 ---------- */
+  S('f17-1', {
+    cap: '1.00 mol 的理想氣體在 0 °C、1 atm 下佔多大體積',
+    find: 'V', given: 'p n R T', val: { p: '1 atm = 1.013×10⁵ Pa', n: '1.00 mol', R: '8.314 J/(mol·K)', T: '273 K' },
+    calc: R`\find{V} = \frac{\given{n}\given{R}\given{T}}{\given{p}} = \frac{(1.00)(8.314)(273)}{1.013\times10^{5}} = \find{2.24\times10^{-2}\ \text{m}^3 = 22.4\ \text{L}}`,
+    draw: h => cyl(h, 120, 30, 120, 150, 64, { n: 22 }) + h.circle(84, 118, 14, 'ob') + h.line(84, 118, 92, 108, 'obj', 0, 2) + h.line(98, 118, 120, 118, 'obj', 0, 3) +
+      h.dim(256, 74, 256, 180, 'V', 'V = ?', { a: 's', dx: 6 }) + h.tag(70, 88, 'p', 'p = 1 atm') + h.tag(180, 128, 'n', 'n = 1.00 mol') +
+      h.therm(310, 40, 80, 0.4) + h.tag(310, 150, 'T', 'T = 273 K') + h.tag(120, 194 - 6, 'R', 'R = 8.314 J/(mol·K)')
+  });
+  S('f17-2', {
+    cap: '室溫 300 K 的空氣裡，一個分子平均有多少平移動能',
+    find: 'K', given: 'k T', val: { k: '1.38×10⁻²³ J/K', T: '300 K' },
+    calc: R`\find{\overline K} = \tfrac32\given{k}\given{T} = \tfrac32(1.38\times10^{-23})(300) = \find{6.2\times10^{-21}\ \text{J}}`,
+    draw: h => {
+      const ms = [[60, 70, 18, -6], [110, 150, -14, -10], [150, 80, 16, 10], [210, 130, 12, -14], [240, 60, -16, 6], [90, 112, -10, 14], [190, 170, 16, 4], [230, 104, -6, -16], [130, 50, 10, 12]];
+      return h.tank(30, 30, 240, 156) + h.line(30, 30, 270, 30, 'obj', 0, 2.4) +
+        ms.map(([x, y, dx, dy]) => h.circle(x, y, 3.2, 'mol') + h.arrow(x, y, x + dx, y + dy, 'mute', { hl: 5, hw: 3, w: 1.4 })).join('') +
+        h.circle(170, 120, 4.5, 'mol hl') + h.arrow(172, 118, 206, 96, 'find', { hl: 7 }) + h.tag(214, 80, 'K', 'K̄ = ?（每個分子平均）') +
+        h.therm(316, 40, 90, 0.5) + h.tag(316, 160, 'T', 'T = 300 K') + h.tag(150, 194 - 6, 'k', 'k = 1.38×10⁻²³ J/K');
+    }
+  });
+  S('f17-3', {
+    cap: '20 °C 的空氣裡，氮分子（N₂，28 u）的方均根速率',
+    find: 'v', given: 'k T m', val: { k: '1.38×10⁻²³ J/K', T: '293 K', m: '28 u = 4.65×10⁻²⁶ kg' },
+    calc: R`\find{v_{rms}} = \sqrt{\frac{3\given{k}\given{T}}{\given{m}}} = \sqrt{\frac{3(1.38\times10^{-23})(293)}{4.65\times10^{-26}}} = \find{511\ \text{m/s}}`,
+    draw: h => {
+      const ms = [[60, 70, 20], [110, 150, -30], [150, 80, 50], [210, 130, 10], [240, 60, -40], [90, 112, 70], [190, 170, -10], [130, 48, 30]];
+      const n2 = (x, y, a, cls) => { const c = Math.cos(a * Math.PI / 180) * 4, s = Math.sin(a * Math.PI / 180) * 4; return h.line(x - c, y - s, x + c, y + s, 'obj', 0, 2) + h.circle(x - c, y - s, 3.4, cls) + h.circle(x + c, y + s, 3.4, cls); };
+      return h.tank(30, 30, 240, 156) + h.line(30, 30, 270, 30, 'obj', 0, 2.4) + ms.map(([x, y, a]) => n2(x, y, a, 'mol')).join('') +
+        n2(170, 116, 20, 'mol hl') + h.arrow(180, 112, 230, 86, 'v', { w: 3 }) + h.tag(214, 66, 'v', 'v_rms = ?') +
+        h.therm(316, 40, 90, 0.5) + h.tag(316, 160, 'T', 'T = 293 K') + h.tag(150, 188, 'm', 'm = 4.65×10⁻²⁶ kg（一個 N₂）');
+    }
+  });
+  S('f17-4', {
+    cap: '把 2.0 kg、0 °C 的冰全部融成 0 °C 的水',
+    find: 'Q', given: 'L m', val: { L: '334 kJ/kg（冰的熔化熱）', m: '2.0 kg' },
+    calc: R`\find{Q} = \given{L}\given{m} = (334\ \text{kJ/kg})(2.0\ \text{kg}) = \find{6.7\times10^{5}\ \text{J}}`,
+    draw: h => h.rect(90, 140, 160, 10, 'ob solid', 3) + h.flame(170, 186, 1.2) + h.rect(130, 92, 64, 48, 'cold-f', 6) + h.ellipse(214, 138, 26, 4, 'cold-f') +
+      h.heat(60, 112, 124, 112, 'Q') + h.heat(280, 112, 202, 112, 'Q') + h.heat(140, 172, 140, 152, 'Q') + h.heat(200, 172, 200, 152, 'Q') +
+      h.tag(162, 72, 'm', 'm = 2.0 kg') + h.tag(56, 86, 'Q', 'Q = ?') + h.tag(250, 30, 'L', 'L = 334 kJ/kg（冰的熔化熱）') + h.note(300, 150, '溫度一直是 0 °C', 'm')
+  });
+  S('f17-5', {
+    cap: '200 m 長的鋼橋，從冬天到夏天溫度升高 40 K，會變長多少',
+    find: 'L', given: 'al T', val: { al: '12×10⁻⁶ /K（鋼）', T: '40 K' }, xg: [[R`L`, '橋原本的長度', '200 m']],
+    calc: R`\find{\Delta L} = \given{\alpha}L\given{\Delta T} = (12\times10^{-6})(200)(40) = \find{0.096\ \text{m} \approx 9.6\ \text{cm}}`,
+    draw: h => h.water(0, 170, 360, 30) + h.rect(20, 90, 240, 14, 'ob solid', 2) + h.rect(278, 90, 80, 14, 'ob solid', 2) + h.rect(260, 90, 13, 14, 'ob findf', 1) +
+      h.line(60, 104, 60, 172, 'obj', 0, 5) + h.line(220, 104, 220, 172, 'obj', 0, 5) + h.line(320, 104, 320, 172, 'obj', 0, 5) +
+      h.tag(266, 58, 'L', 'ΔL = ?') + h.line(266, 68, 266, 88, 'find', 1) + h.note(296, 82, '伸縮縫', 's') +
+      h.dim(20, 128, 260, 128, 'given', 'L = 200 m') + h.circle(40, 40, 11, 'pl sun') + h.tag(120, 40, 'T', 'ΔT = 40 K（冬 → 夏）') + h.tag(140, 152, 'al', 'α = 12×10⁻⁶ /K（鋼）')
+  });
+  S('f17-6', {
+    cap: '鋼桶在 10 °C 時裝滿 20 L 汽油，升溫到 25 °C 會溢出',
+    find: 'V', given: 'be T', val: { be: '950×10⁻⁶ /K（汽油）', T: '15 K' }, xg: [[R`V`, '汽油原本的體積', '20 L']],
+    calc: R`\find{\Delta V} = \given{\beta}V\given{\Delta T} = (950\times10^{-6})(20\ \text{L})(15) = \find{0.29\ \text{L}}`,
+    draw: h => h.rect(110, 50, 100, 130, 'ob', 8) + h.rect(115, 52, 90, 124, 'hot-f', 4) + h.path('M205 52 Q222 52 222 66 L222 90', 'ln hot') +
+      h.ellipse(222, 100, 3, 5, 'hot-f') + h.ellipse(222, 120, 3, 5, 'hot-f') + h.ellipse(232, 176, 18, 4, 'hot-f') +
+      h.tag(160, 120, 'given', 'V = 20 L') + h.tag(290, 76, 'V', 'ΔV = ?（溢出）') + h.tag(160, 26, 'be', 'β = 950×10⁻⁶ /K') + h.tag(290, 150, 'T', 'ΔT = 15 K') + h.note(180, 196, '（鋼桶自己也會脹大一點，實際溢出約 0.27 L）')
+  });
+
+  /* ---------- Ch18 ---------- */
+  S('f18-1', {
+    cap: '汽缸裡的氣體吸收 500 J 的熱，同時推動活塞對外做了 200 J 的功',
+    find: 'E', given: 'Q W', val: { Q: '500 J（吸熱）', W: '200 J（對外做功）' },
+    calc: R`\find{\Delta E_{int}} = \given{Q} - \given{W} = 500 - 200 = \find{300\ \text{J}}`,
+    draw: h => cyl(h, 130, 36, 100, 134, 70, { rod: 24 }) + h.flame(180, 196, 0.9) +
+      h.heat(156, 194, 156, 174, 'Q') + h.heat(204, 194, 204, 174, 'Q') + h.tag(84, 180, 'Q', 'Q = 500 J') +
+      h.arrow(246, 74, 246, 28, 'W', { w: 3 }) + h.tag(300, 50, 'W', 'W = 200 J') + h.tag(180, 124, 'E', 'ΔE_int = ?')
+  });
+  S('f18-2', {
+    cap: '氣體膨脹時壓力從 300 kPa 降到 100 kPa（p–V 圖上是一條直線），體積從 1.0 L 變 3.0 L',
+    find: 'W', given: 'V1 V2 p', val: { V1: '1.0 L', V2: '3.0 L', p: '300 → 100 kPa' },
+    calc: R`\find{W} = \int_{\given{V_1}}^{\given{V_2}}\given{p}\,dV = \text{面積} = \tfrac12(300 + 100)\,\text{kPa}\times 2.0\ \text{L} = \find{400\ \text{J}}`,
+    draw: h => {
+      const B = { x0: 50, y0: 170, w: 270, hh: 140, xr: [0, 4], yr: [0, 350] }, f = v => 300 - (v - 1) * 100;
+      return h.axes(B, 'V（L）', 'p（kPa）') + h.plot(f, B, { area: 'W', from: 1, to: 3 }) + h.plot(f, B, { from: 1, to: 3, k: 'p', cls: 'cv' }) +
+        h.ball(h.X(B, 1), h.Y(B, 300), 4, '', 'ob solid') + h.ball(h.X(B, 3), h.Y(B, 100), 4, '', 'ob solid') +
+        h.tag(h.X(B, 1), 188, 'V1', 'V_1 = 1.0') + h.tag(h.X(B, 3), 188, 'V2', 'V_2 = 3.0') +
+        h.tag(h.X(B, 2), h.Y(B, 70), 'W', 'W = 面積 = ?') + h.tag(h.X(B, 2.6), h.Y(B, 270), 'p', 'p：300 → 100 kPa');
+    }
+  });
+  S('f18-3', {
+    cap: '活塞上壓著固定重物，氣體在 1.0 atm 下從 1.0 L 膨脹到 3.0 L',
+    find: 'W', given: 'p V', val: { p: '1.0 atm = 1.013×10⁵ Pa', V: '3.0 − 1.0 = 2.0 L' },
+    calc: R`\find{W} = \given{p}\,\given{\Delta V} = (1.013\times10^{5})(2.0\times10^{-3}) = \find{203\ \text{J}}`,
+    draw: h => cyl(h, 130, 30, 100, 140, 70, { rod: 70 }) + h.rect(150, 50, 60, 20, 'ob', 3) + h.label(180, 64, '重物') + h.rect(132, 128, 96, 10, 'ghost') +
+      h.flame(180, 196, 0.9) + h.arrow(246, 128, 246, 76, 'W', { w: 3 }) + h.tag(296, 100, 'W', 'W = ?') +
+      h.note(120, 136, '原來（1.0 L）', 'e') + h.note(120, 78, '現在（3.0 L）', 'e') + h.tag(290, 34, 'p', 'p = 1.0 atm（固定）') + h.tag(290, 160, 'V', 'ΔV = 2.0 L')
+  });
+  S('f18-4', {
+    cap: '1.0 mol 氣體泡在 300 K 的恆溫水裡，從 10 L 慢慢膨脹到 20 L',
+    find: 'W', given: 'n R T V1 V2', val: { n: '1.0 mol', R: '8.314 J/(mol·K)', T: '300 K（固定）', V1: '10 L', V2: '20 L' },
+    calc: R`\find{W} = \given{n}\given{R}\given{T}\ln\frac{\given{V_2}}{\given{V_1}} = (1.0)(8.314)(300)\ln 2 = \find{1.7\times10^{3}\ \text{J}}`,
+    draw: h => h.water(92, 80, 176, 108) + h.tank(90, 70, 180, 120) + cyl(h, 140, 20, 80, 166, 50, { rod: 14, n: 16 }) + h.rect(142, 118, 76, 10, 'ghost') +
+      h.arrow(236, 66, 236, 26, 'W', { w: 3 }) + h.tag(286, 40, 'W', 'W = ?') + h.tag(58, 52, 'V2', 'V_2 = 20 L') + h.tag(58, 122, 'V1', 'V_1 = 10 L') +
+      h.tag(180, 150, 'n', 'n = 1.0 mol') + h.tag(306, 120, 'T', 'T = 300 K') + h.heat(110, 160, 138, 160, 'obj') + h.heat(250, 160, 222, 160, 'obj') + h.note(306, 142, '（水溫不變）') + h.tag(300, 186, 'R', 'R = 8.314')
+  });
+  S('f18-5', {
+    cap: '密閉鋼瓶裡 1.0 mol 的氦氣加熱升溫 50 K（體積不變）',
+    find: 'Q', given: 'n CV T W', val: { n: '1.0 mol', CV: '12.5 J/(mol·K)', T: '50 K', W: '0（體積不變）' },
+    calc: R`\given{W} = 0,\quad \find{Q} = \given{n}\given{C_V}\given{\Delta T} = (1.0)(12.5)(50) = \find{625\ \text{J}}`,
+    draw: h => h.rect(110, 46, 140, 112, 'ob', 10) + h.rect(118, 54, 124, 96, 'ghost') + h.dots(122, 58, 116, 88, 16, { seed: 3 }) +
+      [[120, 56], [240, 56], [120, 148], [240, 148]].map(([x, y]) => h.circle(x, y, 3, 'ob solid')).join('') + h.flame(180, 198, 0.9) +
+      h.heat(160, 192, 160, 164, 'Q') + h.heat(200, 192, 200, 164, 'Q') + h.tag(84, 180, 'Q', 'Q = ?') + h.tag(180, 104, 'n', 'n = 1.0 mol') +
+      h.tag(305, 50, 'CV', 'C_V = 12.5') + h.tag(305, 80, 'T', 'ΔT = 50 K') + h.tag(305, 110, 'W', 'W = 0')
+  });
+  S('f18-6', {
+    cap: '柴油引擎很快把空氣壓縮成原來的 1/15，來不及散熱（絕熱）',
+    find: 'T', given: 'g V', val: { g: '1.4（空氣）', V: 'V₁ / V₂ = 15' }, xg: [[R`T_1`, '壓縮前的溫度', '300 K']],
+    calc: R`\find{T_2} = T_1\left(\frac{\given{V_1}}{\given{V_2}}\right)^{\given{\gamma} - 1} = (300)(15)^{0.4} = \find{886\ \text{K}}`,
+    draw: h => h.rect(112, 30, 12, 152, 'ins') + h.rect(236, 30, 12, 152, 'ins') + h.line(124, 182, 236, 182, 'obj', 0, 2.4) + h.rect(126, 40, 108, 10, 'ghost') +
+      h.dots(126, 160, 108, 22, 14, { seed: 9 }) + h.rect(126, 150, 108, 10, 'ob solid', 2) + h.line(180, 150, 180, 100, 'obj', 0, 4) + h.arrow(200, 96, 200, 140, 'obj') +
+      h.note(108, 48, 'V₁', 'e') + h.note(108, 172, 'V₂', 'e') + h.tag(300, 40, 'V', 'V_1 / V_2 = 15') + h.tag(300, 70, 'g', 'γ = 1.4') + h.tag(300, 100, 'given', 'T_1 = 300 K') +
+      h.tag(300, 168, 'T', 'T_2 = ?') + h.line(258, 168, 236, 170, 'mute', 1) + h.note(180, 20, '隔熱：Q = 0，壓完溫度高到柴油自己會點燃')
+  });
+  S('f18-7', {
+    cap: '單原子氣體升溫 1 K：體積固定時只要升溫；壓力固定時還要推活塞做功',
+    find: 'CP g', given: 'CV R', val: { CV: '12.5 J/(mol·K)（3R/2）', R: '8.3 J/(mol·K)' },
+    calc: R`\find{C_P} = \given{C_V} + \given{R} = 12.5 + 8.3 = \find{20.8\ \text{J/(mol·K)}},\quad \find{\gamma} = \frac{C_P}{C_V} = \frac53 \approx \find{1.67}`,
+    draw: h => h.rect(30, 70, 110, 90, 'ob', 8) + h.dots(36, 76, 98, 78, 12, { seed: 4 }) + h.flame(85, 196, 0.8) +
+      cyl(h, 220, 40, 110, 120, 80, { rod: 50, n: 12 }) + h.flame(275, 196, 0.8) + h.arrow(342, 92, 342, 52, 'R') +
+      h.tag(85, 46, 'CV', 'C_V = 12.5（體積固定）') + h.tag(270, 22, 'CP', 'C_P = ?（壓力固定）') + h.tag(296, 140, 'R', '多做的功 → R', 'e') + h.tag(180, 112, 'g', 'γ = ?')
+  });
+
+  /* ---------- Ch19 ---------- */
+  S('f19-1', {
+    cap: '熱機每個循環從高溫處吸熱 2000 J，排給低溫處 1500 J',
+    find: 'e', given: 'Qh Qc', val: { Qh: '2000 J', Qc: '1500 J' }, xg: [[R`W`, '每循環做的功', '2000 − 1500 = 500 J']],
+    calc: R`\find{e} = \frac{W}{\given{Q_h}} = 1 - \frac{\given{Q_c}}{\given{Q_h}} = 1 - \frac{1500}{2000} = \find{0.25 = 25\%}`,
+    draw: h => engine(h, '熱機', h.label(180, 30, '高溫熱庫'), h.label(180, 180, '低溫熱庫')) +
+      h.arrow(180, 46, 180, 70, 'Qh', { w: 4 }) + h.arrow(180, 128, 180, 156, 'Qc', { w: 3 }) + h.arrow(208, 100, 270, 100, 'obj', { w: 3 }) +
+      h.tag(194, 58, 'Qh', 'Q_h = 2000 J', 's') + h.tag(194, 142, 'Qc', 'Q_c = 1500 J', 's') + h.tag(312, 100, 'given', 'W = 500 J') + h.tag(84, 100, 'e', 'e = ?')
+  });
+  S('f19-2', {
+    cap: '發電廠的蒸汽 800 K、冷卻水 300 K，效率最高能到多少',
+    find: 'e', given: 'Tc Th', val: { Tc: '300 K', Th: '800 K' },
+    calc: R`\find{e_{\max}} = 1 - \frac{\given{T_c}}{\given{T_h}} = 1 - \frac{300}{800} = \find{0.625 = 62.5\%}`,
+    draw: h => engine(h, '熱機', h.tag(180, 26, 'Th', 'T_h = 800 K（蒸汽）'), h.tag(180, 176, 'Tc', 'T_c = 300 K（冷卻水）')) +
+      h.arrow(180, 46, 180, 70, 'obj', { w: 4 }) + h.arrow(180, 128, 180, 156, 'obj', { w: 3 }) + h.arrow(208, 100, 270, 100, 'obj', { w: 3 }) +
+      h.note(190, 62, 'Q_h', 's') + h.note(190, 146, 'Q_c', 's') + h.note(278, 104, 'W', 's') + h.tag(84, 100, 'e', 'e_max = ?')
+  });
+  S('f19-3', {
+    cap: '冰箱裡 4 °C、廚房 22 °C，理想冰箱每用 1 J 的功最多能搬走多少熱',
+    find: '', given: 'Tc Th', val: { Tc: '277 K（冰箱內）', Th: '295 K（室內）' }, xf: [[R`\text{COP}`, '性能係數 $Q_c/W$ 的上限']],
+    calc: R`\find{\text{COP}} \le \frac{\given{T_c}}{\given{T_h} - \given{T_c}} = \frac{277}{295 - 277} = \find{15}`,
+    draw: h => engine(h, '冰箱', h.tag(180, 26, 'Th', 'T_h = 295 K（廚房）'), h.tag(180, 176, 'Tc', 'T_c = 277 K（冰箱內）')) +
+      h.arrow(180, 72, 180, 46, 'obj', { w: 4 }) + h.arrow(180, 156, 180, 128, 'obj', { w: 3 }) + h.arrow(100, 100, 152, 100, 'obj', { w: 3 }) +
+      h.note(190, 62, 'Q_h', 's') + h.note(190, 146, 'Q_c（搬走的熱）', 's') + h.note(96, 92, 'W（電）', 'e') + h.tag(296, 100, 'find', 'COP = ?')
+  });
+  S('f19-4', {
+    cap: '冬天用熱泵暖氣：室外 0 °C、室內 20 °C，每用 1 J 的功最多送進多少熱',
+    find: '', given: 'Th Tc', val: { Th: '293 K（室內）', Tc: '273 K（室外）' }, xf: [[R`\text{COP}_{hp}`, '性能係數 $Q_h/W$ 的上限']],
+    calc: R`\find{\text{COP}_{hp}} \le \frac{\given{T_h}}{\given{T_h} - \given{T_c}} = \frac{293}{293 - 273} = \find{15}`,
+    draw: h => engine(h, '熱泵', h.tag(180, 26, 'Th', 'T_h = 293 K（室內）'), h.tag(180, 176, 'Tc', 'T_c = 273 K（室外）')) +
+      h.arrow(180, 72, 180, 46, 'obj', { w: 4 }) + h.arrow(180, 156, 180, 128, 'obj', { w: 3 }) + h.arrow(100, 100, 152, 100, 'obj', { w: 3 }) +
+      h.note(190, 62, 'Q_h（送進室內）', 's') + h.note(190, 146, 'Q_c', 's') + h.note(96, 92, 'W（電）', 'e') + h.tag(296, 100, 'find', 'COP = ?')
+  });
+  S('f19-5', {
+    cap: '1.0 kg 的冰在 0 °C（273 K）吸收 334 kJ 全部融化',
+    find: 'S', given: 'Q T', val: { Q: '3.34×10⁵ J', T: '273 K（溫度不變）' },
+    calc: R`\find{\Delta S} = \frac{\given{Q}}{\given{T}} = \frac{3.34\times10^{5}}{273} = \find{1.22\times10^{3}\ \text{J/K}}`,
+    draw: h => h.ground(160) + h.rect(116, 96, 68, 60, 'cold-f', 6) + h.ellipse(206, 156, 30, 4, 'cold-f') +
+      h.heat(40, 126, 108, 126, 'Q') + h.heat(270, 126, 194, 126, 'Q') + h.tag(66, 104, 'Q', 'Q = 334 kJ') + h.tag(150, 60, 'S', 'ΔS = ?') +
+      h.therm(310, 40, 90, 0.3) + h.tag(276, 176, 'T', 'T = 273 K（一直 0 °C）') + h.label(150, 130, '冰 1.0 kg')
+  });
+  S('f19-6', {
+    cap: '1000 J 的熱從 400 K 的熱塊傳到 300 K 的冷塊，總熵怎麼變',
+    find: 'S', given: '', xg: [[R`Q`, '傳過去的熱', '1000 J'], [R`T_h,\ T_c`, '兩塊的溫度', '400 K、300 K']],
+    calc: R`\find{\Delta S_{total}} = -\frac{\given{1000}}{\given{400}} + \frac{\given{1000}}{\given{300}} = -2.5 + 3.3 = \find{+0.83\ \text{J/K}} > 0`,
+    draw: h => h.rect(30, 60, 100, 80, 'hot-f', 8) + h.rect(230, 60, 100, 80, 'cold-f', 8) + h.rect(130, 92, 100, 16, 'ob') +
+      h.label(80, 104, '400 K') + h.label(280, 104, '300 K') + h.heat(136, 100, 226, 100, 'given') + h.tag(180, 70, 'given', 'Q = 1000 J') +
+      h.tag(80, 162, 'obj', 'ΔS = −Q/T_h') + h.tag(280, 162, 'obj', 'ΔS = +Q/T_c') + h.tag(180, 28, 'S', 'ΔS_total = ?')
+  });
+})();
+
 /* ===== 物理公式星系：主程式 ===== */
 (function () {
 'use strict';
@@ -2774,7 +4238,7 @@ function preTex(t) {
   }
   return out;
 }
-const KOPT = { throwOnError: false, strict: 'ignore', trust: c => c.command === '\\htmlData' };
+const KOPT = { throwOnError: false, strict: 'ignore', trust: c => c.command === '\\htmlData', macros: { '\\find': '\\textcolor{##FF7AA2}{#1}', '\\given': '\\textcolor{##5EEAD4}{#1}' } };
 function tex(t, display) {
   if (window.katex) { try { return katex.renderToString(t, Object.assign({ displayMode: !!display }, KOPT)); } catch (e) { /* 落到純文字 */ } }
   return '<code class="tex-fallback">' + esc(t) + '</code>';
@@ -2786,50 +4250,6 @@ function rich(s) {
 const plainTex = t => t.replace(/@\{\w+\}/g, '');
 const texCache = {};
 const formulaHTML = (f, display) => texCache[f.id + display] || (texCache[f.id + display] = tex(display ? preTex(f.tex) : plainTex(f.tex), display));
-
-/* ---------- 定義文字與名詞說明 ---------- */
-const GNAME = {}; Object.entries(GLOSSARY).forEach(([k, g]) => { GNAME[g.n] = k; });
-function defHTML(str) {
-  let out = '', last = 0; const re = /\[\[(@?)([\w-]+)(?:\|([^\]]+))?\]\]/g; let m;
-  while ((m = re.exec(str))) {
-    out += rich(str.slice(last, m.index)); last = re.lastIndex;
-    if (m[1]) { const f = FM[m[2]]; out += `<button type="button" class="term term-f" data-fref="${f.id}" aria-haspopup="dialog">${m[3] ? rich(m[3]) : esc(f.name)}</button>`; }
-    else { const g = GLOSSARY[m[2]]; out += `<button type="button" class="term" data-term="${m[2]}" aria-haspopup="dialog">${m[3] ? rich(m[3]) : esc(g.n)}</button>`; }
-  }
-  return out + rich(str.slice(last));
-}
-const pop = document.getElementById('pop');
-let popFor = null;
-function closePop() { if (!pop.hidden) { pop.hidden = true; if (popFor) popFor.setAttribute('aria-expanded', 'false'); popFor = null; } }
-function openPop(btn) {
-  if (popFor === btn) { closePop(); return; }
-  closePop();
-  let html = '';
-  if (btn.dataset.term) {
-    const g = GLOSSARY[btn.dataset.term], src = g.f ? FM[g.f] : null;
-    html = `<p class="pop-k">${g.ch ? `第 ${g.ch} 章` : '先修內容（Ch1–4）'}</p>
-      <p class="pop-t">${esc(g.n)}${g.s ? ` <span class="pop-s">${tex(g.s, false)}</span>` : ''}</p>
-      ${g.u ? `<p class="pop-u">單位：${esc(g.u)}</p>` : ''}
-      <p class="pop-d">${rich(g.d)}</p>
-      ${src ? `<a class="pop-link" href="#/ch/${src.ch}/${src.id}">看相關公式：${esc(src.name)}</a>` : ''}`;
-  } else {
-    const f = FM[btn.dataset.fref];
-    html = `<p class="pop-k" style="color:${examColor(f.ch)}">第 ${f.ch} 章 ${esc(CH[f.ch].title)}</p>
-      <p class="pop-t">${esc(f.name)}</p><div class="pop-f">${formulaHTML(f, false)}</div>
-      <p class="pop-d">${rich(f.idea)}</p><a class="pop-link" href="#/ch/${f.ch}/${f.id}">看這條公式的完整說明</a>`;
-  }
-  pop.innerHTML = html; pop.hidden = false; popFor = btn; btn.setAttribute('aria-expanded', 'true');
-  const r = btn.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
-  let x = Math.min(Math.max(8, r.left), window.innerWidth - pw - 8), y = r.bottom + 8;
-  if (y + ph > window.innerHeight - 8) y = Math.max(8, r.top - ph - 8);
-  pop.style.transform = `translate(${x}px,${y}px)`;
-}
-document.addEventListener('click', e => {
-  const b = e.target.closest('.term');
-  if (b) { e.preventDefault(); openPop(b); return; }
-  if (!e.target.closest('#pop')) closePop();
-});
-['scroll', 'resize'].forEach(ev => window.addEventListener(ev, closePop, true));
 
 /* ---------- 學習進度 ---------- */
 const STORE_KEY = 'pfg-progress-v1';
@@ -3053,7 +4473,7 @@ function renderChapter(ch, force) {
           return `<article class="fcard" id="card-${f.id}" data-f="${f.id}" tabindex="0">
             <div class="fcard-top"><h3>${esc(f.name)}</h3><span class="fcard-tags">${f.sim ? '<span class="tag">有模擬</span>' : ''}${f.ex && f.ex.length ? '<span class="tag">有例題</span>' : ''}<span class="tag tag-seen" ${PROG.seen[f.id] ? '' : 'hidden'}>看過</span></span></div>
             <div class="fcard-tex">${formulaHTML(f, true)}</div>
-            <dl class="fcard-sym">${f.sym.map(s => `<div><dt>${tex(s[1], false)}</dt><dd>${rich(s[2])}${s[3] && s[3] !== '無單位' && s[3] !== '' ? `<span class="u">${esc(s[3])}</span>` : ''}</dd></div>`).join('')}</dl>
+            <dl class="fcard-sym">${f.sym.map(s => `<div><dt>${tex(s[1], false)}</dt><dd>${rich(s[2])}${s[3] && s[3] !== '無單位' && s[3] !== '' ? `<span class="u">${esc(s[3])}</span>` : ''}${symSrcMini(f, s[0])}</dd></div>`).join('')}</dl>
             <p class="fcard-idea">${rich(f.idea)}</p>
             ${intra.length ? `<div class="fcard-rel"><h4>本章內的關係</h4><ul class="rel-list">${intra.map(o => relItem(f.id, o)).join('')}</ul></div>` : ''}
             ${cross.length ? `<div class="fcard-rel fcard-cross"><h4>其他章的關係</h4><ul class="rel-list">${cross.map(o => relItem(f.id, o)).join('')}</ul></div>` : ''}
@@ -3146,7 +4566,6 @@ function openPanel(r) {
 function closePanel() { clearSims(); panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); document.body.classList.remove('panel-on'); }
 $('#panel-close').addEventListener('click', () => { location.hash = '#/ch/' + route.ch; });
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && !pop.hidden) { closePop(); return; }
   if (e.key === 'Escape') { if (panelOpen()) location.hash = '#/ch/' + route.ch; else if (route.view === 'chapter') location.hash = '#/exam/' + CH[route.ch].exam; }
   if (route.panel === 'formula' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) {
     const fs = CH[route.ch].formulas, i = fs.findIndex(f => f.id === route.f), j = (i + (e.key === 'ArrowRight' ? 1 : -1) + fs.length) % fs.length;
@@ -3157,6 +4576,87 @@ function chipFor(fid) {
   const f = FM[fid];
   return `<a class="fchip" href="#/ch/${f.ch}/${f.id}" style="--c:${examColor(f.ch)}"><span class="fchip-ch">Ch${f.ch}</span>${esc(f.name)}</a>`;
 }
+/* ---------- 公式來源 ---------- */
+const SRC = {};
+Object.entries(SYMSRC).forEach(([fid, str]) => { SRC[fid] = {}; str.split(' ').forEach(t => { const i = t.indexOf(':'); SRC[fid][t.slice(0, i)] = t.slice(i + 1); }); });
+function srcChip(fid, key) {
+  const v = SRC[fid] && SRC[fid][key];
+  if (!v) return '<span class="src-none" title="情境直接給的量（長度、角度、時間等）">—</span>';
+  if (v === '=') return '<span class="srcchip self">本式定義</span>';
+  if (v[0] === '^') return `<span class="srcchip pre" tabindex="0" data-tipg="${v.slice(1)}">先修</span>`;
+  const o = FM[v];
+  return `<a class="srcchip" href="#/ch/${o.ch}/${o.id}" style="--c:${examColor(o.ch)}" data-tipf="${o.id}"><span class="chtag" style="--c:${examColor(o.ch)}">Ch${o.ch}</span>${esc(o.name)}</a>`;
+}
+// 卡片上的小標：這個符號定義在前面別章的哪條公式
+function symSrcMini(f, key) {
+  const v = SRC[f.id] && SRC[f.id][key]; if (!v || v === '=' || v[0] === '^') return '';
+  const o = FM[v]; if (o.ch === f.ch) return '';
+  return `<a class="symsrc" href="#/ch/${o.ch}/${o.id}" style="--c:${examColor(o.ch)}" title="定義在第 ${o.ch} 章：${esc(o.name)}">← Ch${o.ch}</a>`;
+}
+function srcRow(f) {
+  const inc = { '推導': [], '特例': [], '應用': [] };
+  [...ADJ[f.id]].forEach(o => { const r = relOf(f.id, o); if (DIRECTED[r.type] && r.b === f.id) inc[r.type].push(o); });
+  const by = list => list.sort((a, b) => ORDER.indexOf(FM[a].ch) - ORDER.indexOf(FM[b].ch)).map(o => { const x = FM[o]; return `<a class="srcchip" href="#/ch/${x.ch}/${x.id}" style="--c:${examColor(x.ch)}" data-tipf="${x.id}" data-rel="${f.id}"><span class="chtag" style="--c:${examColor(x.ch)}">Ch${x.ch}</span>${esc(x.name)}</a>`; }).join('');
+  const parts = [['推導', '推導自'], ['特例', '一般式'], ['應用', '用到']].filter(([t]) => inc[t].length).map(([t, w]) => `<span class="f-src-k">${w}</span>${by(inc[t])}`);
+  return `<div class="f-src">${parts.length ? parts.join('') : '<span class="f-src-base">基本定義：不是由前面的公式推出來的。</span>'}</div>`;
+}
+function tipFor(el) {
+  if (el.dataset.tipg) {
+    const g = GLOSSARY[el.dataset.tipg];
+    return `<p class="tip-k" style="color:var(--muted)">先修內容（Ch1–4）</p><p class="tip-t">${esc(g.n)}${g.s ? ' ' + tex(g.s, false) : ''}</p><p>${rich(g.d)}</p>${g.u ? `<p class="tip-m">單位：${esc(g.u)}</p>` : ''}`;
+  }
+  const o = FM[el.dataset.tipf], r = el.dataset.rel ? relOf(el.dataset.rel, o.id) : null;
+  return `<p class="tip-k" style="color:${examColor(o.ch)}">第 ${o.ch} 章 ${esc(CH[o.ch].title)}</p><p class="tip-t">${esc(o.name)}</p><div class="tip-f">${formulaHTML(o, false)}</div>${r ? `<p class="tip-m">${rich(r.text)}</p>` : '<p class="tip-m">點一下看這條公式</p>'}`;
+}
+function placeTip(el) {
+  tip.innerHTML = tipFor(el); tip.hidden = false;
+  const b = el.getBoundingClientRect(), r = tip.getBoundingClientRect();
+  let x = Math.min(Math.max(8, b.left), window.innerWidth - r.width - 8), y = b.bottom + 8;
+  if (y + r.height > window.innerHeight - 8) y = Math.max(8, b.top - r.height - 8);
+  tip.style.transform = `translate(${x}px,${y}px)`;
+}
+panelBody.addEventListener('mouseover', e => { const el = e.target.closest('[data-tipg],[data-tipf]'); if (el) placeTip(el); });
+panelBody.addEventListener('mouseout', e => { const el = e.target.closest('[data-tipg],[data-tipf]'); if (el && !el.contains(e.relatedTarget)) tip.hidden = true; });
+panelBody.addEventListener('focusin', e => { const el = e.target.closest('[data-tipg],[data-tipf]'); if (el) placeTip(el); });
+panelBody.addEventListener('focusout', () => { tip.hidden = true; });
+panelBody.addEventListener('scroll', () => { tip.hidden = true; }, { passive: true });
+
+/* ---------- 情境圖 ---------- */
+function sceneRoles(sc) {
+  const sp = s => (s || '').split(' ').filter(Boolean);
+  return { find: sp(sc.find), given: sp(sc.given) };
+}
+function sceneHTML(f) {
+  const sc = SCENES[f.id]; if (!sc) return '';
+  const roles = sceneRoles(sc), symOf = k => f.sym.find(s => s[0] === k);
+  const h = SceneKit.make(k => roles.find.includes(k) ? 'find' : roles.given.includes(k) ? 'given' : 'obj');
+  const chip = (role, k) => { const s = symOf(k), v = sc.val && sc.val[k]; return `<span class="kchip ${role}" data-sym="${k}">${tex(s[1], false)}<span>${rich(s[2])}</span>${v ? `<span class="kv">${esc(v)}</span>` : ''}</span>`; };
+  const xchip = (role, x) => `<span class="kchip ${role}">${tex(x[0], false)}<span>${rich(x[1])}</span>${x[2] ? `<span class="kv">${esc(x[2])}</span>` : ''}</span>`;
+  const fc = roles.find.map(k => chip('find', k)).concat((sc.xf || []).map(x => xchip('find', x))).join('');
+  const gc = roles.given.map(k => chip('given', k)).concat((sc.xg || []).map(x => xchip('given', x))).join('');
+  let svg; try { svg = sc.draw(h); } catch (e) { svg = ''; }
+  return `<figure class="scn"><p class="scn-cap">${rich(sc.cap)}</p>
+    <svg class="scn-svg" viewBox="0 0 360 200" role="img" aria-label="${esc(sc.cap)}">${svg}</svg>
+    <div class="scn-key"><div class="scn-row"><span class="scn-k find">要算</span>${fc}</div>${gc ? `<div class="scn-row"><span class="scn-k given">拿來算</span>${gc}</div>` : ''}</div>
+    ${sc.calc ? `<div class="scn-calc">${tex(sc.calc, true)}</div>` : ''}</figure>`;
+}
+// 計算式太長時縮小字，盡量一行放得下
+function fitCalc() {
+  const el = $('.scn-calc', panelBody), k = el && $('.katex', el); if (!k) return;
+  k.style.fontSize = '';
+  if (el.scrollWidth > el.clientWidth + 1) k.style.fontSize = (1.08 * Math.max(0.7, (el.clientWidth - 4) / el.scrollWidth)).toFixed(3) + 'em';
+}
+// 依實際文字寬度調整標籤外框
+function fitTags(root) {
+  root.querySelectorAll('.scn-svg .tg').forEach(g => {
+    const t = g.querySelector('text'), r = g.querySelector('rect'); let w;
+    try { w = t.getBBox().width; } catch (e) { return; }
+    if (!w) return;
+    const W = w + 14, x = +g.dataset.x, a = g.dataset.a, x0 = a === 's' ? x : a === 'e' ? x - W : x - W / 2;
+    r.setAttribute('x', x0.toFixed(1)); r.setAttribute('width', W.toFixed(1)); t.setAttribute('x', (x0 + W / 2).toFixed(1));
+  });
+}
+
 function renderFormula(f) {
   const c = CH[f.ch], fs = c.formulas, i = fs.indexOf(f), prev = fs[(i - 1 + fs.length) % fs.length], next = fs[(i + 1) % fs.length];
   const rels = [...ADJ[f.id]].map(o => ({ o, r: relOf(f.id, o) }));
@@ -3166,18 +4666,21 @@ function renderFormula(f) {
     ['可以一起看', x => !DIRECTED[x.r.type]]
   ].map(([h, test]) => [h, rels.filter(test).sort((a, b) => ORDER.indexOf(FM[a.o].ch) - ORDER.indexOf(FM[b.o].ch))]).filter(g => g[1].length);
   const used = c.problems.filter(p => p.f.includes(f.id));
+  const sc = SCENES[f.id], roles = sc ? sceneRoles(sc) : { find: [], given: [] };
+  const roleOf = k => roles.find.includes(k) ? 'r-find' : roles.given.includes(k) ? 'r-given' : '';
   $('#panel-title').innerHTML = `<a href="#/ch/${c.id}" class="ph-ch"><span class="dot"></span>第 ${c.id} 章 ${esc(c.title)}</a>`;
   panelBody.innerHTML = `
     <div class="f-nav"><a href="#/ch/${c.id}/${prev.id}" aria-label="上一條：${esc(prev.name)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
       <span>${i + 1} / ${fs.length}</span><a href="#/ch/${c.id}/${next.id}" aria-label="下一條：${esc(next.name)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
     <h2 class="f-name">${esc(f.name)}</h2>
     <div class="f-display" id="f-display">${formulaHTML(f, true)}</div>
-    <section class="sec def-sec"><h3>定義</h3><p class="f-def">${defHTML(DEFS[f.id])}</p>
-      <p class="sec-note">底下有虛線的名詞和公式可以點，會跳出它的定義。</p></section>
-    <section class="sec"><h3>什麼時候用</h3><p class="f-idea">${rich(f.idea)}</p></section>
-    <section class="sec"><h3>符號拆解</h3><p class="sec-note">滑鼠移到公式或表格上，對應的符號會一起亮起。</p>
-      <table class="sym-table"><thead><tr><th scope="col">符號</th><th scope="col">名稱</th><th scope="col">單位</th></tr></thead><tbody>
-      ${f.sym.map(s => `<tr data-sym="${s[0]}" tabindex="0"><td class="sym-s">${tex(s[1], false)}</td><td>${GNAME[s[2]] ? `<button type="button" class="term" data-term="${GNAME[s[2]]}" aria-haspopup="dialog">${esc(s[2])}</button>` : rich(s[2])}${s[4] ? `<span class="sym-d">${rich(s[4])}</span>` : ''}</td><td class="sym-u">${esc(s[3])}</td></tr>`).join('')}
+    ${roles.find.length || roles.given.length ? `<p class="f-legend">在下面的情境裡：<b class="find">粉紅</b>是要算的量，<b class="given">青綠</b>是拿來算的量。</p>` : ''}
+    ${srcRow(f)}
+    <p class="f-idea">${rich(f.idea)}</p>
+    ${sc ? `<section class="sec"><h3>情境圖</h3>${sceneHTML(f)}</section>` : ''}
+    <section class="sec"><h3>符號拆解</h3><p class="sec-note">「來自」是這個量在哪裡定義的；滑鼠移到公式或表格上，對應的符號會一起亮起。</p>
+      <table class="sym-table"><thead><tr><th scope="col">符號</th><th scope="col">名稱</th><th scope="col">單位</th><th scope="col">來自</th></tr></thead><tbody>
+      ${f.sym.map(s => `<tr data-sym="${s[0]}" tabindex="0" class="${roleOf(s[0])}"><td class="sym-s">${tex(s[1], false)}</td><td>${rich(s[2])}${s[4] ? `<span class="sym-d">${rich(s[4])}</span>` : ''}</td><td class="sym-u">${esc(s[3])}</td><td class="sym-src">${srcChip(f.id, s[0])}</td></tr>`).join('')}
       </tbody></table></section>
     <section class="sec"><h3>和其他公式的關係</h3>${groups.map(([h, list]) => `<h4 class="rel-h">${h}</h4><ul class="rel-list rel-panel">${list.map(x => relItem(f.id, x.o)).join('')}</ul>`).join('')}</section>
     <section class="sec"><h3>推導</h3><ol class="derive">${f.derive.map(d => `<li>${rich(d)}</li>`).join('')}</ol></section>
@@ -3185,14 +4688,19 @@ function renderFormula(f) {
     ${f.ex && f.ex.length ? `<section class="sec"><h3>${c.supplement ? '例題' : '課本例題'}</h3>${f.ex.map(x => `<article class="ex"><p class="ex-ref">${esc(x.ref)}</p><p class="ex-q">${rich(x.q)}</p><details><summary>看解答</summary><div class="ex-a">${rich(x.a)}</div></details></article>`).join('')}</section>` : ''}
     <div class="panel-foot"><a class="btn btn-primary" href="#/ch/${c.id}/practice">練習第 ${c.id} 章（${c.problems.length} 題）</a>
       ${used.length ? `<p class="foot-note">這條公式會用在第 ${used.map(p => c.problems.indexOf(p) + 1).join('、')} 題。</p>` : ''}</div>`;
+  const disp = $('#f-display');
+  roles.find.forEach(k => disp.querySelectorAll(`[data-sym="${k}"]`).forEach(n => n.classList.add('r-find')));
+  roles.given.forEach(k => disp.querySelectorAll(`[data-sym="${k}"]`).forEach(n => n.classList.add('r-given')));
+  fitTags(panelBody); fitCalc();
+  if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(() => { if (panelBody.contains(disp)) { fitTags(panelBody); fitCalc(); } });
   if (f.sim) mountedSims.push(mountSim($('#sim-main'), f.sim, null, examColor(c.id)));
   bindSymbols();
   markSeen(f.id);
 }
 function bindSymbols() {
-  const disp = $('#f-display'), rows = panelBody.querySelectorAll('.sym-table tr[data-sym]');
-  const hi = (k, on) => { disp.querySelectorAll(`[data-sym="${k}"]`).forEach(n => n.classList.toggle('hi', on)); rows.forEach(r => r.classList.toggle('hi', on && r.dataset.sym === k)); };
-  rows.forEach(r => { ['mouseenter', 'focus'].forEach(ev => r.addEventListener(ev, () => hi(r.dataset.sym, true))); ['mouseleave', 'blur'].forEach(ev => r.addEventListener(ev, () => hi(r.dataset.sym, false))); });
+  const disp = $('#f-display'), rows = panelBody.querySelectorAll('.sym-table tr[data-sym]'), chips = panelBody.querySelectorAll('.kchip[data-sym]');
+  const hi = (k, on) => { disp.querySelectorAll(`[data-sym="${k}"]`).forEach(n => n.classList.toggle('hi', on)); rows.forEach(r => r.classList.toggle('hi', on && r.dataset.sym === k)); chips.forEach(c => c.classList.toggle('hi', on && c.dataset.sym === k)); };
+  [...rows, ...chips].forEach(r => { ['mouseenter', 'focus'].forEach(ev => r.addEventListener(ev, () => hi(r.dataset.sym, true))); ['mouseleave', 'blur'].forEach(ev => r.addEventListener(ev, () => hi(r.dataset.sym, false))); });
   disp.querySelectorAll('[data-sym]').forEach(n => {
     n.addEventListener('mouseenter', () => hi(n.dataset.sym, true)); n.addEventListener('mouseleave', () => hi(n.dataset.sym, false));
     n.addEventListener('click', () => { const r = panelBody.querySelector(`.sym-table tr[data-sym="${n.dataset.sym}"]`); if (r) { hi(n.dataset.sym, true); r.scrollIntoView({ block: 'nearest', behavior: REDUCED ? 'auto' : 'smooth' }); setTimeout(() => hi(n.dataset.sym, false), 1400); } });
@@ -3325,7 +4833,6 @@ function parseHash() {
   return { view: 'home', exam: 0 };
 }
 function applyRoute() {
-  closePop();
   const prev = route; route = parseHash();
   document.body.dataset.view = route.view;
   $$('.exam-filter button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.exam === (route.view === 'home' ? route.exam : -1))));
