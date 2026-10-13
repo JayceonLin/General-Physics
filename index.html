@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>物理公式星系</title>
-<meta name="description" content="把大學普通物理的 100 條公式畫成一座星系：點星球看章節公式網路，點公式看符號拆解、互動模擬、推導與課本例題，再用練習題檢查自己。">
+<meta name="description" content="大學普通物理 100 條公式的關係圖：每章公式的定義與用法，以及它和其他章公式怎麼連在一起，附互動模擬與練習題。">
 <meta name="theme-color" content="#070A1F">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23070A1F'/%3E%3Cellipse cx='16' cy='16' rx='12' ry='6' fill='none' stroke='%237CC8FF' stroke-width='1.5' transform='rotate(-25 16 16)'/%3E%3Ccircle cx='16' cy='16' r='4.5' fill='%23FFB35C'/%3E%3Ccircle cx='25' cy='12' r='2' fill='%23C4A3FF'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,37 +70,105 @@ body[data-view="chapter"] .legend { display: none; }
 .lg-exam { display: flex; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; font: 700 14px/1.4 var(--sans); margin-bottom: 6px; }
 .lg-range { color: var(--muted); font-weight: 400; font-size: 12px; }
 .lg-group ul { list-style: none; margin: 0; padding: 0; }
-.lg-group li a { display: grid; grid-template-columns: 26px 1fr; align-items: center; padding: 2px 6px; border-radius: 6px; text-decoration: none; color: var(--ink-2); font-size: 13.5px; line-height: 1.5; }
+.lg-group li a { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; padding: 2px 6px; border-radius: 6px; text-decoration: none; color: var(--ink-2); font-size: 13.5px; line-height: 1.5; }
 .lg-group li a:hover { background: rgba(255,255,255,.06); color: var(--ink); }
 .lg-no { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-.lg-bar { grid-column: 2; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; margin: 1px 0 2px; }
+.lg-n { color: var(--muted); font-size: 11.5px; padding-left: 8px; }
+.lg-bar { grid-column: 2 / 4; height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; margin: 1px 0 2px; }
 .lg-bar i { display: block; height: 100%; background: var(--accent); }
 .credit { margin: 10px 0 0; font-size: 11.5px; color: var(--muted); }
 .legend-toggle { display: none; position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 6; }
 
-/* 章節卡片 */
-.chapter-card { position: fixed; left: 24px; top: 84px; z-index: 6; width: 330px; max-height: calc(100vh - 108px); overflow: auto; padding: 18px 20px; border: 1px solid var(--line); border-radius: 16px;
-  background: rgba(14,20,51,.86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.back { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); text-decoration: none; font-size: 13.5px; }
-.back:hover { color: var(--ink); }
-.cc-exam { display: flex; align-items: center; gap: 8px; margin: 14px 0 2px; color: var(--accent); font: 600 13px/1.4 var(--sans); }
+/* 章節頁 */
+body[data-view="chapter"] .topbar { background: rgba(7,10,31,.97); border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.chview { position: fixed; inset: 0; z-index: 3; overflow-y: auto; padding: 84px 32px 72px; background: var(--space); container-type: inline-size; }
+@media (min-width: 1100px) { body.panel-on .chview { padding-right: calc(min(520px, 100vw) + 28px); } }
+.ch-head, .relmap { max-width: 1420px; margin: 0 auto; }
+.ch-switch { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 13px; }
+.sw-group { display: flex; align-items: center; gap: 4px; }
+.sw-exam { margin-right: 4px; color: var(--accent); font-weight: 600; white-space: nowrap; }
+.ch-switch a { min-width: 32px; height: 28px; padding: 0 6px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); text-decoration: none; font-variant-numeric: tabular-nums; }
+.ch-switch a:hover { color: var(--ink); border-color: var(--accent); }
+.ch-switch a.cur { background: var(--accent); border-color: transparent; color: #0B1030; font-weight: 700; }
+.ch-title-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-top: 20px; }
+.ch-exam { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--accent); font: 600 13px/1.4 var(--sans); }
 .tag-sup { margin-left: 4px; padding: 0 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 11.5px; font-weight: 400; }
-.cc-title { display: flex; align-items: baseline; gap: 12px; margin: 0; font: 700 30px/1.25 var(--serif); }
-.cc-no { color: var(--accent); font-size: .72em; font-variant-numeric: tabular-nums; }
-.cc-en { margin: 2px 0 10px; color: var(--muted); font-size: 13px; }
-.cc-blurb { margin: 0 0 14px; color: var(--ink-2); font-size: 14.5px; }
-.cc-practice { width: 100%; justify-content: space-between; }
-.cc-solved { font-weight: 500; font-size: 12.5px; opacity: .85; }
-.cc-list summary { margin: 16px 0 6px; color: var(--muted); font-size: 13px; cursor: pointer; }
-.cc-list ul { list-style: none; margin: 0; padding: 0; }
-.cc-list a { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 8px; color: #DDE2FF; text-decoration: none; font-size: 14px; }
-.cc-list a:hover { background: rgba(255,255,255,.05); }
-.cc-list a.cur { background: rgba(255,255,255,.08); color: #fff; font-weight: 600; }
-.seen-dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--accent); flex: none; }
-.seen-dot.on { background: var(--accent); }
+.ch-title { margin: 4px 0 4px; font: 700 30px/1.3 var(--serif); }
+.ch-en { margin-left: 14px; color: var(--muted); font: 400 14px/1 var(--sans); }
+.ch-blurb { margin: 0; color: var(--ink-2); font-size: 15px; }
+.ch-actions { flex: none; text-align: right; }
+.ch-stats { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
+.ch-key { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 16px 0 22px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; color: var(--muted); font-size: 13px; }
+.ch-key-note { margin-left: 6px; }
+
+/* 關係類型標籤 */
+.rtag { display: inline-flex; align-items: center; padding: 0 7px; border: 1px solid rgba(233,236,255,.4); border-radius: 6px; color: var(--ink); font: 600 12px/1.6 var(--sans); white-space: nowrap; }
+.rtag.t-spe { border-color: rgba(233,236,255,.4); background: rgba(233,236,255,.06); }
+.rtag.t-app { background: rgba(233,236,255,.1); }
+.rtag.t-ana, .rtag.t-pai, .rtag.t-cmp { border-style: dashed; border-color: rgba(154,164,209,.6); color: var(--muted); }
+
+/* 三欄關係圖 */
+.relmap { position: relative; display: grid; grid-template-columns: minmax(230px, 290px) minmax(0, 1fr) minmax(230px, 290px); column-gap: 88px; align-items: start; }
+.col { position: relative; z-index: 1; min-width: 0; }
+.col-h { margin: 0 0 10px; color: var(--muted); font: 600 13px/1.4 var(--sans); }
+.col-empty { margin: 0; padding: 12px; border: 1px dashed var(--line); border-radius: 10px; color: var(--muted); font-size: 13px; }
+svg.links { position: absolute; inset: 0; z-index: 0; overflow: visible; pointer-events: none; }
+svg.links path { fill: none; stroke-width: 1.3; stroke-opacity: .4; transition: stroke-opacity .15s; }
+svg.links path.t-ana, svg.links path.t-pai, svg.links path.t-cmp { stroke-dasharray: 5 4; }
+.relmap.focusing svg.links path { stroke-opacity: .07; }
+.relmap.focusing svg.links path.lit { stroke-opacity: 1; stroke-width: 2; }
+
+.scard { margin-bottom: 12px; padding: 10px 12px; border: 1px solid var(--line); border-left: 3px solid var(--c); border-radius: 10px; background: var(--panel); outline: none; transition: opacity .15s, border-color .15s; }
+.scard-head { display: flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font: 600 14px/1.4 var(--sans); }
+.scard-head:hover { text-decoration: underline; }
+.chtag { flex: none; padding: 0 6px; border-radius: 5px; background: var(--c); color: #0B1030; font: 700 11px/1.6 var(--sans); }
+.scard-tex { margin: 6px 0 2px; overflow-x: auto; overflow-y: hidden; }
+.scard-tex .katex { font-size: 1.04em; }
+.rel-list { margin: 6px 0 0; padding: 0; list-style: none; }
+.rel { margin: 5px 0; font-size: 13.5px; line-height: 1.55; }
+.rel-name { margin-left: 6px; color: var(--ink); text-decoration: none; border-bottom: 1px dotted var(--muted); }
+.rel-name:hover { color: #fff; border-bottom-color: var(--ink); }
+.rel-name .chtag { margin-right: 6px; }
+.rtext { display: block; margin-top: 2px; color: var(--muted); font-size: 12.5px; }
+.scard .rtext { display: none; }
+.scard .rel.lit .rtext { display: block; }
+.scard.lit { border-color: var(--c); }
+
+.fcard { margin-bottom: 16px; padding: 16px 18px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); outline: none; scroll-margin: 90px; transition: opacity .15s, border-color .15s, box-shadow .15s; }
+.fcard-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.fcard-top h3 { margin: 0; font: 700 18px/1.4 var(--sans); }
+.fcard-tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.tag { padding: 0 7px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); font-size: 11.5px; white-space: nowrap; }
+.tag-seen { color: var(--ok); border-color: rgba(111,227,166,.4); }
+.fcard-tex { margin: 8px 0 6px; padding: 4px 2px; overflow-x: auto; overflow-y: hidden; }
+.fcard-tex .katex-display { margin: .3em 0; }
+.fcard-tex .katex { font-size: 1.32em; }
+.fcard-sym { display: flex; flex-wrap: wrap; gap: 2px 20px; margin: 0 0 8px; font-size: 13.5px; }
+.fcard-sym div { display: flex; align-items: baseline; gap: 6px; }
+.fcard-sym dt { color: var(--ink); }
+.fcard-sym dd { margin: 0; color: var(--ink-2); }
+.fcard-sym .u { margin-left: 5px; color: var(--muted); font-size: 12.5px; }
+.fcard-idea { margin: 0 0 6px; color: #DDE2FF; font-size: 14.5px; }
+.fcard-rel h4 { margin: 12px 0 2px; color: var(--muted); font: 600 12.5px/1.4 var(--sans); }
+.fcard-cross { display: none; }
+.fcard-more { display: inline-block; margin-top: 10px; color: var(--accent); font-size: 13.5px; font-weight: 600; text-decoration: none; }
+.fcard-more:hover { text-decoration: underline; }
+.fcard.lit { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.fcard.lit-soft { border-color: rgba(233,236,255,.35); }
+.relmap.focusing .fcard:not(.lit):not(.lit-soft), .relmap.focusing .scard:not(.lit) { opacity: .42; }
+@keyframes flash { 0%, 40% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+.fcard.flash { animation: flash 1.3s ease-out; }
+.rel-h { margin: 14px 0 2px; color: var(--muted); font: 600 13px/1.4 var(--sans); }
+
+@container (max-width: 1179px) {
+  .relmap { grid-template-columns: minmax(0, 1fr); max-width: 820px; }
+  .col-left, .col-right, svg.links { display: none; }
+  .fcard-cross { display: block; }
+  .ch-head { max-width: 820px; }
+}
 
 /* 面板 */
-.panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 20; width: min(500px, 100vw); display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--line);
+.panel { position: fixed; top: 0; right: 0; bottom: 0; z-index: 20; width: min(520px, 100vw); display: flex; flex-direction: column; background: var(--panel); border-left: 1px solid var(--line);
   transform: translateX(102%); transition: transform .38s cubic-bezier(.2,.8,.2,1); visibility: hidden; }
 .panel.open { transform: none; visibility: visible; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px 12px 24px; border-bottom: 1px solid var(--line); }
@@ -195,7 +263,7 @@ details summary:hover { color: var(--ink); }
 .tip-m { margin-top: 4px !important; color: var(--muted); font-size: 12px; }
 .tip-bar { height: 3px; margin-top: 8px; border-radius: 2px; background: var(--line); overflow: hidden; }
 .tip-bar i { display: block; height: 100%; }
-.tip-f { margin: 6px 0 2px; font-size: 1.05em; }
+.tip-list { margin: 6px 0 0; padding-left: 1.3em; color: var(--ink-2); font-size: 12.5px; }
 
 /* 版面調整 */
 @media (max-width: 1100px) { .panel { box-shadow: -24px 0 48px rgba(0,0,0,.5); } }
@@ -213,11 +281,16 @@ details summary:hover { color: var(--ink); }
   .legend-groups { grid-template-columns: 1fr; gap: 14px; }
   .legend-toggle { display: inline-flex; }
   body[data-view="chapter"] .legend-toggle { display: none; }
-  .chapter-card { left: 8px; right: 8px; top: 104px; width: auto; max-height: 44vh; padding: 12px 14px; }
-  .cc-exam { margin-top: 8px; }
-  .cc-title { font-size: 22px; }
-  .cc-en, .cc-blurb { display: none; }
-  .cc-list summary { margin-top: 10px; }
+  .chview { padding: 116px 12px 48px; }
+  .ch-switch { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
+  .sw-exam { display: none; }
+  .ch-title-row { flex-direction: column; align-items: stretch; gap: 12px; margin-top: 12px; }
+  .ch-actions { text-align: left; }
+  .ch-title { font-size: 23px; }
+  .ch-en { display: block; margin: 4px 0 0; }
+  .ch-key-note { display: none; }
+  .fcard { padding: 14px 14px 12px; }
+  .fcard-tex .katex { font-size: 1.12em; }
   .panel { width: 100vw; border-left: 0; }
   .panel-body { padding: 4px 16px 40px; }
   .f-display .katex { font-size: 1.15em; }
@@ -247,7 +320,7 @@ details summary:hover { color: var(--ink); }
   </div>
 </header>
 
-<p id="hint" class="hint">點一顆星球，展開那一章的公式。星球外圈的光環是你的完成度。</p>
+<p id="hint" class="hint">滑鼠移到章節上，會亮出它和哪些章相連，數字是相連的公式組數；點一下看這章的公式。</p>
 
 <aside id="legend" class="legend" aria-label="章節列表">
   <div id="legend-groups" class="legend-groups"></div>
@@ -255,7 +328,7 @@ details summary:hover { color: var(--ink); }
 </aside>
 <button type="button" id="legend-toggle" class="legend-toggle btn" aria-expanded="false" aria-controls="legend">章節列表</button>
 
-<section id="chapter-card" class="chapter-card" hidden></section>
+<main id="chapter-view" class="chview" hidden></main>
 
 <aside id="panel" class="panel" aria-hidden="true" aria-labelledby="panel-title">
   <div class="panel-head">
@@ -1562,6 +1635,176 @@ chapter({ id: 19, exam: 3, title: '熱力學第二定律', en: 'The Second Law o
     sol: R`$\Delta S = \dfrac{(334\times10^3)(1.0)}{273.15} \approx 1.22\times10^3\ \text{J/K}$。` }
 ]);
 
+/* ===== 公式之間的關係 =====
+   [甲, 乙, 類型, 說明]
+   推導：乙由甲推導而來　特例：乙是甲的特例　應用：乙用到甲
+   類比、搭配、比較：沒有方向 */
+const RELATIONS = [
+  /* Ch5 */
+  ['f5-1', 'f5-2', '推導', '沿斜面與垂直斜面兩個方向各寫一次 ΣF = ma，就得到 a = g sinθ 和 n = mg cosθ。'],
+  ['f5-1', 'f9-2', '推導', '對系統裡每個質點寫 F = ma 再相加，內力成對抵消，剩下 F_ext = M a_cm。'],
+  ['f5-1', 'f10-4', '類比', 'τ = Iα 是轉動版的 F = ma：力對應力矩、質量對應轉動慣量、加速度對應角加速度。'],
+  ['f5-1', 'f12-1', '特例', '加速度為零時，ΣF = ma 就變成平衡條件 ΣF = 0。'],
+  ['f5-2', 'f5-3', '搭配', '斜面加上摩擦時，靜摩擦力要抵消 mg sinθ；剛好要滑時 tanθ = μs。'],
+  ['f5-2', 'f7-4', '比較', '同一個問題的兩種解法：無摩擦斜面滑到底的速率也能用能量守恆直接求 v = √(2gh)，不必先算加速度。'],
+  ['f8-2', 'f5-2', '應用', '斜面公式裡的 g 就是 GM/r² 在地表的值，約 9.8 m/s²。'],
+  ['f5-3', 'f5-4', '比較', '靜摩擦「需要多少給多少」，上限是 μs n；一旦滑動就換成固定的 μk n，而且通常比較小。'],
+  ['f5-3', 'f5-6', '應用', '平路轉彎時改由靜摩擦提供向心力：μs mg = mv²/r，最大車速 v = √(μs r g)。'],
+  ['f5-3', 'f12-4', '應用', '梯子腳不滑靠的是地面的靜摩擦，上限 μ n 決定梯子能放多斜。'],
+  ['f5-4', 'f6-1', '應用', '動摩擦力和位移方向相反（θ = 180°），做的功是 −μk n d，是負功。'],
+  ['f5-4', 'f7-5', '應用', '摩擦力是最常見的非保守力：W_nc = −μk n d，機械能因此減少並變成熱。'],
+  ['f5-5', 'f5-6', '應用', '傾斜彎道是向心力的應用：正向力的水平分量 n sinθ 提供 mv²/r。'],
+  ['f5-5', 'f8-1', '搭配', '行星、衛星繞行時，向心力就是萬有引力：GMm/r² = mv²/r。'],
+  ['f5-5', 'f8-3', '推導', '令萬有引力等於向心力 mv²/r，就解出圓軌道速率 v = √(GM/r)。'],
+  ['f5-5', 'f10-1', '搭配', '用 v = ωr 代入，向心加速度也能寫成 ω²r。'],
+  /* Ch6 */
+  ['f6-1', 'f6-2', '推導', '力會變時，把路徑切成小段、每段當定力算 F Δx 再加總，取極限就成為積分。'],
+  ['f6-1', 'f6-5', '應用', '功能定理裡的 W_net，就是合力用 W = F·Δr（或積分）算出來的功。'],
+  ['f6-1', 'f6-6', '推導', '功率是功對時間的變化率：P = dW/dt，定力時再寫成 F·v。'],
+  ['f6-1', 'f7-1', '推導', '位能就是「保守力做的功取負號」：ΔU = −W_c，所以要先會算功。'],
+  ['f6-2', 'f6-3', '推導', '彈力 F = kx 代入 W = ∫F dx，得到 ½kx²，也就是 F–x 圖的三角形面積。'],
+  ['f6-2', 'f7-1', '推導', '保守力隨位置改變時（例如彈力），ΔU = −∫F dx 就是用變力的功來算。'],
+  ['f6-2', 'f18-2', '類比', '氣體做功 W = ∫p dV 和 W = ∫F dx 是同一個想法：F dx = pA dx = p dV，功是 p–V 圖下的面積。'],
+  ['f6-3', 'f7-3', '推導', '拉伸彈簧做的功 ½kx² 全部存成彈性位能，所以兩條公式長得一樣。'],
+  ['f6-3', 'f13-3', '搭配', '彈簧振子的 k 就是同一個彈力常數：彈簧越硬（k 越大）振得越快。'],
+  ['f6-3', 'f13-6', '應用', '振子的總能量 ½kA² 就是把彈簧拉到振幅 A 所做的功。'],
+  ['f6-4', 'f6-5', '搭配', '功能定理的 ΔK 就是動能 ½mv² 的變化；動能的定義本身也是從這裡來的。'],
+  ['f6-4', 'f9-6', '應用', '彈性碰撞的條件之一：碰撞前後總動能 Σ½mv² 不變。'],
+  ['f6-4', 'f10-6', '推導', '把剛體每一小塊的 ½m(ωr)² 加起來，就是轉動動能 ½Iω²。'],
+  ['f6-4', 'f17-2', '應用', '氣體分子的平均動能 ½mv² 等於 (3/2)kT：溫度就是分子動能的量度。'],
+  ['f6-5', 'f7-4', '推導', '功能定理中保守力的功寫成 −ΔU，沒有非保守力時就得到 K + U 守恆。'],
+  ['f6-6', 'f16-4', '類比', '熱流率 H 也是「每秒傳多少能量」，單位和功率一樣是瓦特。'],
+  /* Ch7 */
+  ['f7-1', 'f7-2', '推導', '重力 −mg 是定力，代入 ΔU = −∫F dy 得到 mgΔy。'],
+  ['f7-1', 'f7-3', '推導', '彈力 −kx 代入 ΔU = −∫F dx，得到 ½kx²。'],
+  ['f7-1', 'f7-6', '推導', '把 ΔU = −FΔx 反過來，力就是位能曲線的負斜率：F = −dU/dx。'],
+  ['f7-1', 'f8-5', '推導', '把萬有引力 −GMm/r² 代入 ΔU = −∫F dr，並取無限遠為零點，得到 U = −GMm/r。'],
+  ['f8-5', 'f7-2', '特例', '在地表附近、高度變化遠小於地球半徑時，−GMm/r 的變化近似為 mgh。'],
+  ['f7-2', 'f15-6', '應用', '白努利方程中的 ρgy 就是每單位體積流體的重力位能。'],
+  ['f7-3', 'f13-6', '應用', '簡諧運動的位能就是彈性位能 ½kx²，在兩端最大、在平衡點為零。'],
+  ['f7-5', 'f7-4', '特例', 'ΔE = W_nc 是一般情形；沒有摩擦等非保守力（W_nc = 0）時，就回到機械能守恆。'],
+  ['f7-4', 'f8-6', '應用', '脫離速度用能量守恆求：½mv² − GMm/R = 0（剛好到無限遠時速度為零）。'],
+  ['f7-4', 'f9-5', '搭配', '衝擊擺分兩段：碰撞瞬間用動量守恆（動能不守恆），上擺時再用機械能守恆。'],
+  ['f7-4', 'f10-7', '應用', '滾下斜坡時，Mgh 同時變成平移和轉動動能：Mgh = ½Mv² + ½Iω²。'],
+  ['f7-4', 'f13-6', '應用', '簡諧運動中動能和彈性位能來回交換，總和 ½kA² 不變。'],
+  ['f7-4', 'f15-6', '推導', '白努利方程是流體版的能量守恆：每單位體積的 p + ½ρv² + ρgy 沿流線不變。'],
+  ['f7-4', 'f15-7', '應用', '托里切利定理等同於從高 h 自由落下：½v² = gh。'],
+  ['f7-5', 'f18-1', '推導', '熱力學第一定律把能量守恆擴大到熱：ΔE_int = Q − W；摩擦生的熱就是跑進內能的能量。'],
+  ['f7-6', 'f12-5', '應用', '平衡點在 dU/dx = 0（力為零）；位能谷底是穩定平衡，峰頂是不穩定平衡。'],
+  /* Ch8 */
+  ['f8-1', 'f8-2', '推導', '令 mg = GMm/r²，消掉 m 就得到 g = GM/r²。'],
+  ['f8-1', 'f8-3', '推導', '萬有引力當作向心力：GMm/r² = mv²/r，解出 v。'],
+  ['f8-3', 'f8-4', '推導', '繞一圈的時間 T = 2πr/v，代入 v = √(GM/r) 再平方，就是克卜勒第三定律。'],
+  ['f8-3', 'f8-6', '比較', '同一高度下，脫離速度是圓軌道速率的 √2 倍。'],
+  ['f8-4', 'f11-5', '搭配', '克卜勒第二定律（等時間掃過等面積）其實就是角動量守恆。'],
+  ['f8-5', 'f8-6', '應用', '脫離條件是總能量 ½mv² + U = 0，用的就是 U = −GMm/r。'],
+  /* Ch9 */
+  ['f9-1', 'f9-2', '推導', '把質心位置對時間微分兩次，M a_cm 就等於所有質點 m a 的和。'],
+  ['f9-1', 'f12-3', '特例', '重力場均勻時，重心的位置就是質心。'],
+  ['f9-2', 'f9-3', '推導', 'M a_cm = d(M v_cm)/dt = dP/dt，牛頓第二定律改寫成動量形式。'],
+  ['f9-2', 'f9-4', '特例', '外力為零時 a_cm = 0，質心速度不變，總動量守恆。'],
+  ['f9-3', 'f9-4', '特例', '外力為零時 dP/dt = 0，所以總動量 P 不變。'],
+  ['f9-2', 'f12-1', '特例', '靜力平衡就是質心加速度為零：ΣF_ext = 0。'],
+  ['f9-3', 'f11-2', '推導', '角動量 L = r × p 是用動量 p 定義出來的「轉動版動量」。'],
+  ['f9-3', 'f11-4', '類比', 'τ = dL/dt 是 F = dP/dt 的轉動版。'],
+  ['f9-4', 'f9-5', '應用', '碰撞瞬間外力可忽略，動量守恆；黏在一起時共同速度 (m₁v₁ + m₂v₂)/(m₁ + m₂)。'],
+  ['f9-4', 'f9-6', '應用', '彈性碰撞同時用動量守恆與動能守恆，兩式聯立解出碰後速度。'],
+  ['f9-4', 'f11-5', '類比', '角動量守恆是動量守恆的轉動版：沒有外力矩，L 就不變。'],
+  /* Ch10 */
+  ['f10-1', 'f10-2', '推導', 'ω 是角位置的變化率；等角加速度時，把直線運動的 x、v、a 換成 θ、ω、α 就能套用。'],
+  ['f10-1', 'f10-7', '應用', '不打滑的滾動 v_cm = ωR，把平移和轉動綁在一起。'],
+  ['f10-2', 'f10-4', '搭配', '先由 τ = Iα 算出角加速度，再用等角加速度公式求轉幾圈、花多久。'],
+  ['f10-3', 'f10-4', '搭配', 'τ = Iα 中的 τ，就是各個力的 rF sinθ 加總。'],
+  ['f10-3', 'f11-1', '推導', '向量版：τ = r × F，大小就是 rF sinθ，方向沿轉軸。'],
+  ['f10-3', 'f12-2', '應用', '力矩平衡就是所有 rF sinθ（含正負號）加起來為零。'],
+  ['f10-4', 'f10-5', '搭配', 'τ = Iα 裡的 I 要用 Σmr² 或常見形狀的公式算出。'],
+  ['f11-4', 'f10-4', '特例', 'τ = dL/dt 代入 L = Iω，I 不變時就回到 τ = Iα。'],
+  ['f10-4', 'f13-5', '應用', '物理擺用 τ = Iα：重力力矩 −mgdθ 提供回復，得到 ω = √(mgd/I)。'],
+  ['f10-5', 'f10-6', '搭配', '轉動動能 ½Iω² 要先算出轉動慣量 I。'],
+  ['f10-5', 'f11-3', '搭配', '剛體角動量 L = Iω 的 I 由質量分布決定。'],
+  ['f10-5', 'f13-5', '應用', '物理擺週期裡的 I 是對支點的轉動慣量，常要配合平行軸定理。'],
+  ['f10-6', 'f10-7', '推導', '滾動的總動能 = 質心平移動能 + 繞質心的轉動動能 ½I_cm ω²。'],
+  /* Ch11 */
+  ['f11-1', 'f11-4', '搭配', 'τ = dL/dt 中的 τ 用外積 r × F 計算，方向決定 L 怎麼轉。'],
+  ['f11-2', 'f11-3', '推導', '把剛體每個質點的 mr²ω 加起來，得到 L = Iω。'],
+  ['f11-3', 'f11-5', '應用', '角動量守恆 I₁ω₁ = I₂ω₂，就是 L = Iω 前後不變。'],
+  ['f11-4', 'f11-5', '特例', '外力矩為零時 dL/dt = 0，角動量守恆。'],
+  ['f11-4', 'f11-6', '應用', '重力力矩只改變 L 的方向：dL = τ dt 讓陀螺水平繞圈，Ω = τ/L。'],
+  /* Ch12 */
+  ['f12-1', 'f12-2', '搭配', '靜力平衡要同時滿足 ΣF = 0 和 Στ = 0，兩組方程一起解出未知力。'],
+  ['f12-1', 'f12-4', '應用', '梯子問題先用水平、垂直方向的力平衡，找出 n₁、n₂ 與摩擦力的關係。'],
+  ['f12-2', 'f12-3', '搭配', '算重力的力矩時，可以把全部重量當成作用在重心。'],
+  ['f12-2', 'f12-4', '應用', '對梯腳取力矩平衡求出牆的推力，再和最大靜摩擦比較。'],
+  /* Ch13 */
+  ['f13-1', 'f13-2', '搭配', 'x = A cos(ωt + φ) 中的 ω = 2πf = 2π/T，決定振動快慢。'],
+  ['f13-1', 'f14-1', '應用', '波速 v = λf = λ/T，用的是同一組週期與頻率。'],
+  ['f13-2', 'f13-3', '推導', '把 x = A cos(ωt + φ) 代入 m d²x/dt² = −kx，得到 ω = √(k/m)。'],
+  ['f13-2', 'f13-7', '推導', '加上阻力 −bv 後，簡諧運動變成振幅以 e^(−bt/2m) 衰減的阻尼振盪。'],
+  ['f13-2', 'f14-2', '推導', '介質中每一點都做簡諧運動；相位改成 kx − ωt，就成為向前傳播的簡諧波。'],
+  ['f13-3', 'f13-4', '類比', '單擺小角度時回復力 ≈ −(mg/L)s，和彈簧的 −kx 同形式，所以 k/m 換成 g/L。'],
+  ['f13-3', 'f13-6', '搭配', 'ω = √(k/m) 讓最大速率寫成 v_max = ωA，總能量是 ½kA²。'],
+  ['f13-5', 'f13-4', '特例', '單擺是物理擺的特例：代入質點的 I = mL²、d = L，就回到 2π√(L/g)。'],
+  /* Ch14 */
+  ['f14-1', 'f14-2', '搭配', '簡諧波的形狀以 v = ω/k = λf 前進。'],
+  ['f14-3', 'f14-1', '搭配', '弦的張力與線密度決定波速 v = √(F/μ)，再用 v = λf 求波長或頻率。'],
+  ['f14-1', 'f14-6', '應用', '駐波頻率 f_n = v/λ_n，波長被長度限制為 2L/n。'],
+  ['f14-1', 'f14-7', '推導', '都卜勒效應來自波長被壓縮：λ′ = (v − u)T，再用 f′ = v/λ′。'],
+  ['f14-2', 'f14-6', '推導', '兩列反向的簡諧波疊加：y = 2A sin kx cos ωt，就是駐波。'],
+  ['f14-3', 'f14-6', '搭配', '弦樂器的音高 f₁ = v/2L = (1/2L)√(F/μ)，調張力就能調音。'],
+  ['f14-4', 'f14-5', '搭配', '分貝用強度比的對數表示：β = 10 log(I/I₀)。'],
+  ['f16-6', 'f14-4', '搭配', '恆星的輻射功率 P = eσAT⁴ 均勻散到球面，遠處的強度就是 P/4πr²。'],
+  ['f14-6', 'f32-1', '類比', '駐波和干涉都來自疊加原理：相位相同就加強，相差半個波長就抵消。'],
+  /* Ch32 */
+  ['f32-1', 'f32-2', '應用', '雙狹縫的路徑差是 d sinθ，代入建設性條件 Δr = mλ。'],
+  ['f32-1', 'f32-4', '應用', '薄膜的光程差 2nd 加上反射的半波相位反轉，再用干涉條件判斷亮暗。'],
+  ['f32-2', 'f32-3', '推導', '光柵是很多條等距狹縫：亮紋位置和雙狹縫一樣是 d sinθ = mλ，但更尖銳。'],
+  ['f32-2', 'f32-5', '比較', '公式長得一樣、意義相反：雙狹縫的 d sinθ = mλ 是亮紋，單狹縫的 a sinθ = mλ 是暗紋。'],
+  ['f32-5', 'f32-6', '推導', '圓形孔的第一暗環在 sinθ = 1.22λ/D，是單狹縫暗紋條件的圓孔版本。'],
+  /* Ch15 */
+  ['f15-1', 'f15-2', '搭配', '靜止流體的壓力隨深度增加 ρgh，要先知道密度 ρ。'],
+  ['f15-1', 'f15-4', '搭配', '浮力 ρ_f V g 的 ρ_f 是流體密度；物體密度和它比較，決定浮或沉。'],
+  ['f15-1', 'f17-1', '搭配', '氣體壓力同樣定義為 p = F/A；理想氣體定律再把 p 和溫度、體積連起來。'],
+  ['f15-2', 'f15-3', '應用', '液壓機兩活塞在同一高度，壓力相同：F₁/A₁ = F₂/A₂。'],
+  ['f15-2', 'f15-4', '推導', '物體上下表面的壓力差 ρgh·A 加起來，就是浮力 ρ_f V g。'],
+  ['f15-6', 'f15-2', '特例', '流體靜止（v = 0）時，白努利方程化簡成 p + ρgy = 常數，就是 p = p₀ + ρgh。'],
+  ['f15-5', 'f15-6', '搭配', '解流動問題常兩條一起用：連續方程求流速，白努利方程求壓力。'],
+  ['f15-6', 'f15-7', '應用', '液面和小孔都在大氣壓下，白努利方程化簡成 v = √(2gh)。'],
+  /* Ch16 */
+  ['f16-1', 'f16-2', '搭配', 'ΔT 用 °C 或 K 數值相同（刻度一樣大）；用 °F 要先換算。'],
+  ['f16-1', 'f17-1', '搭配', 'pV = nRT 的 T 必須是克氏溫度，攝氏要加 273.15。'],
+  ['f16-2', 'f16-3', '推導', '兩物體放熱 = 吸熱：m₁c₁(T − T₁) + m₂c₂(T − T₂) = 0，解出平衡溫度。'],
+  ['f16-2', 'f17-4', '比較', '溫度改變時用 Q = mcΔT；相變時溫度不變，改用 Q = Lm。'],
+  ['f16-2', 'f18-1', '搭配', '第一定律裡的 Q 常用 mcΔT（或 nCΔT）計算。'],
+  ['f16-4', 'f16-5', '推導', '把 H = kAΔT/Δx 改寫，定義熱阻 R = Δx/k；多層材料的 R 直接相加。'],
+  /* Ch17 */
+  ['f17-1', 'f17-2', '推導', '動力論算出 pV = (2/3)N K̄，和 pV = NkT 比較得 K̄ = (3/2)kT。'],
+  ['f17-1', 'f18-2', '應用', '算氣體做功時，用 p = nRT/V 把 p 寫成 V 的函數再積分。'],
+  ['f17-1', 'f18-4', '推導', '等溫時 p = nRT/V，積分 ∫p dV 得到 nRT ln(V₂/V₁)。'],
+  ['f17-2', 'f17-3', '推導', '½m v²_rms = (3/2)kT，解出 v_rms = √(3kT/m)。'],
+  ['f17-2', 'f18-5', '推導', '單原子氣體的內能 = N·(3/2)kT = (3/2)nRT，所以等容吸熱 Q = (3/2)nRΔT。'],
+  ['f17-2', 'f18-7', '推導', '由內能 (3/2)nRT 得單原子 C_V = 3R/2，再加 R 得 C_P = 5R/2。'],
+  ['f17-4', 'f19-5', '應用', '熔化、沸騰在固定溫度下進行，熵變 ΔS = Q/T = Lm/T。'],
+  ['f17-5', 'f17-6', '推導', '立方體每邊都伸長 αLΔT，體積變化約 3αVΔT，所以 β ≈ 3α。'],
+  /* Ch18 */
+  ['f18-1', 'f18-2', '搭配', '第一定律裡的 W 就是氣體做的功 ∫p dV。'],
+  ['f18-1', 'f18-5', '特例', '等容時 W = 0，第一定律變成 Q = ΔE_int。'],
+  ['f18-1', 'f18-6', '特例', '絕熱時 Q = 0，第一定律變成 ΔE_int = −W：壓縮升溫、膨脹降溫。'],
+  ['f18-1', 'f19-1', '應用', '熱機循環回到原狀態 ΔE_int = 0，所以 W = Q_h − Q_c。'],
+  ['f18-2', 'f18-3', '特例', '壓力固定時，∫p dV = pΔV。'],
+  ['f18-2', 'f18-4', '特例', '溫度固定時，代入 p = nRT/V 再積分。'],
+  ['f18-3', 'f18-7', '推導', '等壓加熱要多付對外做的功 nRΔT，所以 C_P = C_V + R。'],
+  ['f18-4', 'f19-2', '應用', '卡諾循環的吸熱、放熱都在等溫段：Q = nRT ln(V₂/V₁)。'],
+  ['f18-5', 'f18-7', '搭配', '等容過程 Q = nC_VΔT，正好用來定義 C_V。'],
+  ['f18-6', 'f18-7', '搭配', '比熱比 γ = C_P/C_V 決定絕熱曲線 pV^γ 有多陡。'],
+  ['f18-6', 'f19-2', '應用', '卡諾循環的兩段絕熱過程讓 V_b/V_a = V_c/V_d，因此 Q_c/Q_h = T_c/T_h。'],
+  /* Ch19 */
+  ['f19-1', 'f19-2', '特例', '卡諾效率是熱機效率的上限：可逆時 Q_c/Q_h = T_c/T_h。'],
+  ['f19-1', 'f19-3', '比較', '冷凍機是把熱機倒過來運作：輸入功，把熱從低溫搬到高溫。'],
+  ['f19-2', 'f19-6', '搭配', '卡諾熱機可逆，總熵變為零；若效率還要更高，總熵就會減少，違反第二定律。'],
+  ['f19-3', 'f19-4', '比較', '同一台機器：冷凍機看移走的 Q_c，熱泵看送進室內的 Q_h = W + Q_c，所以 COP_hp = COP + 1。'],
+  ['f19-5', 'f19-6', '搭配', '把每個物體的 ΔS = ∫dQ/T 加起來，判斷總熵有沒有增加。']
+];
+
 /* ===== 模擬動畫 ===== */
 const G9 = 9.8;
 const SIMS = {};
@@ -2295,20 +2538,27 @@ const CH = {}, FM = {}, PB = {};
 CHAPTERS.forEach(c => { CH[c.id] = c; c.formulas = []; c.problems = []; });
 FORMULAS.forEach(f => { FM[f.id] = f; CH[f.ch].formulas.push(f); });
 PROBLEMS.forEach(p => { PB[p.id] = p; CH[p.ch].problems.push(p); });
-// 對稱化關聯
-const ADJ = {}; FORMULAS.forEach(f => ADJ[f.id] = new Set());
-FORMULAS.forEach(f => (f.links || []).forEach(l => { if (FM[l] && l !== f.id) { ADJ[f.id].add(l); ADJ[l].add(f.id); } }));
-// 章與章之間的連結數
+const ORDER = CHAPTERS.map(c => c.id); // 段考順序
+const ADJ = {}, REL = {};
+FORMULAS.forEach(f => ADJ[f.id] = new Set());
+const rkey = (a, b) => a < b ? a + '|' + b : b + '|' + a;
+RELATIONS.forEach(([a, b, type, text]) => { ADJ[a].add(b); ADJ[b].add(a); REL[rkey(a, b)] = { a, b, type, text }; });
+const relOf = (x, y) => REL[rkey(x, y)];
+const TCLS = { '推導': 'der', '特例': 'spe', '應用': 'app', '類比': 'ana', '搭配': 'pai', '比較': 'cmp' };
+// 從 x 的角度描述它和 y 的關係
+const DIRECTED = { '推導': ['推導出', '推導自'], '特例': ['特例', '一般式'], '應用': ['應用於', '用到'] };
+function relLabel(x, r) {
+  if (DIRECTED[r.type]) return r.a === x ? { word: DIRECTED[r.type][0], arrow: '→' } : { word: DIRECTED[r.type][1], arrow: '←' };
+  return { word: r.type, arrow: '↔' };
+}
 const CHLINK = {};
-FORMULAS.forEach(f => ADJ[f.id].forEach(l => {
-  const a = f.ch, b = FM[l].ch; if (a === b) return;
-  const key = a < b ? a + '-' + b : b + '-' + a; CHLINK[key] = (CHLINK[key] || 0) + 0.5;
-}));
+RELATIONS.forEach(([a, b]) => { const x = FM[a].ch, y = FM[b].ch; if (x === y) return; const k = x < y ? x + '-' + y : y + '-' + x; CHLINK[k] = (CHLINK[k] || 0) + 1; });
 const CH_PAIRS = Object.entries(CHLINK).map(([k, w]) => { const [a, b] = k.split('-').map(Number); return { a, b, w }; });
 const examColor = ch => EXAMS[CH[ch].exam].color;
 
 /* ---------- 工具 ---------- */
 const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -2330,8 +2580,7 @@ function tex(t, display) {
 }
 function rich(s) {
   if (!s) return '';
-  const parts = String(s).split('$');
-  return parts.map((p, i) => i % 2 ? tex(p, false) : esc(p).replace(/\n/g, '<br>')).join('');
+  return String(s).split('$').map((p, i) => i % 2 ? tex(p, false) : esc(p).replace(/\n/g, '<br>')).join('');
 }
 const plainTex = t => t.replace(/@\{\w+\}/g, '');
 const texCache = {};
@@ -2342,19 +2591,25 @@ const STORE_KEY = 'pfg-progress-v1';
 let PROG = { seen: {}, solved: {} };
 try { const raw = localStorage.getItem(STORE_KEY); if (raw) { const o = JSON.parse(raw); PROG.seen = o.seen || {}; PROG.solved = o.solved || {}; } } catch (e) { /* 無法讀取就從空白開始 */ }
 function saveProg() { try { localStorage.setItem(STORE_KEY, JSON.stringify(PROG)); } catch (e) { /* 存不了也能用 */ } updateSummary(); }
+const isOk = pid => PROG.solved[pid] && PROG.solved[pid].ok;
 function chProgress(ch) {
-  const c = CH[ch]; const total = c.formulas.length + c.problems.length;
-  const done = c.formulas.filter(f => PROG.seen[f.id]).length + c.problems.filter(p => PROG.solved[p.id] && PROG.solved[p.id].ok).length;
+  const c = CH[ch], total = c.formulas.length + c.problems.length;
+  const done = c.formulas.filter(f => PROG.seen[f.id]).length + c.problems.filter(p => isOk(p.id)).length;
   return total ? done / total : 0;
 }
-function markSeen(fid) { if (!PROG.seen[fid]) { PROG.seen[fid] = true; saveProg(); renderChapterCard(); } }
+function markSeen(fid) {
+  if (PROG.seen[fid]) return;
+  PROG.seen[fid] = true; saveProg();
+  const tag = $(`#card-${fid} .tag-seen`); if (tag) tag.hidden = false;
+  updateChapterStats();
+}
 
-/* ---------- DOM 骨架 ---------- */
-const sky = $('#sky'), ctx = sky.getContext('2d'), tip = $('#tip'), panel = $('#panel'), panelBody = $('#panel-body');
+/* ---------- 共用 DOM ---------- */
+const sky = $('#sky'), ctx = sky.getContext('2d'), tip = $('#tip'), panel = $('#panel'), panelBody = $('#panel-body'), view = $('#chapter-view');
 
 function updateSummary() {
-  const seen = FORMULAS.filter(f => PROG.seen[f.id]).length, ok = PROBLEMS.filter(p => PROG.solved[p.id] && PROG.solved[p.id].ok).length;
-  $('#sum-f').textContent = seen; $('#sum-p').textContent = ok;
+  $('#sum-f').textContent = FORMULAS.filter(f => PROG.seen[f.id]).length;
+  $('#sum-p').textContent = PROBLEMS.filter(p => isOk(p.id)).length;
   $('#sum-f-total').textContent = FORMULAS.length; $('#sum-p-total').textContent = PROBLEMS.length;
 }
 let resetArmed = null;
@@ -2362,335 +2617,286 @@ $('#reset-prog').addEventListener('click', e => {
   const b = e.currentTarget;
   if (!resetArmed) { b.textContent = '再按一次清除'; b.classList.add('armed'); resetArmed = setTimeout(() => { b.textContent = '重設進度'; b.classList.remove('armed'); resetArmed = null; }, 3000); return; }
   clearTimeout(resetArmed); resetArmed = null; b.textContent = '重設進度'; b.classList.remove('armed');
-  PROG = { seen: {}, solved: {} }; saveProg(); renderChapterCard(); if (route.panel) openPanel(route);
+  PROG = { seen: {}, solved: {} }; saveProg(); renderLegend();
+  if (route.view === 'chapter') { renderChapter(route.ch, true); if (route.panel) openPanel(route); }
 });
 
-/* 圖例 / 章節清單 */
 function renderLegend() {
   $('#legend-groups').innerHTML = [1, 2, 3].map(e => {
     const chs = CHAPTERS.filter(c => c.exam === e);
     return `<div class="lg-group" style="--accent:${EXAMS[e].color}">
       <a class="lg-exam" href="#/exam/${e}"><span class="dot"></span>${EXAMS[e].name}<span class="lg-range">${EXAMS[e].range}</span></a>
-      <ul>${chs.map(c => `<li><a href="#/ch/${c.id}" data-ch="${c.id}"><span class="lg-no">${c.id}</span>${esc(c.title)}<span class="lg-bar"><i style="width:${Math.round(chProgress(c.id) * 100)}%"></i></span></a></li>`).join('')}</ul></div>`;
+      <ul>${chs.map(c => `<li><a href="#/ch/${c.id}" data-ch="${c.id}"><span class="lg-no">${c.id}</span>${esc(c.title)}<span class="lg-n">${c.formulas.length} 式</span><span class="lg-bar"><i style="width:${Math.round(chProgress(c.id) * 100)}%"></i></span></a></li>`).join('')}</ul></div>`;
   }).join('');
 }
-$('#legend-toggle').addEventListener('click', () => { const lg = $('#legend'); const open = lg.classList.toggle('open'); $('#legend-toggle').setAttribute('aria-expanded', open); });
+$('#legend-toggle').addEventListener('click', () => { const open = $('#legend').classList.toggle('open'); $('#legend-toggle').setAttribute('aria-expanded', open); });
 $('#legend').addEventListener('click', e => { if (e.target.closest('a')) { $('#legend').classList.remove('open'); $('#legend-toggle').setAttribute('aria-expanded', 'false'); } });
 
-/* 章節卡片 */
-function renderChapterCard() {
-  renderLegend();
-  if (route.view !== 'chapter') return;
-  const c = CH[route.ch], card = $('#chapter-card');
-  card.style.setProperty('--accent', examColor(c.id));
-  const solved = c.problems.filter(p => PROG.solved[p.id] && PROG.solved[p.id].ok).length;
-  card.innerHTML = `
-    <a class="back" href="#/exam/${c.exam}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>回到星系</a>
-    <p class="cc-exam"><span class="dot"></span>${EXAMS[c.exam].name}${c.supplement ? '<span class="tag-sup">補充章節</span>' : ''}</p>
-    <h1 class="cc-title"><span class="cc-no">${c.id}</span>${esc(c.title)}</h1>
-    <p class="cc-en">${esc(c.en)}</p>
-    <p class="cc-blurb">${esc(c.blurb)}</p>
-    <a class="btn btn-primary cc-practice" href="#/ch/${c.id}/practice">練習本章 ${c.problems.length} 題<span class="cc-solved">已答對 ${solved}</span></a>
-    <details class="cc-list" ${window.innerWidth > 760 ? 'open' : ''}><summary>本章公式（${c.formulas.length}）</summary>
-    <ul>${c.formulas.map(f => `<li><a href="#/ch/${c.id}/${f.id}" class="${route.f === f.id ? 'cur' : ''}"><span class="seen-dot ${PROG.seen[f.id] ? 'on' : ''}" aria-label="${PROG.seen[f.id] ? '看過' : '還沒看'}"></span><span class="fl-name">${esc(f.name)}</span></a></li>`).join('')}</ul></details>`;
-}
-
-/* ---------- 星系畫布 ---------- */
-const S = {
-  W: 0, H: 0, dpr: 1, t: 0, orbitT: 0, intro: 0,
-  cam: { x: 0, y: 0, s: 1, vx: 0, vy: 0 }, from: null, to: null, tw: 1,
-  hover: null, stars: [], layout: 'wide', clusters: {}, planets: {}, nodes: [], portals: [], chapterReveal: 1
-};
-const ORBIT_SQUASH = () => S.layout === 'wide' ? 0.56 : 0.72;
+/* ======================================================
+   首頁：章節總覽圖（畫布）
+   ====================================================== */
+const S = { W: 0, H: 0, dpr: 1, cam: { x: 0, y: 0, s: 1, vx: 0, vy: 0 }, from: null, to: null, tw: 1, hover: null, stars: [], layout: 'wide', clusters: {}, planets: {}, dirty: true };
+const SQUASH = () => S.layout === 'wide' ? 0.56 : 0.72;
 function computeLayout() {
   S.layout = S.W / S.H >= 1.05 ? 'wide' : 'tall';
   const C = S.layout === 'wide' ? { 1: [-520, 40], 2: [0, -40], 3: [520, 40] } : { 1: [0, -410], 2: [0, 0], 3: [0, 410] };
-  S.clusters = {};
   [1, 2, 3].forEach(e => {
     const chs = CHAPTERS.filter(c => c.exam === e), R = S.layout === 'wide' ? (chs.length > 5 ? 175 : 160) : (chs.length > 5 ? 182 : 170);
     S.clusters[e] = { x: C[e][0], y: C[e][1], R };
-    chs.forEach((c, i) => { S.planets[c.id] = { base: -Math.PI / 2 + e * 0.6 + i * Math.PI * 2 / chs.length, r: 15 + 1.6 * c.formulas.length, exam: e, idx: CHAPTERS.indexOf(c) }; });
+    chs.forEach((c, i) => {
+      const a = -Math.PI / 2 + e * 0.6 + i * Math.PI * 2 / chs.length;
+      S.planets[c.id] = { x: C[e][0] + R * Math.cos(a), y: C[e][1] + R * SQUASH() * Math.sin(a), r: 15 + 1.6 * c.formulas.length, exam: e };
+    });
   });
 }
-function planetWorld(ch) {
-  const p = S.planets[ch], cl = S.clusters[p.exam], a = p.base + S.orbitT * 0.025;
-  return { x: cl.x + cl.R * Math.cos(a), y: cl.y + cl.R * ORBIT_SQUASH() * Math.sin(a) };
-}
-function visRect() {
+function homeRect() {
   const top = S.W < 760 ? 112 : 80;
-  if (route.view === 'home') {
-    if (S.W < 760) return { x0: 8, y0: top, x1: S.W - 8, y1: S.H - 96 };
-    return { x0: 24, y0: top, x1: S.W - 24, y1: S.H - ($('#legend').offsetHeight + 28) };
-  }
-  if (S.W < 760) { const ch = $('#chapter-card').offsetHeight; return { x0: 8, y0: Math.min(S.H * 0.45, top + ch - 40), x1: S.W - 8, y1: S.H - 16 }; }
-  const left = $('#chapter-card').getBoundingClientRect().right + 16, right = panelOpen() && S.W >= 1100 ? S.W - panel.offsetWidth : S.W;
-  return { x0: left, y0: top, x1: right - 24, y1: S.H - 24 };
+  if (S.W < 760) return { x0: 8, y0: top, x1: S.W - 8, y1: S.H - 70 };
+  return { x0: 24, y0: top, x1: S.W - 24, y1: S.H - ($('#legend').offsetHeight + 28) };
 }
-function panelOpen() { return panel.classList.contains('open'); }
-function targetCamera() {
-  const v = visRect(), vw = Math.max(80, v.x1 - v.x0), vh = Math.max(80, v.y1 - v.y0), vcx = (v.x0 + v.x1) / 2, vcy = (v.y0 + v.y1) / 2;
-  if (route.view === 'chapter') {
-    const pw = planetWorld(route.ch), lw = NARROW() ? maxLabelW(route.ch) / 2 + 6 : maxLabelW(route.ch) + 24;
-    const ring = Math.max(56, Math.min(Math.min(vw, vh) * 0.3, vw / 2 - lw - 14, vh / 2 - 40));
-    return { x: pw.x, y: pw.y, s: Math.max(ring / 120, 1.4), vx: vcx, vy: vcy, ring };
-  }
-  let es = route.exam ? [route.exam] : [1, 2, 3];
+function homeCamera() {
+  const v = homeRect(), vw = Math.max(80, v.x1 - v.x0), vh = Math.max(80, v.y1 - v.y0);
+  const es = route.exam ? [route.exam] : [1, 2, 3];
   let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
-  es.forEach(e => { const c = S.clusters[e], sq = ORBIT_SQUASH(); x0 = Math.min(x0, c.x - c.R - 70); x1 = Math.max(x1, c.x + c.R + 70); y0 = Math.min(y0, c.y - c.R * sq - 70); y1 = Math.max(y1, c.y + c.R * sq + 80); });
-  const s = Math.min(vw / (x1 - x0), vh / (y1 - y0)) * (route.exam ? 0.9 : 1);
-  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2, s, vx: vcx, vy: vcy };
+  es.forEach(e => { const c = S.clusters[e], sq = SQUASH(); x0 = Math.min(x0, c.x - c.R - 70); x1 = Math.max(x1, c.x + c.R + 70); y0 = Math.min(y0, c.y - c.R * sq - 60); y1 = Math.max(y1, c.y + c.R * sq + 80); });
+  const s = Math.min(vw / (x1 - x0), vh / (y1 - y0)) * (route.exam ? 0.92 : 1);
+  return { x: (x0 + x1) / 2, y: (y0 + y1) / 2, s, vx: (v.x0 + v.x1) / 2, vy: (v.y0 + v.y1) / 2 };
 }
-function flyTo(instant) {
-  const t = targetCamera();
-  if (instant || REDUCED) { S.cam = Object.assign({}, t); S.from = null; S.tw = 1; return; }
-  S.from = Object.assign({}, S.cam); S.to = t; S.tw = 0;
+function flyHome(instant) {
+  const t = homeCamera();
+  if (instant || REDUCED) { S.cam = t; S.from = null; S.tw = 1; } else { S.from = Object.assign({}, S.cam); S.to = t; S.tw = 0; }
+  S.dirty = true;
 }
 const ease = u => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-function w2s(x, y) { return [(x - S.cam.x) * S.cam.s + S.cam.vx, (y - S.cam.y) * S.cam.s + S.cam.vy]; }
+const w2s = (x, y) => [(x - S.cam.x) * S.cam.s + S.cam.vx, (y - S.cam.y) * S.cam.s + S.cam.vy];
+function hexA(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
 
 function resize() {
   S.dpr = Math.min(window.devicePixelRatio || 1, 2); S.W = window.innerWidth; S.H = window.innerHeight;
   sky.width = S.W * S.dpr; sky.height = S.H * S.dpr; sky.style.width = S.W + 'px'; sky.style.height = S.H + 'px';
   computeLayout();
-  if (!S.stars.length) for (let i = 0; i < 420; i++) S.stars.push({ x: Math.random(), y: Math.random(), r: Math.random() ** 2.2 * 1.5 + 0.3, a: 0.25 + Math.random() * 0.6, ph: Math.random() * 7, tint: Math.random() });
-  flyTo(true);
+  if (!S.stars.length) for (let i = 0; i < 220; i++) S.stars.push({ x: Math.random(), y: Math.random(), r: Math.random() ** 2 * 1.2 + 0.3, a: 0.15 + Math.random() * 0.35 });
+  if (route.view === 'home') flyHome(true);
+  S.dirty = true;
 }
-
-function draw(now) {
-  const dt = Math.min(0.05, (now - (S.last || now)) / 1000); S.last = now; S.t += dt;
-  if (!REDUCED && route.view === 'home') S.orbitT += dt;
-  if (S.tw < 1 && S.from) { S.tw = Math.min(1, S.tw + dt / 0.85); const u = ease(S.tw); ['x', 'y', 's', 'vx', 'vy'].forEach(k => S.cam[k] = S.from[k] + (S.to[k] - S.from[k]) * u); if (S.tw >= 1) S.from = null; }
-  else if (route.view === 'chapter') { const t = targetCamera(), k = REDUCED ? 1 : Math.min(1, dt * 7); ['x', 'y', 's', 'vx', 'vy'].forEach(q => S.cam[q] += (t[q] - S.cam[q]) * k); S.cam.ring = t.ring; }
-  if (route.view === 'chapter') S.chapterReveal = Math.min(1, S.chapterReveal + dt / 0.6);
-  S.intro = Math.min(3, S.intro + dt);
-  const W = S.W, H = S.H;
-  ctx.setTransform(S.dpr, 0, 0, S.dpr, 0, 0); ctx.clearRect(0, 0, W, H);
-  drawStars(W, H);
-  drawHome();
-  if (route.view === 'chapter') drawChapter();
-  requestAnimationFrame(draw);
+function loop(now) {
+  const dt = Math.min(0.05, (now - (S.last || now)) / 1000); S.last = now;
+  if (S.from && S.tw < 1) { S.tw = Math.min(1, S.tw + dt / 0.6); const u = ease(S.tw); ['x', 'y', 's', 'vx', 'vy'].forEach(k => S.cam[k] = S.from[k] + (S.to[k] - S.from[k]) * u); if (S.tw >= 1) S.from = null; S.dirty = true; }
+  if (route.view === 'home' && S.dirty) { drawHome(); S.dirty = false; }
+  requestAnimationFrame(loop);
 }
-
-function drawStars(W, H) {
-  const fade = Math.min(1, S.intro / 0.8), ox = -S.cam.x * S.cam.s * 0.08, oy = -S.cam.y * S.cam.s * 0.08;
-  for (const st of S.stars) {
-    let x = (st.x * W * 1.3 + ox) % (W * 1.3), y = (st.y * H * 1.3 + oy) % (H * 1.3); if (x < 0) x += W * 1.3; if (y < 0) y += H * 1.3;
-    if (x > W || y > H) continue;
-    const tw = REDUCED ? 1 : 0.75 + 0.25 * Math.sin(S.t * (0.6 + st.tint) + st.ph);
-    ctx.fillStyle = st.tint > 0.8 ? `rgba(255,214,170,${st.a * tw * fade})` : st.tint < 0.25 ? `rgba(180,210,255,${st.a * tw * fade})` : `rgba(233,236,255,${st.a * tw * fade})`;
-    ctx.beginPath(); ctx.arc(x, y, st.r, 0, 6.283); ctx.fill();
-  }
-}
-function hexA(hex, a) { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
-function curve(a, b, bend) { const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1]; return [mx - dy * bend, my + dx * bend]; }
-function qpt(a, c, b, u) { const v = 1 - u; return [v * v * a[0] + 2 * v * u * c[0] + u * u * b[0], v * v * a[1] + 2 * v * u * c[1] + u * u * b[1]]; }
-
 function drawHome() {
-  const chapterMode = route.view === 'chapter', s = S.cam.s;
-  if (chapterMode && S.tw >= 1) return;
-  const dimAll = chapterMode ? 0.12 : 1;
-  const hoverCh = S.hover && S.hover.type === 'planet' ? S.hover.id : null;
-  const examDim = e => (!chapterMode && route.exam && route.exam !== e) ? 0.22 : 1;
-  // 星系核心與軌道
+  const W = S.W, H = S.H, s = S.cam.s;
+  ctx.setTransform(S.dpr, 0, 0, S.dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+  for (const st of S.stars) { ctx.fillStyle = `rgba(233,236,255,${st.a})`; ctx.beginPath(); ctx.arc(st.x * W, st.y * H, st.r, 0, 6.283); ctx.fill(); }
+  const hv = S.hover, dim = e => route.exam && route.exam !== e ? 0.22 : 1;
+  const pos = {}; CHAPTERS.forEach(c => pos[c.id] = w2s(S.planets[c.id].x, S.planets[c.id].y));
   [1, 2, 3].forEach(e => {
-    const cl = S.clusters[e], [cx, cy] = w2s(cl.x, cl.y), col = EXAMS[e].color, al = dimAll * examDim(e);
-    ctx.strokeStyle = hexA('#3A4680', 0.7 * al); ctx.lineWidth = 1; ctx.setLineDash([2, 5]);
-    ctx.beginPath(); ctx.ellipse(cx, cy, cl.R * s, cl.R * ORBIT_SQUASH() * s, 0, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
-    const cr = Math.max(5, 11 * s), g = ctx.createRadialGradient(cx, cy, 0, cx, cy, cr * 4);
-    g.addColorStop(0, hexA(col, 0.55 * al)); g.addColorStop(1, hexA(col, 0)); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, cr * 4, 0, 6.283); ctx.fill();
-    ctx.fillStyle = hexA('#FFFFFF', 0.85 * al); ctx.beginPath(); ctx.arc(cx, cy, cr * 0.55, 0, 6.283); ctx.fill();
-    ctx.globalAlpha = al; D.text(ctx, EXAMS[e].name, cx, cy + cr + 16, col, 15, 'center', 700);
-    D.text(ctx, EXAMS[e].range, cx, cy + cr + 34, '#9AA4D1', 12, 'center'); ctx.globalAlpha = 1;
+    const cl = S.clusters[e], [cx, cy] = w2s(cl.x, cl.y), al = dim(e);
+    ctx.strokeStyle = hexA('#3A4680', 0.55 * al); ctx.lineWidth = 1; ctx.setLineDash([2, 6]);
+    ctx.beginPath(); ctx.ellipse(cx, cy, cl.R * s, cl.R * SQUASH() * s, 0, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
   });
-  // 跨章連線
-  const pos = {}; CHAPTERS.forEach(c => { const w = planetWorld(c.id); pos[c.id] = w2s(w.x, w.y); });
+  // 章與章的連線（數字 = 公式關聯數）
+  const labels = [];
   CH_PAIRS.forEach(L => {
-    const a = pos[L.a], b = pos[L.b], same = CH[L.a].exam === CH[L.b].exam;
-    const hl = hoverCh && (hoverCh === L.a || hoverCh === L.b);
-    const al = dimAll * Math.min(examDim(CH[L.a].exam), examDim(CH[L.b].exam)) * (hoverCh && !hl ? 0.35 : 1);
-    const c = curve(a, b, same ? 0.18 : 0.12), col = examColor(L.a);
-    const grad = ctx.createLinearGradient(a[0], a[1], b[0], b[1]); grad.addColorStop(0, hexA(col, (hl ? 0.75 : 0.16 + 0.05 * L.w) * al)); grad.addColorStop(1, hexA(examColor(L.b), (hl ? 0.75 : 0.16 + 0.05 * L.w) * al));
-    ctx.strokeStyle = grad; ctx.lineWidth = hl ? 1.8 : 1 + Math.min(L.w, 3) * 0.25; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(c[0], c[1], b[0], b[1]); ctx.stroke();
-    if (!REDUCED && !chapterMode) {
-      const n = Math.ceil(L.w); for (let i = 0; i < n; i++) { const u = (S.t * 0.09 + i / n + (L.a * 0.13)) % 1, q = qpt(a, c, b, u); ctx.fillStyle = hexA('#FFFFFF', (hl ? 0.9 : 0.45) * al * Math.sin(u * Math.PI)); ctx.beginPath(); ctx.arc(q[0], q[1], hl ? 2 : 1.4, 0, 6.283); ctx.fill(); }
-    }
+    const a = pos[L.a], b = pos[L.b], on = hv && (hv === L.a || hv === L.b);
+    const al = Math.min(dim(CH[L.a].exam), dim(CH[L.b].exam)) * (hv && !on ? 0.25 : 1);
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1], bend = CH[L.a].exam === CH[L.b].exam ? 0.16 : 0.1, c = [mx - dy * bend, my + dx * bend];
+    ctx.strokeStyle = on ? hexA('#E9ECFF', 0.85) : hexA('#9AA4D1', (0.14 + 0.05 * L.w) * al); ctx.lineWidth = on ? 1.4 + 0.4 * L.w : 1;
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(c[0], c[1], b[0], b[1]); ctx.stroke();
+    if (on) labels.push([0.25 * a[0] + 0.5 * c[0] + 0.25 * b[0], 0.25 * a[1] + 0.5 * c[1] + 0.25 * b[1], L.w]);
   });
-  // 星球
   CHAPTERS.forEach(c => {
-    if (chapterMode && c.id === route.ch) return;
-    const p = S.planets[c.id], [x, y] = pos[c.id], col = examColor(c.id);
-    const appear = Math.max(0, Math.min(1, (S.intro - 0.3 - p.idx * 0.07) / 0.5)), al = appear * dimAll * examDim(p.exam);
-    if (al <= 0.01) return;
-    const hv = hoverCh === c.id, r = Math.max(9, p.r * s) * (hv ? 1.12 : 1) * (0.6 + 0.4 * appear);
-    drawPlanet(x, y, r, col, al, chProgress(c.id), hv);
-    if (!chapterMode) {
-      ctx.globalAlpha = al; D.text(ctx, 'Ch' + c.id, x, y + r + 15, '#E9ECFF', 12.5, 'center', 700);
-      D.font(ctx, 13); ctx.fillStyle = hv ? col : '#C9CFF0'; ctx.textAlign = 'center'; ctx.font = `600 13px "Noto Serif TC","Noto Serif CJK TC",serif`; ctx.fillText(c.title, x, y + r + 32); ctx.globalAlpha = 1;
-    }
-  });
-}
-function drawPlanet(x, y, r, col, al, prog, hv) {
-  const halo = ctx.createRadialGradient(x, y, r * 0.6, x, y, r * (hv ? 3 : 2.3));
-  halo.addColorStop(0, hexA(col, 0.35 * al)); halo.addColorStop(1, hexA(col, 0)); ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(x, y, r * (hv ? 3 : 2.3), 0, 6.283); ctx.fill();
-  const g = ctx.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, r);
-  g.addColorStop(0, hexA('#FFFFFF', 0.95 * al)); g.addColorStop(0.35, hexA(col, al)); g.addColorStop(1, hexA('#141B40', al));
-  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
-  ctx.lineWidth = 2; ctx.strokeStyle = hexA('#FFFFFF', 0.12 * al); ctx.beginPath(); ctx.arc(x, y, r + 6, 0, 6.283); ctx.stroke();
-  if (prog > 0) { ctx.strokeStyle = hexA(col, 0.95 * al); ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(x, y, r + 6, -Math.PI / 2, -Math.PI / 2 + prog * 6.283); ctx.stroke(); ctx.lineCap = 'butt'; }
-}
-
-const LBL_FONT = w => `${w} 13.5px "Noto Sans TC","Noto Sans CJK TC",sans-serif`;
-const NARROW = () => S.W < 560;
-const lblCache = {};
-function splitName(name) {
-  if (!NARROW() || name.length <= 5) return [name];
-  const k = name.indexOf('（'); if (k > 1) return [name.slice(0, k), name.slice(k)];
-  const m = Math.ceil(name.length / 2); return [name.slice(0, m), name.slice(m)];
-}
-function maxLabelW(ch) {
-  const key = ch + (NARROW() ? 'n' : 'w'); if (lblCache[key]) return lblCache[key];
-  ctx.font = LBL_FONT(700);
-  return lblCache[key] = Math.max(...CH[ch].formulas.map(f => Math.max(...splitName(f.name).map(t => ctx.measureText(t).width))));
-}
-function drawChapter() {
-  const c = CH[route.ch], col = examColor(c.id), T = targetCamera(), [cx, cy] = w2s(planetWorld(c.id).x, planetWorld(c.id).y);
-  const reveal = ease(S.chapterReveal), ring = T.ring * (0.7 + 0.3 * reveal), v = visRect(), narrow = NARROW();
-  // 中央星球
-  const pr = Math.max(22, Math.min(46, ring * 0.22));
-  drawPlanet(cx, cy, pr, col, 1, chProgress(c.id), false);
-  D.text(ctx, String(c.id), cx, cy + 1, '#0B1030', pr * 0.7, 'center', 700);
-  ctx.strokeStyle = hexA(col, 0.25 * reveal); ctx.setLineDash([2, 6]); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cx, cy, ring, 0, 6.283); ctx.stroke(); ctx.setLineDash([]);
-  // 節點位置
-  const fs = c.formulas, n = fs.length, step = 6.283 / n;
-  S.nodes = fs.map((f, i) => { const a = -Math.PI / 2 + i * step; return { f, a, x: cx + ring * Math.cos(a), y: cy + ring * Math.sin(a) }; });
-  const byId = {}; S.nodes.forEach(nd => byId[nd.f.id] = nd);
-  const sel = route.f || (S.hover && S.hover.type === 'node' ? S.hover.id : null);
-  // 傳送門（其他章）：避開節點標籤的方向，再彼此拉開
-  const others = {};
-  fs.forEach(f => ADJ[f.id].forEach(l => { const oc = FM[l].ch; if (oc !== c.id) (others[oc] = others[oc] || []).push([f.id, l]); }));
-  const pw = planetWorld(c.id), norm = a => { a = (a + Math.PI) % 6.283; if (a < 0) a += 6.283; return a - Math.PI; };
-  let ports = Object.keys(others).map(Number).map(oc => {
-    const ow = planetWorld(oc); let a = Math.atan2(ow.y - pw.y, ow.x - pw.x);
-    const k = Math.round((a + Math.PI / 2) / step), na = -Math.PI / 2 + k * step;
-    if (Math.abs(norm(a - na)) < 0.3) a = na + (norm(a - na) >= 0 ? 1 : -1) * step / 2;
-    return { ch: oc, a: norm(a), pairs: others[oc] };
-  }).sort((p, q) => p.a - q.a);
-  for (let it = 0; it < 60 && ports.length > 1; it++) for (let i = 0; i < ports.length; i++) { const p = ports[i], q = ports[(i + 1) % ports.length]; let d = q.a - p.a; if (i === ports.length - 1) d += 6.283; const need = narrow ? 0.42 : 0.36; if (d < need) { p.a -= (need - d) / 2; q.a += (need - d) / 2; } }
-  const full = !panelOpen() && !narrow;
-  ctx.font = '600 12px "Noto Sans TC","Noto Sans CJK TC",sans-serif';
-  S.portals = ports.map(p => {
-    const active = (S.hover && S.hover.type === 'portal' && S.hover.id === p.ch) || (sel && p.pairs.some(q => q[0] === sel));
-    const label = full || active ? 'Ch' + p.ch + ' ' + CH[p.ch].title : 'Ch' + p.ch;
-    const ca = Math.cos(p.a), sa = Math.sin(p.a), lw = ctx.measureText(label).width + 26;
-    const lim = Math.min(ca > 0.05 ? (v.x1 - 4 - lw - cx) / ca : ca < -0.05 ? (v.x0 + 4 + lw - cx) / ca : 1e9, sa > 0.05 ? (v.y1 - 14 - cy) / sa : sa < -0.05 ? (v.y0 + 14 - cy) / sa : 1e9);
-    const r = Math.max(ring + (narrow ? 38 : ring * 0.45), Math.min(ring * 1.75, lim));
-    return Object.assign(p, { x: cx + r * ca, y: cy + r * sa, label, active });
-  });
-  // 同章連線
-  const drawn = new Set();
-  fs.forEach(f => ADJ[f.id].forEach(l => {
-    if (FM[l].ch !== c.id) return; const k = [f.id, l].sort().join('|'); if (drawn.has(k)) return; drawn.add(k);
-    const a = byId[f.id], b = byId[l], hl = sel && (sel === f.id || sel === l);
-    const cp = [(a.x + b.x) / 2 * 0.65 + cx * 0.35, (a.y + b.y) / 2 * 0.65 + cy * 0.35];
-    ctx.strokeStyle = hexA(col, (hl ? 0.9 : sel ? 0.12 : 0.38) * reveal); ctx.lineWidth = hl ? 2 : 1.2;
-    ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cp[0], cp[1], b.x, b.y); ctx.stroke();
-  }));
-  // 跨章虛線與傳送門
-  S.portals.forEach(p => {
-    const pc = examColor(p.ch), hlP = S.hover && S.hover.type === 'portal' && S.hover.id === p.ch;
-    p.pairs.forEach(([fid]) => {
-      const a = byId[fid], hl = hlP || (sel && sel === fid);
-      ctx.strokeStyle = hexA(pc, (hl ? 0.85 : sel ? 0.07 : 0.26) * reveal); ctx.lineWidth = hl ? 1.6 : 1; ctx.setLineDash([4, 5]);
-      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.setLineDash([]);
-    });
-    ctx.globalAlpha = reveal * (sel && !p.active ? 0.45 : 1);
-    drawPlanet(p.x, p.y, p.active ? 11 : 8, pc, 1, 0, p.active);
-    const right = p.x >= cx; D.text(ctx, p.label, p.x + (right ? 15 : -15), p.y, p.active ? pc : '#B8C0E8', 12, right ? 'left' : 'right', 600);
+    const p = S.planets[c.id], [x, y] = pos[c.id], col = examColor(c.id), on = hv === c.id;
+    const al = dim(p.exam) * (hv && !on && !CHLINK[Math.min(hv, c.id) + '-' + Math.max(hv, c.id)] ? 0.45 : 1), r = Math.max(10, p.r * s);
+    ctx.globalAlpha = al;
+    ctx.fillStyle = hexA(col, on ? 1 : 0.88); ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+    ctx.strokeStyle = '#070A1F'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.lineWidth = 3; ctx.strokeStyle = hexA('#FFFFFF', 0.12); ctx.beginPath(); ctx.arc(x, y, r + 5, 0, 6.283); ctx.stroke();
+    const pr = chProgress(c.id); if (pr > 0) { ctx.strokeStyle = col; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(x, y, r + 5, -Math.PI / 2, -Math.PI / 2 + pr * 6.283); ctx.stroke(); ctx.lineCap = 'butt'; }
+    D.text(ctx, String(c.id), x, y + 1, '#0B1030', Math.max(11, r * 0.75), 'center', 700);
+    ctx.font = `${on ? 700 : 600} 13.5px "Noto Sans TC","Noto Sans CJK TC",sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(7,10,31,.9)'; ctx.strokeText(c.title, x, y + r + 18); ctx.fillStyle = on ? '#FFFFFF' : '#D3D8F5'; ctx.fillText(c.title, x, y + r + 18);
     ctx.globalAlpha = 1;
   });
-  // 公式節點
-  S.nodes.forEach((nd, i) => {
-    const f = nd.f, appear = Math.max(0, Math.min(1, S.chapterReveal * 1.6 - i * 0.08)), hv = S.hover && S.hover.type === 'node' && S.hover.id === f.id;
-    const isSel = route.f === f.id, dim = sel && !(sel === f.id || ADJ[sel].has(f.id)) ? 0.35 : 1, r = (isSel || hv ? 11 : 8.5) * appear;
-    if (r <= 0.2) return;
-    ctx.globalAlpha = dim * appear;
-    const halo = ctx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, r * 3); halo.addColorStop(0, hexA(col, 0.45)); halo.addColorStop(1, hexA(col, 0));
-    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(nd.x, nd.y, r * 3, 0, 6.283); ctx.fill();
-    ctx.fillStyle = PROG.seen[f.id] ? col : '#0E1433'; ctx.strokeStyle = col; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(nd.x, nd.y, r, 0, 6.283); ctx.fill(); ctx.stroke();
-    if (isSel) { ctx.strokeStyle = hexA('#FFFFFF', 0.8); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(nd.x, nd.y, r + 5, 0, 6.283); ctx.stroke(); }
-    const ca = Math.cos(nd.a), sa = Math.sin(nd.a), lines = splitName(f.name);
-    ctx.font = LBL_FONT(isSel || hv ? 700 : 500); ctx.textBaseline = 'middle';
-    let lx, ly, dy = 16;
-    if (narrow) { ctx.textAlign = 'center'; lx = nd.x; ly = sa < -0.2 ? nd.y - r - 12 - (lines.length - 1) * dy : nd.y + r + 13; }
-    else { lx = nd.x + ca * (r + 12); ly = nd.y + sa * (r + 12) + (Math.abs(ca) < 0.35 ? sa * 6 : 0); ctx.textAlign = Math.abs(ca) < 0.35 ? 'center' : ca > 0 ? 'left' : 'right'; }
-    lines.forEach((t, j) => {
-      ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(7,10,31,.85)'; ctx.strokeText(t, lx, ly + j * dy);
-      ctx.fillStyle = isSel || hv ? '#FFFFFF' : '#DDE2FF'; ctx.fillText(t, lx, ly + j * dy);
-    });
+  [1, 2, 3].forEach(e => {
+    const [cx, cy] = w2s(S.clusters[e].x, S.clusters[e].y);
+    ctx.globalAlpha = dim(e); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(7,10,31,.92)';
+    ctx.font = '700 15px "Noto Sans TC","Noto Sans CJK TC",sans-serif'; ctx.strokeText(EXAMS[e].name, cx, cy - 8); ctx.fillStyle = EXAMS[e].color; ctx.fillText(EXAMS[e].name, cx, cy - 8);
+    ctx.font = '400 12px "Noto Sans TC","Noto Sans CJK TC",sans-serif'; ctx.strokeText(EXAMS[e].range, cx, cy + 11); ctx.fillStyle = '#9AA4D1'; ctx.fillText(EXAMS[e].range, cx, cy + 11);
     ctx.globalAlpha = 1;
   });
+  labels.forEach(([x, y, w]) => { ctx.fillStyle = '#0E1433'; ctx.strokeStyle = '#E9ECFF'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, 10, 0, 6.283); ctx.fill(); ctx.stroke(); D.text(ctx, String(w), x, y + 0.5, '#E9ECFF', 11, 'center', 700); });
 }
-
-/* 滑鼠互動 */
-function hitTest(x, y) {
-  if (route.view === 'chapter') {
-    for (const nd of S.nodes) if (Math.hypot(nd.x - x, nd.y - y) < 22) return { type: 'node', id: nd.f.id };
-    for (const p of S.portals) if (Math.hypot(p.x - x, p.y - y) < 18) return { type: 'portal', id: p.ch };
-    return null;
-  }
+function hitHome(x, y) {
   let best = null, bd = 1e9;
-  CHAPTERS.forEach(c => { const w = planetWorld(c.id), [sx, sy] = w2s(w.x, w.y), r = Math.max(9, S.planets[c.id].r * S.cam.s) + 10, d = Math.hypot(sx - x, sy - y); if (d < r && d < bd) { bd = d; best = { type: 'planet', id: c.id }; } });
-  if (best && route.exam && CH[best.id].exam !== route.exam) return best; // 其他段考也可點
+  CHAPTERS.forEach(c => { const [sx, sy] = w2s(S.planets[c.id].x, S.planets[c.id].y), r = Math.max(10, S.planets[c.id].r * S.cam.s) + 10, d = Math.hypot(sx - x, sy - y); if (d < r && d < bd) { bd = d; best = c.id; } });
   return best;
 }
-function showTip(h, x, y) {
-  if (!h) { tip.hidden = true; return; }
-  let html = '';
-  if (h.type === 'planet') {
-    const c = CH[h.id], pr = Math.round(chProgress(c.id) * 100);
-    html = `<p class="tip-k" style="color:${examColor(c.id)}">第 ${c.id} 章${c.supplement ? '（補充）' : ''}</p><p class="tip-t">${esc(c.title)}</p><p class="tip-en">${esc(c.en)}</p>
-      <p class="tip-m">${c.formulas.length} 條公式、${c.problems.length} 題練習</p><div class="tip-bar"><i style="width:${pr}%;background:${examColor(c.id)}"></i></div><p class="tip-m">完成 ${pr}%</p>`;
-  } else if (h.type === 'node') {
-    const f = FM[h.id]; html = `<p class="tip-t">${esc(f.name)}</p><div class="tip-f">${formulaHTML(f, false)}</div><p class="tip-m">點一下看拆解、模擬與例題</p>`;
-  } else if (h.type === 'portal') {
-    const c = CH[h.id]; html = `<p class="tip-k" style="color:${examColor(c.id)}">相關章節</p><p class="tip-t">第 ${c.id} 章 ${esc(c.title)}</p><p class="tip-m">點一下前往</p>`;
-  }
-  tip.innerHTML = html; tip.hidden = false;
+function showTip(ch, x, y) {
+  if (!ch) { tip.hidden = true; return; }
+  const c = CH[ch], links = CH_PAIRS.filter(L => L.a === ch || L.b === ch).length;
+  tip.innerHTML = `<p class="tip-k" style="color:${examColor(ch)}">第 ${ch} 章${c.supplement ? '（補充）' : ''}，和 ${links} 章有公式關聯</p><p class="tip-t">${esc(c.title)}</p>
+    <ol class="tip-list">${c.formulas.map(f => `<li>${esc(f.name)}</li>`).join('')}</ol><p class="tip-m">點一下看這章的公式與關聯</p>`;
+  tip.hidden = false;
   const r = tip.getBoundingClientRect(); let tx = x + 16, ty = y + 16;
   if (tx + r.width > S.W - 8) tx = x - r.width - 16; if (ty + r.height > S.H - 8) ty = y - r.height - 16;
   tip.style.transform = `translate(${Math.max(8, tx)}px,${Math.max(8, ty)}px)`;
 }
 let downAt = null;
-sky.addEventListener('pointermove', e => {
-  if (e.pointerType !== 'mouse') return;
-  const h = hitTest(e.clientX, e.clientY); S.hover = h; sky.style.cursor = h ? 'pointer' : 'default'; showTip(h, e.clientX, e.clientY);
-});
-sky.addEventListener('pointerleave', () => { S.hover = null; showTip(null); });
+sky.addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; const h = hitHome(e.clientX, e.clientY); if (h !== S.hover) { S.hover = h; S.dirty = true; } sky.style.cursor = h ? 'pointer' : 'default'; showTip(h, e.clientX, e.clientY); });
+sky.addEventListener('pointerleave', () => { S.hover = null; S.dirty = true; showTip(null); });
 sky.addEventListener('pointerdown', e => { downAt = [e.clientX, e.clientY]; });
 sky.addEventListener('pointerup', e => {
   if (!downAt || Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 8) return; downAt = null;
-  const h = hitTest(e.clientX, e.clientY); showTip(null); S.hover = null;
-  $('#hint').classList.add('gone');
-  if (!h) { if (route.view === 'chapter' && route.panel) location.hash = '#/ch/' + route.ch; return; }
-  if (h.type === 'planet') location.hash = '#/ch/' + h.id;
-  else if (h.type === 'node') location.hash = '#/ch/' + route.ch + '/' + h.id;
-  else if (h.type === 'portal') {
-    const p = S.portals.find(q => q.ch === h.id), target = route.f && p.pairs.find(q => q[0] === route.f);
-    location.hash = target ? '#/ch/' + h.id + '/' + target[1] : '#/ch/' + h.id;
-  }
+  const h = hitHome(e.clientX, e.clientY); showTip(null); if (h) location.hash = '#/ch/' + h;
 });
 
-/* ---------- 面板 ---------- */
+/* ======================================================
+   章節頁：三欄關係圖
+   ====================================================== */
+let shownCh = null;
+function relItem(x, y, opts) {
+  const r = relOf(x, y), L = relLabel(x, r), o = FM[y], other = o.ch !== FM[x].ch && o.ch !== shownCh;
+  const target = other ? `<a href="#/ch/${o.ch}/${o.id}" class="rel-name"><span class="chtag" style="--c:${examColor(o.ch)}">Ch${o.ch}</span>${esc(o.name)}</a>`
+    : `<a href="#/ch/${o.ch}/${o.id}" class="rel-name" data-jump="${o.id}">${esc(o.name)}</a>`;
+  return `<li class="rel" data-x="${x}" data-y="${y}"><span class="rtag t-${TCLS[r.type]}">${L.word} ${L.arrow}</span>${target}${opts && opts.text === false ? '' : `<span class="rtext">${esc(r.text)}</span>`}</li>`;
+}
+function renderChapter(ch, force) {
+  if (shownCh === ch && !force) return;
+  shownCh = ch;
+  const c = CH[ch], ci = ORDER.indexOf(ch), col = examColor(ch);
+  const idx = {}; c.formulas.forEach((f, i) => idx[f.id] = i);
+  const left = new Map(), right = new Map();
+  c.formulas.forEach(f => ADJ[f.id].forEach(o => {
+    if (FM[o].ch === ch) return;
+    const side = ORDER.indexOf(FM[o].ch) < ci ? left : right;
+    if (!side.has(o)) side.set(o, []); side.get(o).push(f.id);
+  }));
+  const sorted = m => [...m.entries()].sort((A, B) => {
+    const a = A[1].reduce((s, x) => s + idx[x], 0) / A[1].length, b = B[1].reduce((s, x) => s + idx[x], 0) / B[1].length;
+    return a - b || ORDER.indexOf(FM[A[0]].ch) - ORDER.indexOf(FM[B[0]].ch);
+  });
+  const sideCard = ([o, mids]) => `<article class="scard" data-f="${o}" style="--c:${examColor(FM[o].ch)}" tabindex="0">
+      <a class="scard-head" href="#/ch/${FM[o].ch}/${o}"><span class="chtag">Ch${FM[o].ch}</span>${esc(FM[o].name)}</a>
+      <div class="scard-tex">${tex('\\displaystyle ' + plainTex(FM[o].tex), false)}</div>
+      <ul class="rel-list">${mids.map(m => relItem(o, m)).join('')}</ul></article>`;
+  const solved = c.problems.filter(p => isOk(p.id)).length;
+  view.style.setProperty('--accent', col);
+  view.innerHTML = `
+    <header class="ch-head">
+      <nav class="ch-switch" aria-label="切換章節">${[1, 2, 3].map(e => `<div class="sw-group" style="--accent:${EXAMS[e].color}"><span class="sw-exam">${EXAMS[e].name}</span>${CHAPTERS.filter(x => x.exam === e).map(x => `<a href="#/ch/${x.id}" class="${x.id === ch ? 'cur' : ''}" title="${esc(x.title)}" ${x.id === ch ? 'aria-current="page"' : ''}>${x.id}</a>`).join('')}</div>`).join('')}</nav>
+      <div class="ch-title-row">
+        <div>
+          <p class="ch-exam"><span class="dot"></span>${EXAMS[c.exam].name}${c.supplement ? '<span class="tag-sup">補充章節</span>' : ''}</p>
+          <h1 class="ch-title">第 ${ch} 章　${esc(c.title)}<span class="ch-en">${esc(c.en)}</span></h1>
+          <p class="ch-blurb">${esc(c.blurb)}</p>
+        </div>
+        <div class="ch-actions">
+          <a class="btn btn-primary" href="#/ch/${ch}/practice">練習本章 ${c.problems.length} 題</a>
+          <p class="ch-stats" id="ch-stats"></p>
+        </div>
+      </div>
+      <p class="ch-key"><span>關係：</span><span class="rtag t-der">推導出 →</span><span class="rtag t-spe">特例 →</span><span class="rtag t-app">應用於 →</span><span class="rtag t-ana">類比 ↔</span><span class="rtag t-pai">搭配 ↔</span><span class="rtag t-cmp">比較 ↔</span><span class="ch-key-note">箭頭從基礎公式指向它推出或用到它的公式；滑鼠移到卡片上，相關的線和說明會亮起。</span></p>
+    </header>
+    <div class="relmap" id="relmap">
+      <section class="col col-left" aria-label="前面章節的相關公式"><h2 class="col-h">前面章節</h2>
+        ${left.size ? sorted(left).map(sideCard).join('') : '<p class="col-empty">這是課程的第一章，沒有更前面的相關公式。</p>'}</section>
+      <section class="col col-mid" aria-label="本章公式"><h2 class="col-h">本章公式（${c.formulas.length}）</h2>
+        ${c.formulas.map(f => {
+          const intra = [...ADJ[f.id]].filter(o => FM[o].ch === ch), cross = [...ADJ[f.id]].filter(o => FM[o].ch !== ch).sort((a, b) => ORDER.indexOf(FM[a].ch) - ORDER.indexOf(FM[b].ch));
+          return `<article class="fcard" id="card-${f.id}" data-f="${f.id}" tabindex="0">
+            <div class="fcard-top"><h3>${esc(f.name)}</h3><span class="fcard-tags">${f.sim ? '<span class="tag">有模擬</span>' : ''}${f.ex && f.ex.length ? '<span class="tag">有例題</span>' : ''}<span class="tag tag-seen" ${PROG.seen[f.id] ? '' : 'hidden'}>看過</span></span></div>
+            <div class="fcard-tex">${formulaHTML(f, true)}</div>
+            <dl class="fcard-sym">${f.sym.map(s => `<div><dt>${tex(s[1], false)}</dt><dd>${rich(s[2])}${s[3] && s[3] !== '無單位' && s[3] !== '' ? `<span class="u">${esc(s[3])}</span>` : ''}</dd></div>`).join('')}</dl>
+            <p class="fcard-idea">${rich(f.idea)}</p>
+            ${intra.length ? `<div class="fcard-rel"><h4>本章內的關係</h4><ul class="rel-list">${intra.map(o => relItem(f.id, o)).join('')}</ul></div>` : ''}
+            ${cross.length ? `<div class="fcard-rel fcard-cross"><h4>其他章的關係</h4><ul class="rel-list">${cross.map(o => relItem(f.id, o)).join('')}</ul></div>` : ''}
+            <a class="fcard-more" href="#/ch/${ch}/${f.id}">看推導、例題${f.sim ? '與模擬' : ''}</a>
+          </article>`;
+        }).join('')}</section>
+      <section class="col col-right" aria-label="後面章節的相關公式"><h2 class="col-h">後面章節</h2>
+        ${right.size ? sorted(right).map(sideCard).join('') : '<p class="col-empty">後面的章節沒有直接用到本章公式。</p>'}</section>
+      <svg class="links" id="links" aria-hidden="true"></svg>
+    </div>`;
+  updateChapterStats();
+  bindRelmap();
+  view.scrollTop = 0;
+  const sw = $('.ch-switch', view), cur = $('.ch-switch a.cur', view); if (sw && cur && sw.scrollWidth > sw.clientWidth) sw.scrollLeft = cur.offsetLeft - sw.clientWidth / 2;
+  if (mapRO) mapRO.disconnect(); mapRO = new ResizeObserver(() => drawLinks()); mapRO.observe($('#relmap'));
+  requestAnimationFrame(drawLinks);
+}
+let mapRO = null;
+function updateChapterStats() {
+  const el = $('#ch-stats'); if (!el || route.view !== 'chapter') return;
+  const c = CH[route.ch];
+  el.textContent = `看過 ${c.formulas.filter(f => PROG.seen[f.id]).length}/${c.formulas.length} 條公式、答對 ${c.problems.filter(p => isOk(p.id)).length}/${c.problems.length} 題`;
+}
+const WIDE = () => { const svg = $('#links'); return !!svg && getComputedStyle(svg).display !== 'none'; };
+function drawLinks() {
+  const svg = $('#links'), map = $('#relmap'); if (!svg || !map) return;
+  if (!WIDE()) { svg.innerHTML = ''; return; }
+  const box = map.getBoundingClientRect(); svg.setAttribute('width', box.width); svg.setAttribute('height', box.height);
+  const anchorMid = id => { const t = $(`#card-${id} .fcard-tex`, map), r = (t || $(`#card-${id}`, map)).getBoundingClientRect(); const card = $(`#card-${id}`, map).getBoundingClientRect(); return { l: card.left - box.left, r: card.right - box.left, y: r.top + r.height / 2 - box.top }; };
+  const marks = { '#7CC8FF': 'a1', '#C4A3FF': 'a2', '#FFB35C': 'a3' };
+  let out = `<defs>${Object.entries(marks).map(([c, id]) => `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${c}"/></marker>`).join('')}</defs>`;
+  $$('.scard', map).forEach(sc => {
+    const o = sc.dataset.f, color = examColor(FM[o].ch), head = $('.scard-head', sc).getBoundingClientRect(), sr = sc.getBoundingClientRect();
+    const isLeft = sc.closest('.col-left') !== null, sy = head.top + head.height / 2 - box.top;
+    $$('.rel', sc).forEach(li => {
+      const m = li.dataset.y, A = anchorMid(m), r = relOf(o, m);
+      const x1 = isLeft ? sr.right - box.left : sr.left - box.left, x2 = isLeft ? A.l : A.r, dx = (x2 - x1) * 0.5;
+      const d = `M${x1} ${sy} C${x1 + dx} ${sy} ${x2 - dx} ${A.y} ${x2} ${A.y}`;
+      const dir = DIRECTED[r.type] ? (r.b === m ? 'marker-end' : 'marker-start') : null;
+      out += `<path d="${d}" data-o="${o}" data-m="${m}" stroke="${color}" ${dir ? `${dir}="url(#${marks[color]})"` : ''} class="lk t-${TCLS[r.type]}"/>`;
+    });
+  });
+  svg.innerHTML = out;
+  applyLit();
+}
+let litF = null, litFrom = null;
+function bindRelmap() {
+  const map = $('#relmap');
+  const set = (f, from) => { litF = f; litFrom = from; applyLit(); };
+  $$('.fcard', map).forEach(el => { el.addEventListener('mouseenter', () => set(el.dataset.f, 'mid')); el.addEventListener('focusin', () => set(el.dataset.f, 'mid')); });
+  $$('.scard', map).forEach(el => { el.addEventListener('mouseenter', () => set(el.dataset.f, 'side')); el.addEventListener('focusin', () => set(el.dataset.f, 'side')); });
+  map.addEventListener('mouseleave', () => set(null, null));
+  map.addEventListener('click', e => {
+    const j = e.target.closest('[data-jump]'); if (!j) return;
+    e.preventDefault(); const card = $('#card-' + j.dataset.jump); if (!card) return;
+    card.scrollIntoView({ block: 'center', behavior: REDUCED ? 'auto' : 'smooth' }); card.focus({ preventScroll: true });
+    card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
+  });
+}
+function applyLit() {
+  const map = $('#relmap'); if (!map) return;
+  const f = litF || (route.view === 'chapter' && route.f) || null, from = litF ? litFrom : 'mid';
+  map.classList.toggle('focusing', !!f);
+  $$('.lit', map).forEach(x => x.classList.remove('lit'));
+  if (!f) return;
+  if (from === 'mid') {
+    $(`#card-${f}`, map) && $(`#card-${f}`, map).classList.add('lit');
+    ADJ[f].forEach(o => { const s = $(`.scard[data-f="${o}"]`, map); if (s) { s.classList.add('lit'); $$(`.rel[data-y="${f}"]`, s).forEach(li => li.classList.add('lit')); } const cc = $(`#card-${o}`, map); if (cc) cc.classList.add('lit-soft'); });
+    $$(`.fcard:not([data-f="${f}"])`, map).forEach(cc => { if (!ADJ[f].has(cc.dataset.f)) cc.classList.remove('lit-soft'); });
+    $$(`path[data-m="${f}"]`, map).forEach(p => p.classList.add('lit'));
+  } else {
+    const s = $(`.scard[data-f="${f}"]`, map); if (s) { s.classList.add('lit'); $$('.rel', s).forEach(li => li.classList.add('lit')); }
+    ADJ[f].forEach(o => { const cc = $(`#card-${o}`, map); if (cc) cc.classList.add('lit'); });
+    $$(`path[data-o="${f}"]`, map).forEach(p => p.classList.add('lit'));
+  }
+  if (from === 'mid') $$('.fcard', map).forEach(cc => cc.classList.toggle('lit-soft', cc.dataset.f !== f && ADJ[f].has(cc.dataset.f)));
+}
+
+/* ---------- 側邊面板 ---------- */
 let mountedSims = [];
 function clearSims() { mountedSims.forEach(m => m.destroy()); mountedSims = []; }
+function panelOpen() { return panel.classList.contains('open'); }
 function openPanel(r) {
   clearSims();
   const c = CH[r.ch]; panel.style.setProperty('--accent', examColor(c.id));
   if (r.panel === 'formula') renderFormula(FM[r.f]); else renderPractice(c);
   if (!panelOpen()) { panel.classList.add('open'); panel.setAttribute('aria-hidden', 'false'); }
-  panelBody.scrollTop = 0;
-  document.body.classList.add('panel-on');
+  panelBody.scrollTop = 0; document.body.classList.add('panel-on');
 }
 function closePanel() { clearSims(); panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); document.body.classList.remove('panel-on'); }
 $('#panel-close').addEventListener('click', () => { location.hash = '#/ch/' + route.ch; });
@@ -2701,14 +2907,18 @@ document.addEventListener('keydown', e => {
     location.hash = '#/ch/' + route.ch + '/' + fs[j].id;
   }
 });
-
 function chipFor(fid) {
   const f = FM[fid];
   return `<a class="fchip" href="#/ch/${f.ch}/${f.id}" style="--c:${examColor(f.ch)}"><span class="fchip-ch">Ch${f.ch}</span>${esc(f.name)}</a>`;
 }
 function renderFormula(f) {
   const c = CH[f.ch], fs = c.formulas, i = fs.indexOf(f), prev = fs[(i - 1 + fs.length) % fs.length], next = fs[(i + 1) % fs.length];
-  const related = [...ADJ[f.id]].sort((a, b) => (FM[a].ch === f.ch ? 0 : 1) - (FM[b].ch === f.ch ? 0 : 1) || FM[a].ch - FM[b].ch);
+  const rels = [...ADJ[f.id]].map(o => ({ o, r: relOf(f.id, o) }));
+  const groups = [
+    ['它從哪裡來', x => DIRECTED[x.r.type] && x.r.b === f.id],
+    ['它用在哪裡', x => DIRECTED[x.r.type] && x.r.a === f.id],
+    ['可以一起看', x => !DIRECTED[x.r.type]]
+  ].map(([h, test]) => [h, rels.filter(test).sort((a, b) => ORDER.indexOf(FM[a.o].ch) - ORDER.indexOf(FM[b.o].ch))]).filter(g => g[1].length);
   const used = c.problems.filter(p => p.f.includes(f.id));
   $('#panel-title').innerHTML = `<a href="#/ch/${c.id}" class="ph-ch"><span class="dot"></span>第 ${c.id} 章 ${esc(c.title)}</a>`;
   panelBody.innerHTML = `
@@ -2721,10 +2931,10 @@ function renderFormula(f) {
       <table class="sym-table"><thead><tr><th scope="col">符號</th><th scope="col">名稱</th><th scope="col">單位</th></tr></thead><tbody>
       ${f.sym.map(s => `<tr data-sym="${s[0]}" tabindex="0"><td class="sym-s">${tex(s[1], false)}</td><td>${rich(s[2])}${s[4] ? `<span class="sym-d">${rich(s[4])}</span>` : ''}</td><td class="sym-u">${esc(s[3])}</td></tr>`).join('')}
       </tbody></table></section>
-    ${f.sim ? `<section class="sec"><h3>動手試試：${esc(SIMS[f.sim].title)}</h3><div class="sim-host" id="sim-main"></div></section>` : ''}
+    <section class="sec"><h3>和其他公式的關係</h3>${groups.map(([h, list]) => `<h4 class="rel-h">${h}</h4><ul class="rel-list rel-panel">${list.map(x => relItem(f.id, x.o)).join('')}</ul>`).join('')}</section>
     <section class="sec"><h3>推導</h3><ol class="derive">${f.derive.map(d => `<li>${rich(d)}</li>`).join('')}</ol></section>
+    ${f.sim ? `<section class="sec"><h3>動手試試：${esc(SIMS[f.sim].title)}</h3><div class="sim-host" id="sim-main"></div></section>` : ''}
     ${f.ex && f.ex.length ? `<section class="sec"><h3>${c.supplement ? '例題' : '課本例題'}</h3>${f.ex.map(x => `<article class="ex"><p class="ex-ref">${esc(x.ref)}</p><p class="ex-q">${rich(x.q)}</p><details><summary>看解答</summary><div class="ex-a">${rich(x.a)}</div></details></article>`).join('')}</section>` : ''}
-    <section class="sec"><h3>相關公式</h3><div class="chips">${related.map(chipFor).join('')}</div></section>
     <div class="panel-foot"><a class="btn btn-primary" href="#/ch/${c.id}/practice">練習第 ${c.id} 章（${c.problems.length} 題）</a>
       ${used.length ? `<p class="foot-note">這條公式會用在第 ${used.map(p => c.problems.indexOf(p) + 1).join('、')} 題。</p>` : ''}</div>`;
   if (f.sim) mountedSims.push(mountSim($('#sim-main'), f.sim, null, examColor(c.id)));
@@ -2748,14 +2958,13 @@ function parseAnswer(s) {
   if (!/^[-+]?(\d+\.?\d*|\.\d+)(e[-+]?\d+)?$/i.test(t)) return NaN;
   return Number(t);
 }
+function fmtAns(v) { const a = Math.abs(v); if (a >= 1e5 || (a > 0 && a < 1e-3)) { const e = Math.floor(Math.log10(a)); return (v / 10 ** e).toFixed(2) + ' × 10' + sup(e); } return Number(v.toPrecision(4)).toString(); }
 function renderPractice(c) {
   $('#panel-title').innerHTML = `<a href="#/ch/${c.id}" class="ph-ch"><span class="dot"></span>第 ${c.id} 章 ${esc(c.title)}</a>`;
   panelBody.innerHTML = `<h2 class="f-name">第 ${c.id} 章練習</h2>
     <p class="sec-note">${c.supplement ? '本章為補充題，依標準普物內容出題。' : '題目改編自課本例題。'}答案在正確值 2% 以內就算對，也可以輸入 3.2e7 這種寫法。</p>
-    <ol class="probs">${c.problems.map((p, i) => {
-      const st = PROG.solved[p.id];
-      return `<li class="prob ${st && st.ok ? 'ok' : ''}" id="${p.id}" data-pid="${p.id}">
-        <div class="prob-top"><span class="prob-no">第 ${i + 1} 題</span><span class="prob-ref">${esc(p.ref)}</span><span class="badge">${st && st.ok ? '已答對' : ''}</span></div>
+    <ol class="probs">${c.problems.map((p, i) => `<li class="prob ${isOk(p.id) ? 'ok' : ''}" id="${p.id}" data-pid="${p.id}">
+        <div class="prob-top"><span class="prob-no">第 ${i + 1} 題</span><span class="prob-ref">${esc(p.ref)}</span><span class="badge">${isOk(p.id) ? '已答對' : ''}</span></div>
         <p class="prob-q">${rich(p.q)}</p>
         <div class="prob-f">用到：${p.f.map(chipFor).join('')}</div>
         ${p.sim ? `<button type="button" class="btn-ghost sim-toggle" aria-expanded="false">打開情境模擬</button><div class="sim-host" hidden></div>` : ''}
@@ -2765,11 +2974,9 @@ function renderPractice(c) {
         <ol class="hints"></ol>
         <div class="prob-actions"><button type="button" class="btn-ghost hint-btn">給我提示（1/${p.hints.length}）</button><button type="button" class="btn-ghost sol-btn">看完整詳解</button></div>
         <div class="solution" hidden><p class="sol-ans">答案約 <strong>${fmtAns(p.ans)} ${esc(p.unit)}</strong></p><p>${rich(p.sol)}</p></div>
-      </li>`;
-    }).join('')}</ol>`;
+      </li>`).join('')}</ol>`;
   panelBody.querySelectorAll('.prob').forEach(li => bindProblem(li, PB[li.dataset.pid], c));
 }
-function fmtAns(v) { const a = Math.abs(v); if (a >= 1e5 || (a > 0 && a < 1e-3)) { const e = Math.floor(Math.log10(a)); return (v / 10 ** e).toFixed(2) + ' × 10' + sup(e); } return Number(v.toPrecision(4)).toString(); }
 function bindProblem(li, p, c) {
   const fb = li.querySelector('.feedback'), input = li.querySelector('input'), hints = li.querySelector('.hints'), hb = li.querySelector('.hint-btn'), sol = li.querySelector('.solution');
   let shown = 0;
@@ -2788,7 +2995,7 @@ function bindProblem(li, p, c) {
       else if (k !== 0 && Math.abs(ratio / 10 ** k - 1) < 0.03) msg = `差了 10${sup(k)} 倍，檢查一下單位換算。`;
       fb.className = 'feedback bad'; fb.textContent = msg + (shown < p.hints.length ? '可以看看提示。' : '');
     }
-    PROG.solved[p.id] = st; saveProg(); renderChapterCard();
+    PROG.solved[p.id] = st; saveProg(); updateChapterStats();
   });
   hb.addEventListener('click', () => {
     if (shown >= p.hints.length) return;
@@ -2845,12 +3052,12 @@ function mountSim(host, id, preset, accent) {
     try { def.draw(cx2, W, H, s, p, C); } catch (e) { console.error(e); }
     if (forceReadout || frames % 8 === 0) ro.innerHTML = def.readout(s, p).map(r => `<div><dt>${esc(r[0])}</dt><dd>${esc(r[1])}</dd></div>`).join('');
   }
-  function loop(now) {
+  function tick(now) {
     const dt = Math.min(0.05, (now - (last || now)) / 1000); last = now; frames++;
     if (visible) { if (!paused && dt > 0) def.step(s, p, dt); paint(false); }
-    raf = requestAnimationFrame(loop);
+    raf = requestAnimationFrame(tick);
   }
-  size(); paint(true); raf = requestAnimationFrame(loop);
+  size(); paint(true); raf = requestAnimationFrame(tick);
   const rs = new ResizeObserver(() => { size(); paint(true); }); rs.observe(host);
   const io = new IntersectionObserver(es => { visible = es[0].isIntersecting; }); io.observe(cv);
   return { destroy() { cancelAnimationFrame(raf); rs.disconnect(); io.disconnect(); } };
@@ -2872,31 +3079,36 @@ function parseHash() {
 function applyRoute() {
   const prev = route; route = parseHash();
   document.body.dataset.view = route.view;
-  document.querySelectorAll('.exam-filter button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.exam === (route.view === 'home' ? route.exam : -1))));
+  $$('.exam-filter button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.exam === (route.view === 'home' ? route.exam : -1))));
+  showTip(null); S.hover = null;
   if (route.view === 'chapter') {
-    if (prev.view !== 'chapter' || prev.ch !== route.ch) S.chapterReveal = 0;
-    renderChapterCard(); $('#chapter-card').hidden = false;
+    view.hidden = false; sky.hidden = true;
+    renderChapter(route.ch);
     document.title = `第 ${route.ch} 章 ${CH[route.ch].title}｜物理公式星系`;
     if (route.panel) openPanel(route); else closePanel();
+    litF = null; applyLit();
+    if (route.f && prev.f !== route.f) requestAnimationFrame(() => { const card = $('#card-' + route.f); if (card) card.scrollIntoView({ block: 'start', behavior: prev.ch === route.ch && !REDUCED ? 'smooth' : 'auto' }); });
+    requestAnimationFrame(drawLinks);
   } else {
-    $('#chapter-card').hidden = true; closePanel(); renderLegend();
+    view.hidden = true; sky.hidden = false; shownCh = null; closePanel(); renderLegend();
     document.title = '物理公式星系';
+    requestAnimationFrame(() => flyHome(prev.view !== 'home'));
   }
-  S.hover = null; showTip(null);
-  if (route.view === 'chapter' && prev.view === 'chapter' && prev.ch === route.ch) return; // 同章內只換面板，畫面跟著 targetCamera 平移
-  requestAnimationFrame(() => flyTo(false));
 }
-document.querySelectorAll('.exam-filter button').forEach(b => b.addEventListener('click', () => { location.hash = +b.dataset.exam ? '#/exam/' + b.dataset.exam : '#/'; }));
+$$('.exam-filter button').forEach(b => b.addEventListener('click', () => { location.hash = +b.dataset.exam ? '#/exam/' + b.dataset.exam : '#/'; }));
 window.addEventListener('hashchange', applyRoute);
-window.addEventListener('resize', () => { resize(); renderChapterCard(); });
+let rzT = 0;
+window.addEventListener('resize', () => { resize(); clearTimeout(rzT); rzT = setTimeout(drawLinks, 80); });
 
 function init() {
   updateSummary(); renderLegend();
-  route = parseHash(); resize(); applyRoute(); flyTo(true);
-  requestAnimationFrame(draw);
+  resize(); applyRoute();
+  if (route.view === 'home') flyHome(true);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { drawLinks(); S.dirty = true; });
+  requestAnimationFrame(loop);
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-window.__PFG = { S, route: () => route, CH, FM, PB };
+window.__PFG = { S, route: () => route, CH, FM, PB, REL };
 })();
 
 </script>
