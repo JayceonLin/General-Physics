@@ -254,6 +254,24 @@ details summary:hover { color: var(--ink); }
 .solution p { margin: 4px 0; }
 .sol-ans { color: var(--ok); }
 
+/* 定義與名詞說明 */
+.def-sec h3 { margin-top: 22px; }
+.f-def { margin: 0 0 6px; padding: 14px 16px; border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; background: rgba(255,255,255,.035); color: var(--ink); font-size: 15.5px; line-height: 1.85; }
+.term { display: inline; padding: 0 1px; border: 0; border-bottom: 1.5px dashed var(--accent); background: none; color: var(--accent); font: inherit; line-height: inherit; cursor: pointer; }
+.term:hover, .term[aria-expanded="true"] { background: rgba(255,255,255,.08); border-bottom-style: solid; }
+.term-f { border-bottom-style: dotted; }
+.sym-table .term { font-weight: 500; }
+.pop { position: fixed; top: 0; left: 0; z-index: 40; width: min(340px, calc(100vw - 16px)); padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: #121A44; box-shadow: 0 14px 36px rgba(0,0,0,.5); font-size: 14px; }
+.pop p { margin: 0; }
+.pop-k { color: var(--muted); font-size: 12px; font-weight: 600; }
+.pop-t { margin-top: 2px !important; font: 700 17px/1.4 var(--sans); }
+.pop-s { margin-left: 4px; font-weight: 400; }
+.pop-u { margin-top: 2px !important; color: var(--muted); font-size: 13px; }
+.pop-d { margin-top: 8px !important; line-height: 1.7; }
+.pop-f { margin: 6px 0 2px; overflow-x: auto; font-size: 1.05em; }
+.pop-link { display: inline-block; margin-top: 10px; color: var(--ex1); font-size: 13px; font-weight: 600; text-decoration: none; }
+.pop-link:hover { text-decoration: underline; }
+
 /* 提示框 */
 .tip { position: fixed; top: 0; left: 0; z-index: 30; max-width: 300px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: rgba(14,20,51,.96); pointer-events: none; font-size: 13px; box-shadow: 0 12px 32px rgba(0,0,0,.45); }
 .tip p { margin: 0; }
@@ -339,6 +357,7 @@ details summary:hover { color: var(--ink); }
 </aside>
 
 <div id="tip" class="tip" hidden></div>
+<div id="pop" class="pop" role="dialog" aria-label="名詞說明" hidden></div>
 
 <script>
 /* ===== 第一次段考：Ch5–9 ===== */
@@ -1805,6 +1824,188 @@ const RELATIONS = [
   ['f19-5', 'f19-6', '搭配', '把每個物體的 ΔS = ∫dQ/T 加起來，判斷總熵有沒有增加。']
 ];
 
+/* ===== 公式定義與名詞表 =====
+   [[key]] 或 [[key|顯示文字]]：名詞表裡的物理量，點了跳出說明
+   [[@f6-5]] 或 [[@f6-5|顯示文字]]：其他公式，點了跳出公式摘要 */
+const GLOSSARY = {
+  disp: { n: '位移', s: R`\Delta\vec r`, u: 'm', d: '物體位置的改變量，有大小也有方向（向量）。', ch: 0 },
+  vel: { n: '速度', s: R`\vec v`, u: 'm/s', d: R`位置對時間的變化率 $\vec v = d\vec r/dt$；速度的大小稱為速率。`, ch: 0 },
+  acc: { n: '加速度', s: R`\vec a`, u: 'm/s²', d: R`速度對時間的變化率 $\vec a = d\vec v/dt$。`, ch: 0 },
+  mass: { n: '質量', s: R`m`, u: 'kg', d: '物體慣性的大小，也就是改變它運動狀態的難易程度。', ch: 0 },
+  force: { n: '力', s: R`\vec F`, u: 'N', d: R`改變物體運動狀態的作用。合力等於質量乘加速度 $\vec F = m\vec a$；1 N = 1 kg·m/s²。`, ch: 5, f: 'f5-1' },
+  g: { n: '重力加速度', s: R`g`, u: 'm/s²', d: R`只受重力時物體的加速度，等於 $GM/r^2$，地表約 9.8 m/s²。`, ch: 8, f: 'f8-2' },
+  normal: { n: '正向力', s: R`n`, u: 'N', d: '接觸面垂直推物體的力，大小由其他力和運動狀態決定，不一定等於 mg。', ch: 5, f: 'f5-2' },
+  mu: { n: '摩擦係數', s: R`\mu`, u: '無單位', d: R`摩擦力與正向力的比值。沒滑動時最大靜摩擦是 $\mu_s n$，滑動時是 $\mu_k n$，通常 $\mu_k < \mu_s$。`, ch: 5, f: 'f5-3' },
+  acent: { n: '向心加速度', s: R`v^2/r`, u: 'm/s²', d: '等速圓周運動中指向圓心的加速度，大小 v²/r；提供它的合力稱為向心力。', ch: 5, f: 'f5-5' },
+  work: { n: '功', s: R`W`, u: 'J', d: R`力乘以沿力方向的位移 $W = \vec F\cdot\Delta\vec r$；1 J = 1 N·m。`, ch: 6, f: 'f6-1' },
+  k: { n: '彈力常數', s: R`k`, u: 'N/m', d: '彈簧每伸長 1 m 所需的力（虎克定律 F = kx），彈簧越硬 k 越大。', ch: 6, f: 'f6-3' },
+  ke: { n: '動能', s: R`K`, u: 'J', d: R`物體因運動而具有的能量 $K = \tfrac12 mv^2$。`, ch: 6, f: 'f6-4' },
+  power: { n: '功率', s: R`P`, u: 'W', d: '單位時間做的功 P = dW/dt；1 W = 1 J/s。', ch: 6, f: 'f6-6' },
+  pe: { n: '位能', s: R`U`, u: 'J', d: R`保守力做的功存起來的能量，$\Delta U = -W_c$；只有位能差有物理意義。`, ch: 7, f: 'f7-1' },
+  cons: { n: '保守力', s: '', u: '', d: '做功只和起點、終點有關，與路徑無關的力，例如重力、彈力；只有保守力能定義位能。', ch: 7, f: 'f7-1' },
+  noncons: { n: '非保守力', s: '', u: '', d: '做功和路徑有關的力，例如摩擦力；它會把機械能變成熱。', ch: 7, f: 'f7-5' },
+  mech: { n: '機械能', s: R`E`, u: 'J', d: '動能與位能的和 E = K + U；只有保守力做功時守恆。', ch: 7, f: 'f7-4' },
+  G: { n: '萬有引力常數', s: R`G`, u: 'N·m²/kg²', d: '萬有引力定律中的比例常數，6.67 × 10⁻¹¹ N·m²/kg²。', ch: 8, f: 'f8-1' },
+  cm: { n: '質心', s: R`\vec r_{cm}`, u: 'm', d: '以質量為權重的平均位置；外力只決定質心怎麼動。', ch: 9, f: 'f9-1' },
+  mom: { n: '動量', s: R`\vec p`, u: 'kg·m/s', d: R`質量乘速度 $\vec p = m\vec v$；外力合力等於總動量的變化率。`, ch: 9, f: 'f9-3' },
+  elastic: { n: '彈性碰撞', s: '', u: '', d: '碰撞前後總動能不變的碰撞；不論哪種碰撞，總動量都守恆。', ch: 9, f: 'f9-6' },
+  theta: { n: '角位置', s: R`\theta`, u: 'rad', d: '物體繞轉軸轉過的角度，用弧度表示；一圈 = 2π rad。', ch: 10, f: 'f10-1' },
+  omega: { n: '角速度', s: R`\omega`, u: 'rad/s', d: '角位置對時間的變化率 ω = dθ/dt；1 rpm = 2π/60 rad/s。', ch: 10, f: 'f10-1' },
+  alpha: { n: '角加速度', s: R`\alpha`, u: 'rad/s²', d: '角速度對時間的變化率 α = dω/dt。', ch: 10, f: 'f10-2' },
+  torque: { n: '力矩', s: R`\tau`, u: 'N·m', d: '力使物體繞軸轉動的效果 τ = rF sinθ，也就是力乘上力臂。', ch: 10, f: 'f10-3' },
+  inertia: { n: '轉動慣量', s: R`I`, u: 'kg·m²', d: '各部分質量乘上到轉軸距離平方的總和 I = Σmr²，是轉動版的「質量」。', ch: 10, f: 'f10-5' },
+  krot: { n: '轉動動能', s: R`K_{rot}`, u: 'J', d: R`轉動物體所有部分的動能總和 $\tfrac12 I\omega^2$。`, ch: 10, f: 'f10-6' },
+  angmom: { n: '角動量', s: R`\vec L`, u: 'kg·m²/s', d: R`質點是 $\vec L = \vec r\times\vec p$，剛體是 $L = I\omega$；沒有外力矩時守恆。`, ch: 11, f: 'f11-3' },
+  equil: { n: '靜力平衡', s: '', u: '', d: '物體靜止，而且合力為零、合力矩也為零的狀態。', ch: 12, f: 'f12-1' },
+  cg: { n: '重心', s: R`x_{cg}`, u: 'm', d: '全部重量的等效作用點；重力均勻時就是質心。', ch: 12, f: 'f12-3' },
+  period: { n: '週期', s: R`T`, u: 's', d: '完成一次完整循環（一次振動或繞一圈）所需的時間。', ch: 13, f: 'f13-1' },
+  freq: { n: '頻率', s: R`f`, u: 'Hz', d: '每秒完成的循環次數 f = 1/T；1 Hz = 1/s。', ch: 13, f: 'f13-1' },
+  angfreq: { n: '角頻率', s: R`\omega`, u: 'rad/s', d: 'ω = 2πf，把一次循環換算成 2π 弧度。', ch: 13, f: 'f13-1' },
+  amp: { n: '振幅', s: R`A`, u: 'm', d: '振動時離開平衡位置的最大位移。', ch: 13, f: 'f13-2' },
+  shm: { n: '簡諧運動', s: '', u: '', d: R`回復力和位移成正比（$F = -kx$）時的振動，位移 $x(t) = A\cos(\omega t + \phi)$。`, ch: 13, f: 'f13-2' },
+  lambda: { n: '波長', s: R`\lambda`, u: 'm', d: '波形重複一次的距離，例如相鄰兩個波峰的距離。', ch: 14, f: 'f14-1' },
+  wavespeed: { n: '波速', s: R`v`, u: 'm/s', d: '波形前進的速率 v = λf，由介質的性質決定。', ch: 14, f: 'f14-1' },
+  wavenum: { n: '波數', s: R`k`, u: 'rad/m', d: 'k = 2π/λ，代表每公尺的相位變化。', ch: 14, f: 'f14-2' },
+  linden: { n: '線密度', s: R`\mu`, u: 'kg/m', d: '弦每公尺的質量。', ch: 14, f: 'f14-3' },
+  intensity: { n: '強度', s: R`I`, u: 'W/m²', d: '單位時間通過單位面積的能量。', ch: 14, f: 'f14-4' },
+  pathdiff: { n: '路徑差', s: R`\Delta r`, u: 'm', d: '兩個波從各自的波源走到同一點的距離差，決定兩波在那裡是否同相。', ch: 32, f: 'f32-1' },
+  rho: { n: '密度', s: R`\rho`, u: 'kg/m³', d: '單位體積的質量 ρ = m/V；水約 1000 kg/m³。', ch: 15, f: 'f15-1' },
+  pressure: { n: '壓力', s: R`p`, u: 'Pa', d: '垂直作用在單位面積上的力 p = F/A；1 Pa = 1 N/m²，1 atm ≈ 101.3 kPa。', ch: 15, f: 'f15-1' },
+  buoy: { n: '浮力', s: R`F_b`, u: 'N', d: '流體對浸在其中的物體向上的合力，等於被排開流體的重量。', ch: 15, f: 'f15-4' },
+  temp: { n: '溫度', s: R`T`, u: 'K', d: '冷熱程度的量度，微觀上反映分子的平均動能；熱力學公式要用克氏溫度。', ch: 16, f: 'f16-1' },
+  heat: { n: '熱量', s: R`Q`, u: 'J', d: '因為溫差而在物體之間傳遞的能量。', ch: 16, f: 'f16-2' },
+  c: { n: '比熱', s: R`c`, u: 'J/(kg·K)', d: '1 kg 物質升高 1 K 所需的熱量；水約 4184 J/(kg·K)。', ch: 16, f: 'f16-2' },
+  H: { n: '熱流率', s: R`H`, u: 'W', d: '每秒傳遞的熱量，單位和功率一樣是瓦特。', ch: 16, f: 'f16-4' },
+  mole: { n: '莫耳數', s: R`n`, u: 'mol', d: '物質的量；1 mol 含 6.02 × 10²³ 個粒子（亞佛加厥數）。', ch: 17, f: 'f17-1' },
+  R: { n: '氣體常數', s: R`R`, u: 'J/(mol·K)', d: '8.314 J/(mol·K)，等於亞佛加厥數乘上波茲曼常數。', ch: 17, f: 'f17-1' },
+  kB: { n: '波茲曼常數', s: R`k`, u: 'J/K', d: '1.38 × 10⁻²³ J/K，把溫度和單一分子的能量連起來。', ch: 17, f: 'f17-1' },
+  latent: { n: '潛熱', s: R`L`, u: 'J/kg', d: '1 kg 物質相變時吸收或放出的熱；水的熔化熱 334 kJ/kg、汽化熱 2257 kJ/kg。', ch: 17, f: 'f17-4' },
+  eint: { n: '內能', s: R`E_{int}`, u: 'J', d: '系統內所有分子能量的總和；理想氣體的內能只和溫度有關。', ch: 18, f: 'f18-1' },
+  molarc: { n: '莫耳比熱', s: R`C`, u: 'J/(mol·K)', d: R`1 mol 物質升高 1 K 所需的熱，分成定容 $C_V$ 與定壓 $C_P$。`, ch: 18, f: 'f18-7' },
+  gammaratio: { n: '比熱比', s: R`\gamma`, u: '無單位', d: R`$\gamma = C_P/C_V$；單原子氣體 5/3、雙原子氣體 7/5。`, ch: 18, f: 'f18-7' },
+  eff: { n: '效率', s: R`e`, u: '無單位', d: R`熱機做的功除以吸收的熱 $e = W/Q_h$。`, ch: 19, f: 'f19-1' },
+  entropy: { n: '熵', s: R`S`, u: 'J/K', d: R`描述系統亂度的狀態函數，可逆過程 $dS = dQ/T$；孤立系統的總熵不會減少。`, ch: 19, f: 'f19-5' }
+};
+
+const DEFS = {
+  /* Ch5 */
+  'f5-1': R`[[force|合力]] 的定義是作用在物體上所有力的向量和。牛頓第二定律說：合力等於物體的[[mass]] $m$ 乘上它的[[acc]] $\vec a$。寫成分量時，x、y 方向各自成立，例如 x 方向所有力的分量加起來等於 $m a_x$。力的單位是牛頓 N，1 N = 1 kg·m/s²，也就是讓 1 kg 的物體產生 1 m/s² 加速度的力。`,
+  'f5-2': R`物體沿傾角 $\theta$ 的無摩擦斜面滑動時，沿斜面的[[acc]] $a$ 等於[[g]]乘上 $\sin\theta$，單位 m/s²；斜面給的[[normal]] $n$ 等於物體重量 $mg$ 乘上 $\cos\theta$，單位 N。兩者都是把重力拆成沿斜面、垂直斜面兩個分量，再套用[[@f5-1]]得到的。`,
+  'f5-3': R`靜摩擦力 $f_s$ 是兩個接觸面還沒有相對滑動時，沿接觸面阻止滑動的力，單位 N。它的大小會配合外力改變，但最大不會超過靜[[mu|摩擦係數]] $\mu_s$（無單位）乘上[[normal]] $n$；超過就開始滑動。`,
+  'f5-4': R`動摩擦力 $f_k$ 是兩個接觸面已經相對滑動時，接觸面施加、方向與滑動方向相反的力，單位 N。它等於動[[mu|摩擦係數]] $\mu_k$（無單位）乘上[[normal]] $n$，大小和滑動速度無關。`,
+  'f5-5': R`物體以速率 $v$ 沿半徑 $r$ 的圓等速運動時，速度方向一直在變，產生指向圓心、大小 $v^2/r$ 的[[acent]]（m/s²）。依[[@f5-1]]，指向圓心的合力 $\sum F_r$ 必須等於[[mass]] $m$ 乘上 $v^2/r$，單位 N。這個合力稱為向心力，由張力、重力、摩擦力等真實的力提供。`,
+  'f5-6': R`彎道路面傾斜 $\theta$（°）時，車子以速率 $v$（m/s）在半徑 $r$（m）的彎道上不靠摩擦轉彎，需要 $\tan\theta = v^2/(rg)$。原因是[[normal]]的水平分量剛好提供[[acent|向心力]]，垂直分量撐住重量 $mg$。`,
+  /* Ch6 */
+  'f6-1': R`[[work]] $W$ 的定義是定力 $\vec F$ 與物體[[disp]] $\Delta\vec r$ 的內積，等於力的大小 × 位移大小 × 兩者夾角 $\theta$ 的餘弦。單位是焦耳 J，1 J = 1 N·m，也就是 1 N 的力沿力的方向推動物體 1 m 所做的功。功是純量，夾角超過 90° 時為負。`,
+  'f6-2': R`當[[force|力]]隨位置 $x$ 改變時，物體從 $x_1$ 移到 $x_2$ 所受的[[work]]定義為 $F(x)$ 對 $x$ 的積分，也就是 F–x 圖曲線下的面積，單位 J。它是[[@f6-1]]的推廣：把路徑切成很多小段，每段當作定力再加總。`,
+  'f6-3': R`把[[k]] $k$（N/m）的彈簧從自然長度拉長或壓縮 $x$（m），外力對彈簧做的[[work]]是 $\tfrac12 kx^2$，單位 J。這是把虎克定律 $F = kx$ 代入[[@f6-2]]的結果，也就是 F–x 圖上三角形的面積。`,
+  'f6-4': R`[[ke]] $K$ 的定義是[[mass]] $m$ 的物體以速率 $v$ 運動時所具有的能量，等於 $\tfrac12 mv^2$，單位 J（= kg·m²/s²）。動能是純量，永遠不會是負的。`,
+  'f6-5': R`功能定理：作用在物體上的[[force|合力]]所做的淨[[work]] $W_{net}$，等於物體[[ke]]的變化 $\Delta K = K_2 - K_1$，單位都是 J。淨功為正，物體變快；淨功為負，物體變慢。`,
+  'f6-6': R`[[power]] $P$ 的定義是單位時間內做的[[work]]，$P = dW/dt$，單位瓦特 W（1 W = 1 J/s）。力 $\vec F$ 作用在以[[vel|速度]] $\vec v$ 運動的物體上時，功率就是兩者的內積 $\vec F\cdot\vec v$。`,
+  /* Ch7 */
+  'f7-1': R`[[pe]]的變化 $\Delta U$ 定義為[[cons]]把物體從 A 移到 B 所做[[work]] $W_c$ 的負值，單位 J。只有保守力（例如重力、彈力）才能定義位能；位能的零點可以自己選，只有位能差有意義。`,
+  'f7-2': R`地表附近，[[mass]] $m$ 的物體在高度 $y$（相對你選的零點）時的重力[[pe]]是 $mgy$，單位 J，其中[[g]] $g \approx 9.8$ m/s²。它是把定力 $-mg$ 代入[[@f7-1]]得到的。`,
+  'f7-3': R`[[k]] $k$（N/m）的彈簧偏離平衡位置 $x$（m）時，儲存的彈性[[pe]]是 $\tfrac12 kx^2$，單位 J；不論拉長或壓縮都是正的。它和[[@f6-3]]的數值相同，因為拉彈簧做的功全部存成了位能。`,
+  'f7-4': R`[[mech]] $E$ 的定義是[[ke]] $K$ 加上[[pe]] $U$，單位 J。當只有[[cons]]做功時，機械能守恆：任意兩個狀態 1、2 的 $K + U$ 都相等。它是把 $W_c = -\Delta U$ 代入[[@f6-5]]得到的。`,
+  'f7-5': R`[[noncons]]（例如摩擦力）做的[[work]] $W_{nc}$，等於[[mech]]的變化 $\Delta E = \Delta K + \Delta U$，單位 J。摩擦力的 $W_{nc}$ 是負的，所以機械能減少，少掉的部分變成熱。$W_{nc} = 0$ 時就回到[[@f7-4]]。`,
+  'f7-6': R`一維[[cons]] $F_x$ 等於[[pe]] $U(x)$ 對位置 $x$ 的導數再取負號，單位 N（= J/m）。也就是說，力的大小是位能曲線的斜率，方向指向位能降低的那一側。`,
+  /* Ch8 */
+  'f8-1': R`萬有引力定律：任兩個質量 $m_1$、$m_2$（kg）相距 $r$（m，從質心算）時，彼此吸引的力大小等於[[G]] $G$ 乘上兩質量的乘積，再除以距離的平方，單位 N。`,
+  'f8-2': R`[[g]] $g$ 的定義是只受重力時物體的[[acc]]，單位 m/s²（也等於 N/kg）。離質量 $M$ 的星球中心 $r$ 處，$g = GM/r^2$；在地表 $r = R_E$ 時約 9.8 m/s²。它是由[[@f8-1]]令 $mg = GMm/r^2$ 得到的。`,
+  'f8-3': R`衛星在半徑 $r$（從星球中心算，m）的圓軌道上運行所需的速率 $v = \sqrt{GM/r}$，單位 m/s，$M$ 是中心天體的質量。這是令萬有引力等於[[acent|向心力]] $mv^2/r$ 得到的。`,
+  'f8-4': R`[[period|軌道週期]] $T$（繞一圈的時間，s）的平方，正比於軌道半徑 $r$（橢圓軌道用半長軸，m）的立方，比例常數是 $4\pi^2/(GM)$。由[[@f8-3]]和 $T = 2\pi r/v$ 推得。`,
+  'f8-5': R`質量 $m$ 與質量 $M$ 相距 $r$ 時的重力[[pe]]是 $-GMm/r$，單位 J。取兩者相距無限遠時位能為零，所以距離有限時位能都是負的。它是把[[@f8-1]]代入[[@f7-1]]積分得到的。`,
+  'f8-6': R`脫離速度 $v_{esc}$ 是物體從離中心 $R$ 處出發、不再推進就能飛到無限遠所需的最小速率，單位 m/s。它來自[[mech]]守恆：$\tfrac12 mv^2 - GMm/R = 0$。地表約 11.2 km/s。`,
+  /* Ch9 */
+  'f9-1': R`[[cm]] $\vec r_{cm}$ 的定義是系統中各質點位置以質量為權重的平均，單位 m：每個位置 $\vec r_i$ 乘上質量 $m_i$ 加總後，再除以總質量 $M$。`,
+  'f9-2': R`系統受到的外力合力 $\vec F_{ext}$（N）等於總質量 $M$（kg）乘上[[cm]]的[[acc]] $\vec a_{cm}$（m/s²）。系統內部的力成對抵消，所以不影響質心的運動。這是[[@f5-1]]用在多質點系統的版本。`,
+  'f9-3': R`[[mom]] 的定義是質量乘[[vel|速度]]，$\vec p = m\vec v$，單位 kg·m/s；系統的總動量 $\vec P$ 是每個質點動量的向量和。牛頓第二定律的一般形式是：外力合力等於總動量對時間的變化率 $d\vec P/dt$。`,
+  'f9-4': R`系統所受外力合力為零時，總[[mom]] $\sum m_i\vec v_i$ 不會改變：之前（$\vec v_i$）與之後（$\vec v_i'$）的總動量相等，單位 kg·m/s。它是由[[@f9-3]]令 $\vec F_{ext} = 0$ 得到的，而且每個分量各自守恆。`,
+  'f9-5': R`完全非彈性碰撞的定義：兩物體碰撞後黏在一起，以共同速度 $v_f$（m/s）運動。由[[@f9-4]]，$v_f$ 等於碰撞前的總[[mom]]除以總質量 $m_1 + m_2$。這種碰撞損失的[[ke]]最多。`,
+  'f9-6': R`[[elastic]]的定義是碰撞前後總[[ke]]不變的碰撞。質量 $m_1$、速度 $v_{1i}$ 的物體正面撞上靜止的 $m_2$ 時，同時用[[@f9-4]]和動能守恆，就能解出兩者碰後的速度 $v_{1f}$、$v_{2f}$（m/s）。`,
+  /* Ch10 */
+  'f10-1': R`[[omega]] $\omega$ 的定義是[[theta]] $\theta$ 對時間的變化率，單位 rad/s。剛體上離轉軸 $r$（m）的點，沿圓周移動的線速率是 $v = \omega r$（m/s）；這裡的 $\theta$ 必須用弧度。`,
+  'f10-2': R`[[alpha]] $\alpha$ 固定時，末[[omega]] $\omega$ 的平方等於初角速度 $\omega_0$ 的平方加上 $2\alpha\Delta\theta$。單位：$\omega$ 是 rad/s、$\alpha$ 是 rad/s²、角位移 $\Delta\theta$ 是 rad。它和直線運動的 $v^2 = v_0^2 + 2a\Delta x$ 完全對應。`,
+  'f10-3': R`[[torque]] $\tau$ 的定義是力 $F$ 讓物體繞轉軸轉動的效果，等於轉軸到施力點的距離 $r$ 乘上力的大小 $F$，再乘上兩者夾角的正弦 $\sin\theta$，單位 N·m。也可以看成力乘上力臂 $r\sin\theta$。`,
+  'f10-4': R`作用在剛體上的合[[torque]] $\tau_{net}$（N·m）等於[[inertia]] $I$（kg·m²）乘上[[alpha]] $\alpha$（rad/s²）。它是[[@f5-1]]的轉動版：力對應力矩、質量對應轉動慣量、加速度對應角加速度。`,
+  'f10-5': R`[[inertia]] $I$ 的定義是物體每一部分的質量 $m_i$ 乘上它到轉軸垂直距離 $r_i$ 的平方再加總，連續物體寫成積分，單位 kg·m²。它描述物體「多難轉動」，取決於質量怎麼分布、轉軸在哪裡。`,
+  'f10-6': R`[[krot]] $K_{rot}$ 的定義是剛體繞固定軸轉動時，所有部分[[ke]]的總和，等於 $\tfrac12 I\omega^2$，單位 J；$I$ 是[[inertia]]，$\omega$ 是[[omega]]。`,
+  'f10-7': R`滾動物體的總[[ke]] $K$ 等於質心的平移動能 $\tfrac12 Mv_{cm}^2$ 加上繞質心的[[krot]] $\tfrac12 I_{cm}\omega^2$，單位 J。不打滑時，質心速率和角速度滿足 $v_{cm} = \omega R$（$R$ 是半徑）。`,
+  /* Ch11 */
+  'f11-1': R`[[torque]]向量 $\vec\tau$ 的定義是位置向量 $\vec r$ 與力 $\vec F$ 的外積，大小 $rF\sin\theta$，單位 N·m，方向由右手定則決定、沿著轉軸。它是[[@f10-3]]的向量版。`,
+  'f11-2': R`質點的[[angmom]] $\vec L$ 的定義是它相對參考點的位置向量 $\vec r$ 與[[mom]] $\vec p$ 的外積，單位 kg·m²/s。做圓周運動時，大小就是 $mrv$。`,
+  'f11-3': R`繞對稱軸轉動的剛體，[[angmom]] $L$ 等於[[inertia]] $I$（kg·m²）乘上[[omega]] $\omega$（rad/s），單位 kg·m²/s，方向沿轉軸。`,
+  'f11-4': R`外力的合[[torque]] $\vec\tau_{net}$（N·m）等於[[angmom]] $\vec L$ 對時間的變化率。它是 $\vec F = d\vec P/dt$（[[@f9-3]]）的轉動版。`,
+  'f11-5': R`沒有外力矩時，系統的[[angmom]]不變：轉動慣量與角速度的乘積前後相等，$I_1\omega_1 = I_2\omega_2$，單位 kg·m²/s。它是由[[@f11-4]]令 $\tau_{net} = 0$ 得到的。`,
+  'f11-6': R`陀螺儀受到重力[[torque]] $\tau = Mgr$ 時，自轉軸會在水平面上繞圈，這個繞圈的角速度稱為進動角速度 $\Omega$（rad/s），等於力矩除以自轉的[[angmom]] $L = I\omega$。`,
+  /* Ch12 */
+  'f12-1': R`[[equil]]的第一個條件：作用在物體上所有外力的向量和為零（單位 N），x、y 分量各自為零。這是[[@f5-1]]在加速度為零時的特例。`,
+  'f12-2': R`[[equil]]的第二個條件：所有外力對任意一點的[[torque]]總和為零（單位 N·m），物體就不會開始轉動。`,
+  'f12-3': R`[[cg]] $x_{cg}$ 的定義是全部重量的等效作用點，位置是各部分以質量為權重的平均，單位 m。重力場均勻時，重心就是[[cm]]。`,
+  'f12-4': R`靠在無摩擦牆上的均勻梯子，和地面夾角 $\theta$ 的正切至少要等於 $1/(2\mu)$ 才不會滑倒，$\mu$ 是地面的靜[[mu|摩擦係數]]（無單位）。它來自[[@f12-1]]與[[@f12-2]]兩個條件聯立。`,
+  'f12-5': R`平衡點是[[pe]] $U(x)$ 斜率為零（$dU/dx = 0$，也就是力為零）的位置。若二階導數 $d^2U/dx^2 > 0$（位能的谷底），稍微偏離後力會把物體拉回來，稱為穩定平衡；若小於零（峰頂），則是不穩定平衡。`,
+  /* Ch13 */
+  'f13-1': R`[[period]] $T$ 的定義是完成一次完整振動所需的時間，單位 s。[[freq]] $f$ 是每秒振動的次數，$f = 1/T$，單位赫茲 Hz（= 1/s）。[[angfreq]] $\omega = 2\pi f$，單位 rad/s。`,
+  'f13-2': R`[[shm]]的定義是位移隨時間以餘弦函數變化的運動 $x(t) = A\cos(\omega t + \phi)$：$A$ 是[[amp]]（m），$\omega$ 是[[angfreq]]（rad/s），$\phi$ 是相位常數（rad）。只要回復力和位移成正比（$F = -kx$），就會產生簡諧運動。`,
+  'f13-3': R`質量 $m$（kg）接在[[k]] $k$（N/m）的彈簧上做[[shm]]時，[[angfreq]] $\omega = \sqrt{k/m}$（rad/s），[[period]] $T = 2\pi\sqrt{m/k}$（s），和振幅大小無關。`,
+  'f13-4': R`擺長 $L$（m）的單擺小角度擺動時近似[[shm]]，[[period]] $T = 2\pi\sqrt{L/g}$（s），和擺錘質量、振幅都無關；$g$ 是[[g]]。`,
+  'f13-5': R`繞支點擺動的剛體稱為物理擺，小角度擺動時[[period]] $T = 2\pi\sqrt{I/(mgd)}$（s）；$I$ 是對支點的[[inertia]]，$d$ 是支點到[[cm]]的距離（m）。`,
+  'f13-6': R`做[[shm]]的彈簧振子，總能量 $E$ 等於[[ke]] $\tfrac12 mv^2$ 加彈性[[pe]] $\tfrac12 kx^2$，單位 J，而且永遠等於 $\tfrac12 kA^2$（$A$ 是[[amp]]）。`,
+  'f13-7': R`受到和速度成正比的阻力 $-bv$ 時，振動的[[amp]]會隨時間以 $e^{-bt/2m}$ 指數衰減，這種運動稱為阻尼振盪；$b$ 是阻尼常數（kg/s），$m$ 是質量（kg）。`,
+  /* Ch14 */
+  'f14-1': R`[[wavespeed]] $v$ 的定義是波形前進的速率，單位 m/s。它等於[[lambda]] $\lambda$（相鄰兩個波峰的距離，m）乘上[[freq]] $f$（Hz），也等於 $\lambda/T$。`,
+  'f14-2': R`簡諧波描述介質在位置 $x$、時間 $t$ 的位移 $y$（m）：$y = A\cos(kx - \omega t)$。$A$ 是[[amp]]，$k = 2\pi/\lambda$ 是[[wavenum]]（rad/m），$\omega$ 是[[angfreq]]（rad/s）。`,
+  'f14-3': R`張力 $F$（N）、[[linden]] $\mu$（kg/m）的弦上，橫波的[[wavespeed]] $v = \sqrt{F/\mu}$，單位 m/s。`,
+  'f14-4': R`[[intensity]] $I$ 的定義是單位時間通過單位面積的能量，單位 W/m²。功率 $P$（W）的點波源均勻向四周發射時，距離 $r$ 處的強度是 $P/(4\pi r^2)$。`,
+  'f14-5': R`聲強級 $\beta$ 的定義：聲音的[[intensity]] $I$ 除以聽覺閾值 $I_0 = 10^{-12}$ W/m²，取以 10 為底的對數再乘 10，單位分貝 dB。`,
+  'f14-6': R`駐波是兩列反向傳播的波疊加後，形成位置固定的節點與腹點的振動。兩端固定（或兩端開口）、長度 $L$ 時，第 $n$ 個諧音的[[lambda]] $\lambda_n = 2L/n$，頻率 $f_n = nv/(2L)$（Hz），$v$ 是[[wavespeed]]。`,
+  'f14-7': R`都卜勒效應的定義：波源或觀察者在移動時，觀察者測到的頻率 $f'$ 和波源發出的頻率 $f$ 不同。波源以速率 $u$ 靠近時 $f' = f/(1 - u/v)$，遠離時分母改成 $1 + u/v$；$v$ 是聲音的[[wavespeed]]。`,
+  /* Ch32 */
+  'f32-1': R`兩個同相波源傳到某一點的[[pathdiff]] $\Delta r$（m）若是[[lambda]]的整數倍 $m\lambda$，兩波同相疊加而加強，稱為建設性干涉；若是 $(m + \tfrac12)\lambda$，兩波互相抵消，稱為破壞性干涉。`,
+  'f32-2': R`間距 $d$ 的雙狹縫，在角度 $\theta$ 方向出現亮紋的條件是 $d\sin\theta = m\lambda$；離狹縫 $L$ 的屏幕上，第 $m$ 條亮紋到中央的距離 $y_m \approx m\lambda L/d$（m）。它是把[[pathdiff]] $d\sin\theta$ 代入[[@f32-1]]的結果。`,
+  'f32-3': R`繞射光柵是很多條等距（間距 $d$）的狹縫，亮紋條件和雙狹縫相同，$d\sin\theta = m\lambda$，但亮紋更尖銳。解析度 $\lambda/\Delta\lambda$（無單位）等於級數 $m$ 乘上被照到的刻線數 $N$，代表分開兩個相近波長的能力。`,
+  'f32-4': R`厚度 $d$、折射率 $n$ 的薄膜，上下表面反射的兩道光光程差是 $2nd$。若只有一次反射有半個波長的相位反轉（例如肥皂膜），當 $2nd = (m + \tfrac12)\lambda$ 時反射光加強，看到亮色。判斷方式來自[[@f32-1]]。`,
+  'f32-5': R`寬度 $a$ 的單狹縫，在 $a\sin\theta = m\lambda$（$m = \pm1, \pm2, \dots$）的方向出現暗紋；中央亮紋的寬度是其他亮紋的兩倍。`,
+  'f32-6': R`直徑 $D$ 的圓形孔徑（例如望遠鏡的鏡面）能分辨的最小角度 $\theta_{min} = 1.22\lambda/D$（rad），這是繞射造成的極限，和鏡片做得多好無關。`,
+  /* Ch15 */
+  'f15-1': R`[[rho]] $\rho$ 的定義是單位體積的質量 $m/V$，單位 kg/m³。[[pressure]] $p$ 的定義是垂直作用在單位面積上的力 $F/A$，單位帕斯卡 Pa（= N/m²）；1 atm ≈ 101.3 kPa。`,
+  'f15-2': R`[[rho|密度]] $\rho$ 的靜止液體中，深度 $h$（m）處的[[pressure]] $p$ 等於液面上的壓力 $p_0$ 加上 $\rho gh$，單位 Pa。$\rho gh$ 就是上方液柱每單位面積的重量。`,
+  'f15-3': R`帕斯卡原理：對封閉液體某處加的[[pressure]]，會不減弱地傳到液體每一處。所以液壓機兩個活塞上的力與面積成正比，$F_1/A_1 = F_2/A_2$，兩邊都是同一個壓力（Pa）。`,
+  'f15-4': R`[[buoy]] $F_b$ 的定義是流體對浸在其中的物體向上的合力，單位 N。阿基米德原理說，它等於被排開流體的重量：流體[[rho|密度]] $\rho_f$ × 排開的體積 $V_{sub}$ × [[g]] $g$。`,
+  'f15-5': R`不可壓縮的流體穩定流動時，每秒流過任一截面的體積（體積流率，m³/s）都相同：截面積 $A$（m²）乘上流速 $v$（m/s）是常數。`,
+  'f15-6': R`白努利方程：沿著同一條流線，[[pressure]] $p$、每單位體積的動能 $\tfrac12\rho v^2$、每單位體積的重力位能 $\rho gy$ 三者之和保持不變，每一項的單位都是 Pa（= J/m³）。它是[[@f7-4]]用在流體上的版本。`,
+  'f15-7': R`托里切利定理：液面下深度 $h$（m）的小孔，流出的速率 $v = \sqrt{2gh}$（m/s），和從高度 $h$ 自由落下的速率相同。它是由[[@f15-6]]化簡得到的。`,
+  /* Ch16 */
+  'f16-1': R`[[temp]]的三種溫標：克氏溫度 $T_K$（K）以絕對零度為 0；攝氏 $T_C$（°C）以水的冰點為 0。兩者的刻度一樣大，只差 273.15。華氏 $T_F$（°F）$= \tfrac95 T_C + 32$。`,
+  'f16-2': R`[[heat]] $Q$ 的定義是因為溫差而傳遞的能量，單位 J。[[c]] $c$ 的定義是讓 1 kg 物質升高 1 K 所需的熱量，單位 J/(kg·K)。所以質量 $m$ 的物體溫度改變 $\Delta T$ 時，吸收的熱 $Q = mc\Delta T$。`,
+  'f16-3': R`兩個物體接觸、和外界隔熱時，熱從高溫流到低溫，直到溫度相同，這個最後的溫度 $T$ 稱為平衡溫度。因為一方放出的[[heat]]等於另一方吸收的，$T$ 就是以 $mc$ 為權重的兩個初溫平均。用到[[@f16-2]]。`,
+  'f16-4': R`[[H]] $H$ 的定義是每秒傳過某截面的熱量，單位 W（J/s）。傳導時，$H$ 等於熱導率 $k$（W/(m·K)）× 截面積 $A$ × 溫度梯度 $dT/dx$；負號表示熱往低溫的方向流。`,
+  'f16-5': R`熱阻 $R$ 的定義是材料厚度 $\Delta x$ 除以熱導率 $k$，單位 m²·K/W；$R$ 越大越隔熱。用熱阻表示時，[[H]] $H = A\Delta T/R$。它是[[@f16-4]]改寫而來的。`,
+  'f16-6': R`物體表面每秒以電磁波輻射出去的能量（輻射功率 $P$，W）等於放射率 $e$（0–1）× 史蒂芬－波茲曼常數 $\sigma = 5.67\times10^{-8}$ W/(m²·K⁴) × 表面積 $A$ × 絕對[[temp]] $T$ 的四次方。`,
+  /* Ch17 */
+  'f17-1': R`理想氣體的[[pressure]] $p$（Pa）乘上體積 $V$（m³），等於[[mole]] $n$（mol）× [[R]] $R$ × 絕對[[temp]] $T$（K）；也等於分子數 $N$ × [[kB]] $k$ × $T$。`,
+  'f17-2': R`氣體分子的平均平移[[ke]] $\overline K$ 等於 $\tfrac32 kT$，單位 J；$k$ 是[[kB]]，$T$ 是絕對[[temp]]。這就是溫度的微觀意義。`,
+  'f17-3': R`方均根速率 $v_{rms}$ 的定義是分子速率平方的平均值再開根號，單位 m/s。由[[@f17-2]]得到 $v_{rms} = \sqrt{3kT/m}$，$m$ 是一個分子的質量（kg）。`,
+  'f17-4': R`[[latent]] $L$ 的定義是 1 kg 物質在相變（熔化、汽化等）時吸收或放出的[[heat]]，單位 J/kg。質量 $m$ 的物質完成相變需要 $Q = Lm$，過程中溫度不變。`,
+  'f17-5': R`線膨脹係數 $\alpha$ 的定義是溫度每升高 1 K 時長度增加的比例，單位 1/K。長度 $L$ 的物體升溫 $\Delta T$ 時伸長 $\Delta L = \alpha L\Delta T$（m）。`,
+  'f17-6': R`體膨脹係數 $\beta$ 的定義是溫度每升高 1 K 時體積增加的比例，單位 1/K。體積 $V$ 升溫 $\Delta T$ 時增加 $\Delta V = \beta V\Delta T$；固體的 $\beta \approx 3\alpha$（見[[@f17-5]]）。`,
+  /* Ch18 */
+  'f18-1': R`[[eint]] $E_{int}$ 是系統內所有分子能量的總和，單位 J。熱力學第一定律：內能的變化等於系統吸收的[[heat]] $Q$ 減去系統對外做的[[work]] $W$。它是把能量守恆擴大到熱的版本（參考[[@f7-5]]）。`,
+  'f18-2': R`氣體體積從 $V_1$ 變到 $V_2$ 時對外做的[[work]]，是[[pressure]] $p$ 對體積 $V$ 的積分，單位 J（= Pa·m³）；在 p–V 圖上就是曲線下的面積。它和[[@f6-2]]是同一個想法。`,
+  'f18-3': R`等壓過程的定義是[[pressure]]保持不變的過程。氣體做的[[work]] $W = p\Delta V$（J），吸收的[[heat]] $Q = nC_P\Delta T$，其中 $C_P$ 是定壓[[molarc]]。`,
+  'f18-4': R`等溫過程的定義是[[temp]]保持不變的過程。理想氣體從 $V_1$ 變到 $V_2$ 做的[[work]] $W = nRT\ln(V_2/V_1)$（J）；因為[[eint]]不變，吸收的熱 $Q = W$。`,
+  'f18-5': R`等容過程的定義是體積保持不變的過程。體積沒變，氣體不做功（$W = 0$），吸收的[[heat]]全部變成[[eint]]：$Q = nC_V\Delta T$，$C_V$ 是定容[[molarc]]。`,
+  'f18-6': R`絕熱過程的定義是系統和外界沒有[[heat]]交換（$Q = 0$）的過程。理想氣體絕熱時 $pV^\gamma$ 保持不變，$\gamma$ 是[[gammaratio]]；被壓縮時溫度上升，膨脹時溫度下降。`,
+  'f18-7': R`[[molarc]]的定義是 1 mol 物質升高 1 K 所需的熱，單位 J/(mol·K)，分成定容 $C_V$ 與定壓 $C_P$ 兩種。理想氣體 $C_P = C_V + R$（$R$ 是[[R]]），兩者的比值是[[gammaratio]] $\gamma$。`,
+  /* Ch19 */
+  'f19-1': R`熱機[[eff]] $e$ 的定義是每個循環對外做的[[work]] $W$ 除以從高溫熱源吸收的[[heat]] $Q_h$（無單位，常寫成 %）。因為熱機一定要排出熱 $Q_c$ 到低溫處，$e = 1 - Q_c/Q_h$ 一定小於 1。`,
+  'f19-2': R`在高溫 $T_h$、低溫 $T_c$（都用 K）兩個熱源之間運作的熱機，最高可能的[[eff]]是 $1 - T_c/T_h$，由可逆的卡諾循環達到。`,
+  'f19-3': R`冷凍機性能係數 COP 的定義是從低溫處移走的熱 $Q_c$ 除以輸入的[[work]] $W$（無單位）。在 $T_c$ 與 $T_h$ 之間運作時，最大值是 $T_c/(T_h - T_c)$。`,
+  'f19-4': R`熱泵性能係數 $\text{COP}_{hp}$ 的定義是送進室內的熱 $Q_h$ 除以輸入的[[work]] $W$（無單位），最大值是 $T_h/(T_h - T_c)$。和[[@f19-3]]比較，同一台機器 $\text{COP}_{hp} = \text{COP} + 1$。`,
+  'f19-5': R`[[entropy]] $S$ 是系統的狀態函數，單位 J/K。熵變 $\Delta S$ 的定義是沿一條可逆路徑，把每一小段吸收的[[heat]] $dQ$ 除以當時的絕對[[temp]] $T$ 再加總；溫度固定時 $\Delta S = Q/T$。`,
+  'f19-6': R`熱力學第二定律（熵的說法）：孤立系統的總[[entropy]]變化 $\Delta S_{total}$ 不會小於零；可逆過程等於零，不可逆過程大於零。`
+};
+
 /* ===== 模擬動畫 ===== */
 const G9 = 9.8;
 const SIMS = {};
@@ -2586,6 +2787,50 @@ const plainTex = t => t.replace(/@\{\w+\}/g, '');
 const texCache = {};
 const formulaHTML = (f, display) => texCache[f.id + display] || (texCache[f.id + display] = tex(display ? preTex(f.tex) : plainTex(f.tex), display));
 
+/* ---------- 定義文字與名詞說明 ---------- */
+const GNAME = {}; Object.entries(GLOSSARY).forEach(([k, g]) => { GNAME[g.n] = k; });
+function defHTML(str) {
+  let out = '', last = 0; const re = /\[\[(@?)([\w-]+)(?:\|([^\]]+))?\]\]/g; let m;
+  while ((m = re.exec(str))) {
+    out += rich(str.slice(last, m.index)); last = re.lastIndex;
+    if (m[1]) { const f = FM[m[2]]; out += `<button type="button" class="term term-f" data-fref="${f.id}" aria-haspopup="dialog">${m[3] ? rich(m[3]) : esc(f.name)}</button>`; }
+    else { const g = GLOSSARY[m[2]]; out += `<button type="button" class="term" data-term="${m[2]}" aria-haspopup="dialog">${m[3] ? rich(m[3]) : esc(g.n)}</button>`; }
+  }
+  return out + rich(str.slice(last));
+}
+const pop = document.getElementById('pop');
+let popFor = null;
+function closePop() { if (!pop.hidden) { pop.hidden = true; if (popFor) popFor.setAttribute('aria-expanded', 'false'); popFor = null; } }
+function openPop(btn) {
+  if (popFor === btn) { closePop(); return; }
+  closePop();
+  let html = '';
+  if (btn.dataset.term) {
+    const g = GLOSSARY[btn.dataset.term], src = g.f ? FM[g.f] : null;
+    html = `<p class="pop-k">${g.ch ? `第 ${g.ch} 章` : '先修內容（Ch1–4）'}</p>
+      <p class="pop-t">${esc(g.n)}${g.s ? ` <span class="pop-s">${tex(g.s, false)}</span>` : ''}</p>
+      ${g.u ? `<p class="pop-u">單位：${esc(g.u)}</p>` : ''}
+      <p class="pop-d">${rich(g.d)}</p>
+      ${src ? `<a class="pop-link" href="#/ch/${src.ch}/${src.id}">看相關公式：${esc(src.name)}</a>` : ''}`;
+  } else {
+    const f = FM[btn.dataset.fref];
+    html = `<p class="pop-k" style="color:${examColor(f.ch)}">第 ${f.ch} 章 ${esc(CH[f.ch].title)}</p>
+      <p class="pop-t">${esc(f.name)}</p><div class="pop-f">${formulaHTML(f, false)}</div>
+      <p class="pop-d">${rich(f.idea)}</p><a class="pop-link" href="#/ch/${f.ch}/${f.id}">看這條公式的完整說明</a>`;
+  }
+  pop.innerHTML = html; pop.hidden = false; popFor = btn; btn.setAttribute('aria-expanded', 'true');
+  const r = btn.getBoundingClientRect(), pw = pop.offsetWidth, ph = pop.offsetHeight;
+  let x = Math.min(Math.max(8, r.left), window.innerWidth - pw - 8), y = r.bottom + 8;
+  if (y + ph > window.innerHeight - 8) y = Math.max(8, r.top - ph - 8);
+  pop.style.transform = `translate(${x}px,${y}px)`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('.term');
+  if (b) { e.preventDefault(); openPop(b); return; }
+  if (!e.target.closest('#pop')) closePop();
+});
+['scroll', 'resize'].forEach(ev => window.addEventListener(ev, closePop, true));
+
 /* ---------- 學習進度 ---------- */
 const STORE_KEY = 'pfg-progress-v1';
 let PROG = { seen: {}, solved: {} };
@@ -2901,6 +3146,7 @@ function openPanel(r) {
 function closePanel() { clearSims(); panel.classList.remove('open'); panel.setAttribute('aria-hidden', 'true'); document.body.classList.remove('panel-on'); }
 $('#panel-close').addEventListener('click', () => { location.hash = '#/ch/' + route.ch; });
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !pop.hidden) { closePop(); return; }
   if (e.key === 'Escape') { if (panelOpen()) location.hash = '#/ch/' + route.ch; else if (route.view === 'chapter') location.hash = '#/exam/' + CH[route.ch].exam; }
   if (route.panel === 'formula' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) {
     const fs = CH[route.ch].formulas, i = fs.findIndex(f => f.id === route.f), j = (i + (e.key === 'ArrowRight' ? 1 : -1) + fs.length) % fs.length;
@@ -2926,10 +3172,12 @@ function renderFormula(f) {
       <span>${i + 1} / ${fs.length}</span><a href="#/ch/${c.id}/${next.id}" aria-label="下一條：${esc(next.name)}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a></div>
     <h2 class="f-name">${esc(f.name)}</h2>
     <div class="f-display" id="f-display">${formulaHTML(f, true)}</div>
-    <p class="f-idea">${rich(f.idea)}</p>
+    <section class="sec def-sec"><h3>定義</h3><p class="f-def">${defHTML(DEFS[f.id])}</p>
+      <p class="sec-note">底下有虛線的名詞和公式可以點，會跳出它的定義。</p></section>
+    <section class="sec"><h3>什麼時候用</h3><p class="f-idea">${rich(f.idea)}</p></section>
     <section class="sec"><h3>符號拆解</h3><p class="sec-note">滑鼠移到公式或表格上，對應的符號會一起亮起。</p>
       <table class="sym-table"><thead><tr><th scope="col">符號</th><th scope="col">名稱</th><th scope="col">單位</th></tr></thead><tbody>
-      ${f.sym.map(s => `<tr data-sym="${s[0]}" tabindex="0"><td class="sym-s">${tex(s[1], false)}</td><td>${rich(s[2])}${s[4] ? `<span class="sym-d">${rich(s[4])}</span>` : ''}</td><td class="sym-u">${esc(s[3])}</td></tr>`).join('')}
+      ${f.sym.map(s => `<tr data-sym="${s[0]}" tabindex="0"><td class="sym-s">${tex(s[1], false)}</td><td>${GNAME[s[2]] ? `<button type="button" class="term" data-term="${GNAME[s[2]]}" aria-haspopup="dialog">${esc(s[2])}</button>` : rich(s[2])}${s[4] ? `<span class="sym-d">${rich(s[4])}</span>` : ''}</td><td class="sym-u">${esc(s[3])}</td></tr>`).join('')}
       </tbody></table></section>
     <section class="sec"><h3>和其他公式的關係</h3>${groups.map(([h, list]) => `<h4 class="rel-h">${h}</h4><ul class="rel-list rel-panel">${list.map(x => relItem(f.id, x.o)).join('')}</ul>`).join('')}</section>
     <section class="sec"><h3>推導</h3><ol class="derive">${f.derive.map(d => `<li>${rich(d)}</li>`).join('')}</ol></section>
@@ -3077,6 +3325,7 @@ function parseHash() {
   return { view: 'home', exam: 0 };
 }
 function applyRoute() {
+  closePop();
   const prev = route; route = parseHash();
   document.body.dataset.view = route.view;
   $$('.exam-filter button').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.exam === (route.view === 'home' ? route.exam : -1))));
