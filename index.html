@@ -320,7 +320,10 @@ button.fchip { font: inherit; font-size: 13.5px; cursor: pointer; }
 .tc-f .katex-display { margin: .15em 0; }
 .tc-f .katex { font-size: 1.2em; }
 .tc-idea { margin: 10px 0 4px; color: #DDE2FF; font-size: 14.5px; }
-.tc-unit { margin: 0; color: var(--muted); font-size: 13px; }
+.tc-unit { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.tc-def { margin: 6px 0 0; color: #E3E7FF; font-size: 14.5px; line-height: 1.8; }
+.tc-simple { margin: 8px 0 0; padding: 6px 10px; border-left: 3px solid var(--given); border-radius: 0 8px 8px 0; background: rgba(94,234,212,.07); color: #D9FBF5; font-size: 14px; line-height: 1.7; }
+.tc-ctx { margin: 8px 0 0; color: var(--muted); font-size: 13px; }
 .tc-src { margin-top: 10px; }
 .tc-src-h { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
 .tc-src .src-row { margin-top: 4px; }
@@ -2037,6 +2040,287 @@ const SYMSRC = {
   'f19-4': 'Qh:f16-2 W:f6-1 Th:f16-1 Tc:f16-1',
   'f19-5': 'S:= Q:f16-2 T:f16-1',
   'f19-6': 'S:f19-5'
+};
+
+/* ===== 物理量的定義說明 =====
+   CONCEPTS[key] = [定義（含中英文名稱）, 簡單來說]
+   SYMCON[公式 id] = '符號 key:物理量 key …'：每條公式裡的每個符號對應到哪一個物理量 */
+const CONCEPTS = {
+  /* 力學基本量 */
+  mass: ['質量（Mass）是指物體所含物質的多寡，也是物體「慣性」大小的量度：質量越大，越難讓它加速、減速或轉彎。它是純量，不會因為搬到月球就改變。', '簡單來說，質量就是「這個東西有多難被推動」。'],
+  force: ['力（Force）是指物體之間的推、拉或其他交互作用，能改變物體的運動狀態（速度的大小或方向）或使物體變形的物理量；它是向量，有大小也有方向，單位牛頓 N（1 N = 1 kg·m/s²）。', '簡單來說，力就是「推或拉」，是讓物體開始動、停下或轉彎的原因。'],
+  netforce: ['合力（Net force）是指同時作用在一個物體上的所有力，依向量相加後的總和；寫成分量式時，就是把每個力投影到 x、y 軸後分別相加。牛頓第二定律說：合力決定物體的加速度。', '簡單來說，合力就是「所有力互相抵消之後剩下的那一份力」。'],
+  extforce: ['外力（External force）是指系統以外的物體施加在系統上的力，例如地球的重力、地面的推力；系統內部各部分之間的力（內力）會成對抵消，不影響整體的運動。', '簡單來說，外力就是「從外面推或拉這一群東西的力」。'],
+  acc: [R`加速度（Acceleration）是指速度隨時間的變化率 $\vec a = d\vec v/dt$，描述物體速度的大小或方向改變得多快的向量物理量，單位 m/s²。`, '簡單來說，加速度就是「速度每秒改變多少」。'],
+  speed: ['速率（Speed）是指物體單位時間內移動的路程，也就是速度的大小，不管方向，單位 m/s。', '簡單來說，速率就是「跑得有多快」，汽車速度表顯示的就是速率。'],
+  vel: [R`速度（Velocity）是指位置隨時間的變化率 $\vec v = d\vec r/dt$，同時包含快慢（大小）與方向的向量物理量，單位 m/s。`, '簡單來說，速度就是「往哪個方向、跑多快」。'],
+  disp: ['位移（Displacement）是指物體從起點指向終點的向量，大小是兩點之間的直線距離，方向由起點指向終點；它和實際走過的路程不一定相同。', '簡單來說，位移就是「最後離起點多遠、在哪個方向」。'],
+  pos: [R`位置（Position）是指物體相對於選定原點的所在處，用座標或從原點指向物體的位置向量 $\vec r$ 表示，單位 m。`, '簡單來說，位置就是「物體現在在座標軸上的哪裡」。'],
+  time: ['時間（Time）t 是指從計時起點（t = 0）開始經過了多久，單位秒 s；把 t 代入運動方程式，就能算出那一刻物體的位置。', '簡單來說，t 就是「現在是第幾秒」。'],
+  g: [R`重力加速度（Gravitational acceleration，又稱自由落體加速度）是指物體只受重力時所產生的加速度，大小等於 $GM/r^2$，在地表附近約 9.8 m/s²、方向鉛直向下。`, '簡單來說，g 就是「東西掉下來時每秒快多少」，它也決定了重量 mg 有多大。'],
+  normal: ['正向力（Normal force）是指接觸面施加在物體上、方向垂直於接觸面的支撐力，用來阻止物體穿進表面；它的大小由其他力和運動狀態決定，不一定等於 mg。', '簡單來說，正向力就是「地面或斜面把你往外頂的那股力」。'],
+  inclineAngle: ['斜面傾角（Angle of incline）是指斜面與水平面之間的夾角 θ。把重力拆成兩個分量時，沿斜面向下的分量是 mg sinθ，垂直斜面的分量是 mg cosθ。', '簡單來說，傾角就是「坡有多陡」，角度越大，物體越容易往下滑。'],
+  fs: [R`靜摩擦力（Static friction）是指兩個接觸面還沒有相對滑動時，接觸面沿著表面產生、阻止滑動發生的力；它的大小會隨外力調整，最大只能到 $\mu_s n$。`, '簡單來說，靜摩擦力就是「讓東西推不動的那股力」，推力超過它的上限，東西才會開始滑。'],
+  fk: [R`動摩擦力（Kinetic friction，又稱滑動摩擦力）是指兩個接觸面已經相對滑動時，接觸面施加、方向與相對滑動方向相反的力，大小為 $\mu_k n$，和滑動的快慢大致無關。`, '簡單來說，動摩擦力就是「東西滑動時一直拖住它、讓它慢下來的力」。'],
+  mus: [R`靜摩擦係數（Coefficient of static friction）是指最大靜摩擦力與正向力的比值 $\mu_s = f_{s,\max}/n$，由兩個接觸面的材質與粗糙程度決定，沒有單位。`, '簡單來說，μs 就是「兩個表面有多難開始滑動」，數字越大越不容易滑。'],
+  muk: [R`動摩擦係數（Coefficient of kinetic friction）是指動摩擦力與正向力的比值 $\mu_k = f_k/n$，由接觸面的材質決定、沒有單位，通常比靜摩擦係數小。`, '簡單來說，μk 就是「滑動時表面有多澀」，數字越大滑得越吃力。'],
+  centforce: [R`向心力（Centripetal force）是指物體做圓周運動時，所有作用力中指向圓心的那部分合力，大小為 $mv^2/r$；它不是一種新的力，而是由張力、重力、摩擦力或正向力等真實的力提供。`, '簡單來說，向心力就是「一直把物體往圓心拉、讓它轉彎而不是直直飛出去的力」。'],
+  radius: [R`半徑（Radius）是指圓周路徑上任一點到圓心的距離；同樣的速率下，半徑越小，需要的向心加速度 $v^2/r$ 越大。`, '簡單來說，半徑就是「繞的圈有多大」，彎越急，半徑越小。'],
+  bankAngle: ['路面傾角（Banking angle）是指彎道路面相對水平面傾斜的角度。路面傾斜後，正向力有一部分水平指向彎道圓心，可以提供轉彎所需的向心力。', '簡單來說，傾角就是「彎道外側墊高了多少」，讓車子不靠摩擦也能轉彎。'],
+  /* 功與能 */
+  work: [R`功（Work）是指力使物體沿著力的方向產生位移時，力所轉移給物體的能量，定義為 $W = \vec F\cdot\Delta\vec r = F\Delta r\cos\theta$；它是純量，單位焦耳 J（1 J = 1 N·m）。`, '簡單來說，功就是「力推著東西走了一段距離，所給出去（或拿走）的能量」。'],
+  network: ['淨功（Net work）是指作用在物體上的所有力（也就是合力）所做的功的總和；依功能定理，它剛好等於物體動能的變化量。', '簡單來說，淨功就是「所有力加起來，讓物體多了（或少了）多少動能」。'],
+  angleFd: [R`力與位移的夾角 θ 是指作用力方向與物體位移方向之間的角度；只有沿位移方向的分量 $F\cos\theta$ 會做功。θ < 90° 時功為正，θ = 90° 時不做功，θ > 90° 時功為負。`, '簡單來說，夾角決定「這個力有多少真的用在推物體前進」。'],
+  varforce: ['變力（Variable force）是指大小或方向會隨位置改變的力，寫成 F(x)，例如彈簧的力 F = −kx。計算變力做的功時，要把路徑切成很多小段再加總，也就是對位置積分。', '簡單來說，變力就是「推著推著力氣會改變的力」，它做的功等於 F–x 圖曲線底下的面積。'],
+  xends: [R`起點與終點位置 $x_1$、$x_2$ 是指物體運動開始和結束時在座標軸上的位置，也就是積分的上下限，決定要計算哪一段路徑上的功。`, '簡單來說，就是「從哪裡推到哪裡」。'],
+  k: [R`彈力常數（Spring constant，又稱彈簧常數、勁度係數）是指彈簧每伸長或壓縮單位長度所需要的力，由虎克定律 $F = kx$ 定義，單位 N/m。`, '簡單來說，k 就是「彈簧有多硬」，k 越大越難拉開。'],
+  stretch: ['形變量（Deformation）x 是指彈簧從自然長度（不受力時的長度）被拉長或壓縮的長度。彈力大小與 x 成正比，儲存的彈性位能則與 x² 成正比。', '簡單來說，x 就是「彈簧被拉長或壓短了多少」。'],
+  ke: [R`動能（Kinetic energy）是指物體因為運動而具有的能量，質量 m、速率 v 的物體動能為 $K = \tfrac12 mv^2$；它是純量，永遠不會是負的，單位 J。`, '簡單來說，動能就是「動起來的東西帶著的能量」，速度變兩倍，動能變四倍。'],
+  power: [R`功率（Power）是指單位時間內做的功或轉移的能量 $P = dW/dt$，也等於力與速度的內積 $\vec F\cdot\vec v$，單位瓦特 W（1 W = 1 J/s）。`, '簡單來說，功率就是「做功做得有多快」，同樣的工作，功率越大越快做完。'],
+  pe: [R`位能（Potential energy）是指物體因為所在的位置或形狀，在保守力作用下儲存起來的能量；位能的變化定義為保守力做功的負值 $\Delta U = -W_c$，只有位能「差」有物理意義，零點可以自己選。`, '簡單來說，位能就是「放在高處或被壓緊時存起來、之後可以釋放出來的能量」。'],
+  gpe: [R`重力位能（Gravitational potential energy）是指物體因為所在高度而儲存的能量；在地表附近 $U = mgy$，y 是相對於自選零點的高度。更一般的形式是 $U = -GMm/r$，以無限遠處為零點。`, '簡單來說，重力位能就是「東西被舉高後存著、掉下來時會變成動能的能量」。'],
+  epe: [R`彈性位能（Elastic potential energy）是指彈簧或其他彈性物體被拉長或壓縮時儲存的能量 $U = \tfrac12 kx^2$，以自然長度為零點。`, '簡單來說，彈性位能就是「拉緊的彈簧裡存著的能量」，一放手就變成動能。'],
+  height: ['高度 y 是指物體相對於選定零點（例如地面或某一層樓）的垂直距離；計算重力位能時只看垂直高度，和走過的路徑無關。', '簡單來說，y 就是「比零點高（或低）多少」。'],
+  consforce: ['保守力（Conservative force）是指做功只和起點、終點位置有關，與走的路徑無關的力，例如重力、彈力；繞一圈回到原點時它做的總功為零，因此可以定義位能。', '簡單來說，保守力就是「做的功可以存成位能、之後原封不動拿回來的力」；摩擦力就不是。'],
+  conswork: [R`保守力做的功 $W_c$ 是指重力、彈力這類保守力在物體移動時所做的功；它等於位能減少的量，$W_c = -\Delta U$。`, '簡單來說，保守力做正功時位能就變少，能量從位能變成了動能。'],
+  mech: [R`機械能（Mechanical energy）是指物體的動能與位能的總和 $E = K + U$；只有保守力做功時，機械能守恆。`, '簡單來說，機械能就是「動的能量加上存著的能量」，沒有摩擦時總和不變。'],
+  ncwork: [R`非保守力做的功 $W_{nc}$ 是指摩擦力、空氣阻力、人的推力等非保守力所做的功；它等於機械能的變化量 $\Delta E$，摩擦力做的功為負，會把機械能變成熱。`, '簡單來說，就是「被摩擦吃掉（或由外力加進來）的機械能」。'],
+  /* 重力 */
+  G: [R`萬有引力常數（Gravitational constant，又稱重力常數）G 是牛頓萬有引力定律中的比例常數，$G = 6.67\times10^{-11}$ N·m²/kg²，由卡文迪西用扭秤實驗首次測出，在宇宙中任何地方都相同。`, '簡單來說，G 就是「把質量和距離換算成引力大小的固定數字」，它非常小，所以日常物體之間的引力感覺不到。'],
+  gravF: [R`萬有引力（Gravitational force）是指任何兩個有質量的物體之間互相吸引的力，大小 $F = Gm_1m_2/r^2$，方向沿著兩質心的連線；兩個物體受到的引力大小相等、方向相反。`, '簡單來說，萬有引力就是「質量之間互相拉近的力」，地球拉住月球、讓蘋果掉下來都是它。'],
+  centerDist: ['兩質心距離 r 是指兩個物體質心之間的直線距離；對球形物體可以把全部質量看成集中在球心，所以 r 要從球心量起，而不是從表面量。', '簡單來說，r 就是「兩顆星球的中心相隔多遠」，引力和 r² 成反比。'],
+  distCenter: ['到中心的距離 r 是指物體到星球（或中心天體）球心的距離，等於星球半徑加上離地高度；重力加速度與 r² 成反比，離得越遠重力越弱。', '簡單來說，r 不是離地高度，而是「到地心有多遠」。'],
+  bigM: [R`中心天體質量 M 是指產生重力場、被其他物體繞行的那個大天體（例如地球、太陽）的質量；地球約 $5.97\times10^{24}$ kg。`, '簡單來說，M 就是「被繞的那顆大星球有多重」，它越重，周圍的重力越強。'],
+  orbitV: [R`軌道速率（Orbital speed）是指衛星沿圓形軌道繞行時的速率；此時萬有引力剛好提供向心力，所以 $v = \sqrt{GM/r}$，軌道越高，速率越慢。`, '簡單來說，就是「衛星要跑多快，才剛好不掉下來、也不飛走」。'],
+  orbitR: ['軌道半徑（Orbital radius）r 是指衛星或行星到中心天體球心的距離（橢圓軌道則用半長軸），等於中心天體半徑加上離地高度。', '簡單來說，r 就是「繞行的那一圈從星球中心量起有多大」。'],
+  period: ['週期（Period）T 是指完成一次完整循環所需要的時間，例如繞軌道一圈、單擺來回擺一次或波形重複一次，單位秒 s；它是頻率的倒數 T = 1/f。', '簡單來說，週期就是「轉一圈或來回一次要多久」。'],
+  vesc: [R`脫離速度（Escape velocity，又稱第二宇宙速度）是指物體從星球表面出發、之後不再加速時，剛好能擺脫星球重力飛到無限遠所需的最小速率 $v_{esc} = \sqrt{2GM/R}$；地球約 11.2 km/s。`, '簡單來說，就是「至少要丟多快，東西才永遠不會掉回來」。'],
+  /* 多質點系統 */
+  cm: [R`質心（Center of mass）是指以質量為權重，把物體各部分位置加權平均得到的那一點 $\vec r_{cm} = \sum m_i\vec r_i / M$；受外力時，整個物體的質心就像全部質量集中在那一點一樣運動。`, '簡單來說，質心就是「物體質量的平均位置」，用一根手指頂住它，物體就能平衡。'],
+  totalMass: [R`總質量 M 是指系統裡所有物體（質點）質量的總和 $M = \sum m_i$。`, '簡單來說，就是「整個系統加起來有多重」。'],
+  acm: [R`質心加速度 $\vec a_{cm}$ 是指系統質心位置的加速度；它只由外力合力決定 $\vec F_{ext} = M\vec a_{cm}$，系統內部的力（例如爆炸、互推）不會改變質心的運動。`, '簡單來說，不管物體怎麼散開，「平均位置」怎麼動只看外力。'],
+  momentum: [R`動量（Momentum，又稱線動量）是指物體質量與速度的乘積 $\vec p = m\vec v$，是向量，單位 kg·m/s；系統的總動量是各物體動量的向量和，外力合力等於總動量的變化率。`, '簡單來說，動量就是「運動的衝勁」，越重、越快的東西越難讓它停下來。'],
+  /* 轉動 */
+  angvel: [R`角速度（Angular velocity）ω 是指角位置隨時間的變化率 $\omega = d\theta/dt$，描述物體繞轉軸轉得多快，單位 rad/s；1 rpm（每分鐘一圈）= 2π/60 rad/s。`, '簡單來說，角速度就是「每秒轉過幾個弧度」，轉得越快 ω 越大。'],
+  angpos: ['角位置（Angular position）θ 是指物體上一點相對於某個參考方向轉過的角度，用弧度表示（一圈 = 2π rad）；對應的弧長 s = rθ。', '簡單來說，角位置就是「現在轉到哪個角度」。'],
+  angdisp: ['角位移（Angular displacement）Δθ 是指物體在一段時間內轉過的角度，用弧度表示；除以 2π 就是轉了幾圈。', '簡單來說，角位移就是「總共轉了多少角度」。'],
+  linspeed: ['線速率（Tangential speed，又稱切線速率）v 是指轉動物體上某一點沿圓周切線方向移動的速率 v = ωr；同一個轉動物體上，離轉軸越遠的點線速率越大。', '簡單來說，就是「轉盤上那一點實際跑多快」，邊緣比中心快。'],
+  axisDist: ['到轉軸的距離 r 是指物體上某一點（或某個質點）到轉軸的垂直距離；它決定線速率 v = ωr，也決定這個質點對轉動慣量的貢獻 mr²。', '簡單來說，r 就是「離轉軸有多遠」。'],
+  angacc: ['角加速度（Angular acceleration）α 是指角速度隨時間的變化率 α = dω/dt，描述轉動加快或變慢得多快，單位 rad/s²。', '簡單來說，角加速度就是「轉速每秒改變多少」。'],
+  torque: ['力矩（Torque，又稱轉矩或旋轉力矩）是指施加在物體上、促使物體繞著轉動軸或支點產生「轉動、扭轉或彎曲」效果的物理量，大小 τ = rF sinθ，單位 N·m。', '簡單來說，力矩就是「力對物體產生旋轉能力」的大小。'],
+  nettorque: [R`合力矩（Net torque）是指作用在物體上所有外力對同一轉軸的力矩總和；依轉動的牛頓第二定律 $\tau_{net} = I\alpha$，合力矩決定角加速度。`, '簡單來說，合力矩就是「所有力想讓物體轉的效果，互相抵消後還剩多少」。'],
+  leverR: [R`轉軸到施力點的距離 r 是指從轉軸（支點）到力的作用點的距離，也就是位置向量 $\vec r$ 的大小；同樣的力，施力點離轉軸越遠，力矩越大。`, '簡單來說，r 就是「扳手握得多遠」，握在末端最好轉。'],
+  angleRF: [R`$\vec r$ 與 $\vec F$ 的夾角 θ 是指「轉軸指向施力點」的方向與力的方向之間的角度；只有垂直於 r 的分量 F sinθ 能讓物體轉動，θ = 90° 時力矩最大，θ = 0 時力矩為零。`, '簡單來說，θ 決定「這個力有多少是在幫忙轉動」，垂直推最有效。'],
+  inertia: [R`轉動慣量（Moment of inertia，又稱慣性矩）I 是指物體抵抗轉動狀態改變的程度，定義為各部分質量乘上到轉軸距離平方的總和 $I = \sum m_i r_i^2$；它同時取決於質量的大小和質量離轉軸的分布，單位 kg·m²。`, '簡單來說，轉動慣量就是「轉動版的質量」，質量離轉軸越遠，越難讓它轉起來或停下來。'],
+  krot: [R`轉動動能（Rotational kinetic energy）是指物體繞轉軸轉動時，所有部分動能的總和 $K_{rot} = \tfrac12 I\omega^2$，單位 J。`, '簡單來說，就是「轉動的東西帶著的能量」，飛輪就是靠它來儲存能量。'],
+  vcm: [R`質心速率 $v_{cm}$ 是指物體質心移動的速率；物體只滾不滑時 $v_{cm} = \omega R$。滾動物體的總動能等於質心平移的動能加上繞質心轉動的動能。`, '簡單來說，就是「整顆球往前跑多快」。'],
+  angmom: [R`角動量（Angular momentum）是描述物體轉動「衝勁」的物理量：質點是 $\vec L = \vec r\times\vec p$，繞固定軸的剛體是 L = Iω；方向沿轉軸（右手定則），單位 kg·m²/s。沒有外力矩時角動量守恆。`, '簡單來說，角動量就是「轉動版的動量」，轉得越快、越難讓它停下來。'],
+  precess: ['進動角速度（Precession angular velocity）Ω 是指陀螺儀的自轉軸本身繞著鉛直方向慢慢轉圈的角速度；重力力矩不斷改變角動量的方向，結果轉軸會繞圈而不是倒下，Ω = τ/L。', '簡單來說，就是「陀螺的軸畫圈畫得有多快」。'],
+  cmDist: ['支點到質心的距離是指從支點（轉軸）到物體質心的距離；重力可以看成作用在質心上，所以重力對支點的力矩等於 mg 乘上這段距離（物體擺開時再乘上 sinθ）。', '簡單來說，就是「重心離支點多遠」，越遠，重力越容易讓它轉。'],
+  /* 靜力平衡 */
+  cg: [R`重心（Center of gravity）是指物體全部重力的等效作用點，可以想成整個重量都集中在這一點；重力場均勻時重心就是質心，$x_{cg} = \sum m_i x_i / \sum m_i$。`, '簡單來說，重心就是「從這一點撐住，物體就會平衡」的位置。'],
+  ladderAngle: ['梯子與地面的夾角 θ 是指梯子和水平地面之間的角度；角度越小（梯子越斜），需要地面提供的摩擦力越大，才不會滑倒。', '簡單來說，θ 就是「梯子立得多直」。'],
+  /* 振盪 */
+  freq: ['頻率（Frequency）f 是指每秒完成的循環（振動、繞圈或波）次數 f = 1/T，單位赫茲 Hz（1 Hz = 每秒 1 次）。', '簡單來說，頻率就是「一秒鐘來回幾次」，聲音的頻率越高聽起來越尖。'],
+  angfreq: [R`角頻率（Angular frequency）ω 是指把每秒的循環次數換算成弧度 ω = 2πf = 2π/T，單位 rad/s；在 $\cos(\omega t)$ 裡，它決定振動有多快。`, '簡單來說，角頻率就是「用弧度來算的頻率」，一次完整循環算 2π。'],
+  oscx: [R`振動中的位移 x 是指物體在某一時刻偏離平衡位置的距離（有正負方向），簡諧運動中 $x(t) = A\cos(\omega t + \phi)$。`, '簡單來說，x 就是「現在離中間的平衡點多遠、在哪一邊」。'],
+  amp: [R`振幅（Amplitude）A 是指振動或波動時偏離平衡位置的最大距離；簡諧運動的總能量 $\tfrac12 kA^2$ 由振幅決定。`, '簡單來說，振幅就是「最遠能擺到哪裡」，振幅越大能量越大。'],
+  phase: ['相位常數（Phase constant，又稱初相位）φ 是指 t = 0 時，振動已經進行到循環中的哪一個位置，由一開始的位置和速度決定，單位 rad。', '簡單來說，φ 就是「開始計時那一刻，振動正走到哪裡」。'],
+  pendL: [R`擺長 L 是指從懸掛點到擺錘質心的距離；單擺的週期只和擺長與重力加速度有關 $T = 2\pi\sqrt{L/g}$，和擺錘質量、小角度時的擺幅都無關。`, '簡單來說，L 就是「繩子有多長」，繩子越長盪得越慢。'],
+  damping: ['阻尼常數（Damping constant）b 是指阻力和速度成正比時的比例常數（阻力 = −bv），單位 kg/s；b 越大，振幅衰減得越快。', '簡單來說，b 就是「阻力有多大」，汽車避震器就是靠它讓車子不要一直彈。'],
+  /* 波動 */
+  wavespeed: ['波速（Wave speed）v 是指波形（例如波峰）在介質中前進的速率 v = λf，由介質本身的性質決定（例如繩子的張力與線密度、空氣的溫度）；介質只在原地振動，並沒有跟著波一起前進。', '簡單來說，波速就是「波往前傳得有多快」。'],
+  lambda: ['波長（Wavelength）λ 是指波形重複一次的距離，例如相鄰兩個波峰（或兩個波谷）之間的距離，單位 m。', '簡單來說，波長就是「一個完整的波有多長」。'],
+  wavey: ['介質的位移 y 是指波通過時，介質中某一點偏離原本平衡位置的距離；在橫波（例如繩波）中，這個位移和波前進的方向互相垂直。', '簡單來說，y 就是「繩子上那一點現在被抬高或壓低多少」。'],
+  wavenum: ['波數（Wave number，又稱角波數）k 是指每公尺長度內的相位變化 k = 2π/λ，單位 rad/m；它在空間中扮演的角色，就像角頻率 ω 在時間中的角色。', '簡單來說，k 就是「每公尺塞了多少個波」，波長越短 k 越大。'],
+  tension: ['張力（Tension）F 是指繩子或弦被拉緊時，沿著繩子方向傳遞的拉力；弦拉得越緊，上面的波傳得越快。', '簡單來說，張力就是「繩子被拉得有多緊」。'],
+  linden: ['線密度（Linear mass density）μ 是指繩子或弦單位長度的質量 μ = m/L，單位 kg/m；同樣的張力下，越重的弦波速越慢。', '簡單來說，μ 就是「每公尺的繩子有多重」。'],
+  intensity: ['強度（Intensity）I 是指單位時間內通過單位面積的波能量，也就是單位面積上的功率 I = P/A，單位 W/m²；點波源向外傳時能量攤在 4πr² 的球面上，所以強度與距離平方成反比。', '簡單來說，強度就是「每平方公尺收到多少能量」，離燈泡越遠越暗。'],
+  srcDist: ['到波源的距離 r 是指觀察點和波源之間的距離；點波源發出的能量平均分布在半徑 r 的球面上，所以 r 越大，強度越小。', '簡單來說，r 就是「離聲源或光源有多遠」。'],
+  beta: [R`聲強級（Sound intensity level）β 是指用對數方式表示的聲音強度 $\beta = 10\log_{10}(I/I_0)$，單位分貝 dB；強度每變成 10 倍，聲強級增加 10 dB。`, '簡單來說，分貝就是「人耳感覺到的音量大小」，因為耳朵對聲音的感覺接近對數。'],
+  I0: [R`聽覺閾值（Threshold of hearing）$I_0$ 是指正常人耳在 1000 Hz 左右剛好聽得到的最小聲音強度，取 $10^{-12}$ W/m²，作為 0 dB 的基準。`, '簡單來說，I₀ 就是「剛好聽得到的最小音量」。'],
+  stringL: ['弦長（或管長）L 是指兩端固定的弦（或兩端開口的管）的長度；駐波必須在兩端剛好形成節點（或腹點），所以只有波長 λ = 2L/n 的波能留下來。', '簡單來說，L 就是「弦有多長」，弦越長，音越低。'],
+  harmN: ['諧音編號（Harmonic number）n 是指駐波的模式編號（n = 1, 2, 3…），n = 1 是基音，n 也等於弦上「腹點」的個數；第 n 諧音的頻率是基音的 n 倍。', '簡單來說，n 就是「弦上分成幾段在振動」。'],
+  fobs: ['聽到的頻率（Observed frequency）f′ 是指觀察者實際接收到的頻率；波源或觀察者有相對運動時，f′ 和波源發出的頻率不同，這就是都卜勒效應：互相靠近時 f′ 變高，遠離時變低。', '簡單來說，f′ 就是「你耳朵實際聽到的音高」。'],
+  srcSpeed: ['波源或觀察者的速率 u 是指它們相對於傳遞波的介質（例如空氣）的移動速率；u 越接近波速，頻率改變得越明顯。', '簡單來說，u 就是「救護車（或你）開得多快」。'],
+  soundSpeed: ['聲速（Speed of sound）v 是指聲波在介質中傳遞的速率，空氣在 20 °C 時約 343 m/s，溫度越高越快；聲音在液體、固體中傳得比在空氣中快。', '簡單來說，聲速就是「聲音每秒跑多遠」。'],
+  /* 干涉與繞射 */
+  pathdiff: [R`路徑差（Path difference）Δr 是指兩個波從各自的波源走到同一點的距離差 $r_2 - r_1$；路徑差是波長的整數倍時兩波同相、互相加強，差半個波長時反相、互相抵消。`, '簡單來說，Δr 就是「兩個波誰多走了多遠」，它決定那裡是亮還是暗、大聲還是安靜。'],
+  order: ['級數（Order）m 是指干涉或繞射條紋的編號（0、±1、±2…），中央亮紋是 m = 0，往兩側依序是第 1、第 2 級；它代表兩路光的路徑差相當於幾個波長。', '簡單來說，m 就是「從中央數過去第幾條紋」。'],
+  slitD: ['狹縫間距（Slit separation）d 是指雙狹縫兩條縫中心之間的距離；d 越小，屏幕上的條紋分得越開。', '簡單來說，d 就是「兩條縫隔多遠」。'],
+  fringeAngle: ['條紋角度 θ 是指從狹縫中央看出去，某一條亮紋（或暗紋）的方向與正前方之間的夾角，由路徑差 d sinθ（或 a sinθ）等於幾個波長來決定。', '簡單來說，θ 就是「那條紋偏離正前方多少角度」。'],
+  fringeY: [R`亮紋到中央的距離 $y_m$ 是指屏幕上第 m 條亮紋與中央亮紋之間的距離；角度很小時 $y_m \approx L\tan\theta \approx L\theta$。`, '簡單來說，就是「在屏幕上量到的那條紋的位置」。'],
+  screenL: ['狹縫到屏幕的距離 L 是指從狹縫到投影屏幕的距離；屏幕放得越遠，條紋在屏幕上分得越開。', '簡單來說，L 就是「屏幕擺多遠」。'],
+  gratingD: ['刻線間距（Grating spacing）d 是指光柵上相鄰兩條刻線（狹縫）之間的距離，等於每單位長度刻線數的倒數，例如每公分 6000 條時 d = 1/6000 cm。', '簡單來說，d 就是「光柵的縫排得有多密」，越密，顏色分得越開。'],
+  gratingN: ['被照到的刻線數 N 是指入射光照到的光柵總縫數；N 越大，亮紋越細，越能把波長很接近的兩種光分開（解析度 λ/Δλ = mN）。', '簡單來說，N 就是「同時參與干涉的縫有幾條」。'],
+  refIndex: ['折射率（Index of refraction）n 是指光在真空中的速率與在介質中速率的比值 n = c/v，沒有單位；光進入介質後波長會縮短成 λ/n。', '簡單來說，n 就是「光進到這個材料裡會變慢幾倍」。'],
+  filmD: ['薄膜厚度（Film thickness）d 是指薄膜上下兩個表面之間的距離；光在膜內來回一趟會多走 2d，這段額外的路徑決定兩道反射光是加強還是抵消。', '簡單來說，d 就是「肥皂泡的膜有多薄」，厚度不同就會看到不同顏色。'],
+  slitA: ['狹縫寬度（Slit width）a 是指單一狹縫的開口寬度；縫越窄，繞射的中央亮紋越寬，光散得越開。', '簡單來說，a 就是「那條縫開多寬」。'],
+  thetaMin: [R`最小可分辨角（Angular resolution）$\theta_{min}$ 是指兩個點光源剛好能被分辨成兩點時，它們對觀測者張開的最小角度；依瑞利準則 $\theta_{min} = 1.22\lambda/D$。`, '簡單來說，就是「兩顆星要隔多開，望遠鏡才看得出是兩顆」。'],
+  aperture: ['孔徑直徑（Aperture diameter）D 是指望遠鏡鏡片、相機鏡頭或瞳孔等圓形開口的直徑；D 越大，繞射越小，越能看清細節。', '簡單來說，D 就是「鏡頭有多大」。'],
+  /* 流體 */
+  density: ['密度（Density）ρ 是指單位體積內的質量 ρ = m/V，單位 kg/m³；水約 1000 kg/m³。', '簡單來說，密度就是「同樣大小的東西有多重」，密度比水小的東西會浮起來。'],
+  volume: ['體積（Volume）V 是指物體或氣體所佔空間的大小，單位 m³（1 L = 10⁻³ m³）。', '簡單來說，體積就是「佔了多少空間」。'],
+  dV: ['體積變化 ΔV 是指氣體的末體積減去初體積；等壓過程中，氣體對外做的功就是 pΔV。', '簡單來說，ΔV 就是「體積脹大了多少」。'],
+  pressure: ['壓力（Pressure，物理上又稱壓強）p 是指垂直作用在單位面積上的力 p = F/A，單位帕斯卡 Pa（1 Pa = 1 N/m²），1 atm ≈ 101.3 kPa；流體中同一點的壓力對各個方向都相同。', '簡單來說，壓力就是「力分攤到每平方公尺上有多大」，同樣的力，面積越小壓力越大。'],
+  perpF: ['垂直作用力 F 是指垂直壓在表面上的力；只有垂直於表面的分量會產生壓力。', '簡單來說，就是「直直往表面壓下去的力」。'],
+  area: ['面積（Area）A 是指一個表面或截面的大小，單位 m²；在壓力公式裡是受力的面積，在熱傳導公式裡是熱流通過的面積。', '簡單來說，A 就是「那一塊有多大」。'],
+  p0: [R`液面上的壓力 $p_0$ 是指作用在液體表面的外部壓力，液面開放在空氣中時就是大氣壓（約 101.3 kPa）；液面下每一點的壓力都要再加上它。`, '簡單來說，p₀ 就是「水面上空氣壓下來的壓力」。'],
+  depth: ['深度 h 是指液面下某一點到液面的垂直距離；靜止流體中，壓力隨深度線性增加，每深 h 就多 ρgh。', '簡單來說，h 就是「潛到水面下多深」，水每深 10 m 大約多 1 atm。'],
+  buoy: [R`浮力（Buoyant force）$F_b$ 是指流體對浸在其中的物體施加的向上合力，來自物體下方的壓力比上方大；依阿基米德原理，浮力等於物體排開流體的重量 $\rho_f V_{sub} g$。`, '簡單來說，浮力就是「水把東西往上托的力」，排開的水越多，浮力越大。'],
+  vsub: [R`排開流體的體積 $V_{sub}$ 是指物體浸在流體裡那部分的體積，也就是它擠開的流體體積；完全沉入時就等於物體的體積。`, '簡單來說，就是「泡在水面下的那一部分有多大」。'],
+  crossArea: ['截面積（Cross-sectional area）A 是指管子或河道在垂直於流動方向切開的面積；流量 Av 固定，所以截面變小的地方流速變快。', '簡單來說，A 就是「水管的開口有多粗」。'],
+  flowV: ['流速（Flow speed）v 是指流體在某一截面處流動的速率，單位 m/s；不可壓縮的流體在同一條管子裡，流速與截面積成反比。', '簡單來說，v 就是「水流得多快」。'],
+  effluxV: [R`流出速率 v 是指液體從容器小孔噴出的速率；托里切利定理說，它等於物體從液面高度自由落下到小孔處時的速率 $\sqrt{2gh}$。`, '簡單來說，就是「水從洞裡噴出來有多快」，洞的位置越深噴得越快。'],
+  headH: ['液面到小孔的高度 h 是指容器內液面與小孔之間的垂直距離；h 越大，小孔處的壓力越大，水噴得越快。', '簡單來說，h 就是「水面比洞高多少」。'],
+  /* 溫度與熱 */
+  TK: ['克氏溫度（Kelvin temperature，又稱絕對溫度）T 是指以絕對零度（−273.15 °C，分子熱運動最微弱的狀態）為 0 K 的溫標，每 1 K 的間隔和 1 °C 相同；熱力學與氣體公式都要用克氏溫度。', '簡單來說，就是「從最冷的極限開始算起的溫度」，所以不會有負的。'],
+  TC: ['攝氏溫度（Celsius temperature）是指以一大氣壓下水的冰點為 0 °C、沸點為 100 °C，中間分成 100 等分的溫標。', '簡單來說，就是我們日常用的溫度，水 0 °C 結冰、100 °C 沸騰。'],
+  TF: ['華氏溫度（Fahrenheit temperature）是指以水的冰點為 32 °F、沸點為 212 °F、兩者之間分成 180 等分的溫標，美國日常使用。', '簡單來說，就是美國用的溫度，人的體溫約 98.6 °F。'],
+  temp: ['溫度（Temperature）T 是指物體冷熱程度的量度，微觀上反映分子平均動能的大小；兩個物體接觸時，熱從溫度高的流向溫度低的，直到兩者溫度相同（熱平衡）。', '簡單來說，溫度就是「摸起來有多熱」，也是「分子動得多快」的指標。'],
+  eqT: ['平衡溫度 T 是指兩個溫度不同的物體接觸後，熱量交換停止、兩者溫度變得一樣時的溫度；過程中高溫物體放出的熱等於低溫物體吸收的熱。', '簡單來說，就是「最後一樣熱時的溫度」。'],
+  dT: ['溫度變化 ΔT 是指末溫減去初溫；因為 1 K 和 1 °C 的間隔一樣大，溫度「差」用 K 或 °C 算出來的數字相同。', '簡單來說，ΔT 就是「溫度升高或降低了幾度」。'],
+  heat: ['熱量（Heat）Q 是指因為溫度差而在物體之間傳遞的能量，總是從高溫流向低溫，單位 J（1 cal = 4.184 J）；熱是「傳遞中的能量」，物體本身並不「含有」熱。', '簡單來說，熱量就是「從熱的東西跑到冷的東西的那份能量」。'],
+  specc: ['比熱（Specific heat，又稱比熱容）c 是指 1 kg 的物質溫度升高 1 K 所需要吸收的熱量，單位 J/(kg·K)；水的比熱約 4184 J/(kg·K)，比大多數物質大得多。', '簡單來說，比熱就是「這種材料有多難加熱」，比熱越大，越不容易變熱也越不容易變冷。'],
+  H: ['熱流率（Heat current）H 是指單位時間內傳遞的熱量 H = dQ/dt，單位瓦特 W；熱傳導時它與截面積和溫度梯度成正比。', '簡單來說，H 就是「每秒有多少熱量流過去」。'],
+  thermk: ['熱導率（Thermal conductivity）k 是指材料傳導熱的能力，單位 W/(m·K)；金屬的 k 很大（銅約 400），空氣、保麗龍的 k 很小，所以拿來隔熱。', '簡單來說，k 就是「這種材料有多會導熱」。'],
+  tgrad: ['溫度梯度（Temperature gradient）dT/dx 是指溫度隨位置改變的快慢，也就是每單位距離的溫度差，單位 K/m；熱會沿著溫度下降的方向流動。', '簡單來說，就是「每走一公尺溫度降幾度」，降得越急，熱流越大。'],
+  rvalue: ['熱阻（Thermal resistance，常稱 R 值）R 是指一層材料阻擋熱流的能力 R = Δx/k，單位 m²·K/W；多層材料疊在一起時，R 值直接相加。', '簡單來說，R 值就是「隔熱效果有多好」，越大越保溫。'],
+  radP: ['輻射功率（Radiated power）P 是指物體每秒以電磁波（熱輻射）的形式放出的能量，依史蒂芬－波茲曼定律與絕對溫度的四次方成正比，單位 W。', '簡單來說，就是「物體每秒發出多少光和熱」，溫度變兩倍，輻射變 16 倍。'],
+  emiss: ['放射率（Emissivity）e 是指物體表面的輻射能力與理想黑體相比的比例，介於 0 和 1 之間；黑體 e = 1，表面越暗、越粗糙越接近 1。', '簡單來說，e 就是「這個表面有多會發光發熱」。'],
+  sigma: [R`史蒂芬－波茲曼常數（Stefan–Boltzmann constant）σ 是熱輻射公式中的比例常數，$\sigma = 5.67\times10^{-8}$ W/(m²·K⁴)。`, '簡單來說，σ 就是「把溫度換算成輻射功率的固定數字」。'],
+  surfA: ['表面積（Surface area）A 是指物體向外輻射的整個外表面面積；球體的表面積是 4πR²。', '簡單來說，就是「會發光發熱的表面總共有多大」。'],
+  /* 物質的熱行為 */
+  mole: [R`莫耳數（Number of moles）n 是指物質的量，1 mol 含有亞佛加厥數 $6.02\times10^{23}$ 個粒子；n 等於總質量除以莫耳質量。`, '簡單來說，n 就是「有幾『打』分子」，只是這一打是 6.02 × 10²³ 個。'],
+  Rgas: ['氣體常數（Ideal gas constant，又稱理想氣體常數）R = 8.314 J/(mol·K)，是理想氣體定律中把「莫耳數 × 溫度」換算成「壓力 × 體積」的比例常數，等於波茲曼常數乘上亞佛加厥數。', '簡單來說，R 就是「以 1 mol 為單位時，溫度和能量之間的換算數字」。'],
+  Nmol: ['分子數（Number of molecules）N 是指氣體中分子的總個數，N = n × 6.02 × 10²³。', '簡單來說，N 就是「一個一個數，總共有幾個分子」。'],
+  kB: ['波茲曼常數（Boltzmann constant）k = 1.38 × 10⁻²³ J/K，是把溫度和單一分子的能量連結起來的常數，等於氣體常數除以亞佛加厥數。', '簡單來說，k 就是「以單一分子為單位時，溫度和能量之間的換算數字」。'],
+  avgKE: [R`分子平均平移動能 $\overline K$ 是指氣體分子因為到處亂跑而具有的動能的平均值；理想氣體中它只和絕對溫度有關 $\overline K = \tfrac32 kT$，和是哪一種分子無關。`, '簡單來說，溫度其實就是在量「分子平均動得多起勁」。'],
+  vrms: [R`方均根速率（Root-mean-square speed）$v_{rms}$ 是指把所有分子速率平方後取平均、再開根號得到的速率 $\sqrt{\overline{v^2}}$，用來代表氣體分子的典型速率。`, '簡單來說，就是「氣體分子大概跑多快」，室溫的空氣分子每秒約跑 500 m。'],
+  molMass: ['一個分子的質量 m 是指單一分子的質量，等於莫耳質量除以亞佛加厥數；常用原子質量單位 u 表示（1 u = 1.66 × 10⁻²⁷ kg）。', '簡單來說，m 就是「一顆分子有多重」，越重的分子跑得越慢。'],
+  latent: ['潛熱（Latent heat）L 是指 1 kg 物質在溫度不變的情況下發生相變（例如熔化、汽化）時，需要吸收或放出的熱量，單位 J/kg；水的熔化熱 334 kJ/kg、汽化熱 2257 kJ/kg。', '簡單來說，冰融化時吸了熱溫度卻不升高，那些熱就是潛熱，拿去拆開分子之間的鍵了。'],
+  length: ['長度 L 是指物體受熱前的原始長度；熱膨脹時長度的增加量與原長成正比。', '簡單來說，L 就是「原本有多長」，越長的東西熱脹的總量越多。'],
+  alphaL: ['線膨脹係數（Coefficient of linear expansion）α 是指溫度每升高 1 K，物體長度增加的比例 α = (ΔL/L)/ΔT，單位 1/K；鋼約 12 × 10⁻⁶ /K。', '簡單來說，α 就是「這種材料熱了會伸長多少」。'],
+  betaV: ['體膨脹係數（Coefficient of volume expansion）β 是指溫度每升高 1 K，物體體積增加的比例，單位 1/K；固體的 β 約為 3α，液體通常比固體大得多。', '簡單來說，β 就是「這種東西熱了體積會脹大多少」。'],
+  /* 熱力學 */
+  eint: [R`內能（Internal energy）$E_{int}$ 是指系統內所有分子的動能與分子之間位能的總和；它是狀態函數，只看系統現在的狀態，理想氣體的內能只和溫度有關。`, '簡單來說，內能就是「物體內部所有分子能量的總存款」。'],
+  sysWork: [R`系統對外做的功 W 是指氣體膨脹、推動活塞等外界時所做的功 $W = \int p\,dV$；膨脹時為正，被壓縮時為負。`, '簡單來說，W 就是「氣體推動外面的東西花掉的能量」。'],
+  CP: [R`定壓莫耳比熱（Molar specific heat at constant pressure）$C_P$ 是指壓力保持不變時，1 mol 物質溫度升高 1 K 所需的熱量；因為還要推動活塞對外做功，所以比定容的大，$C_P = C_V + R$。`, '簡單來說，就是「讓它可以膨脹的情況下，把 1 mol 加熱 1 度要多少熱」。'],
+  CV: [R`定容莫耳比熱（Molar specific heat at constant volume）$C_V$ 是指體積保持不變時，1 mol 物質溫度升高 1 K 所需的熱量；這時熱量全部變成內能，單原子理想氣體 $C_V = \tfrac32 R$。`, '簡單來說，就是「關在固定的容器裡，把 1 mol 加熱 1 度要多少熱」。'],
+  gammaR: [R`比熱比（Heat capacity ratio，又稱絕熱指數）γ 是指定壓莫耳比熱與定容莫耳比熱的比值 $\gamma = C_P/C_V$，沒有單位；單原子氣體 5/3，雙原子氣體（例如空氣）約 7/5。`, '簡單來說，γ 決定「氣體被快速壓縮時，溫度會升得多兇」。'],
+  eff: [R`熱機效率（Thermal efficiency）e 是指熱機每個循環做出的功與從高溫熱庫吸收的熱量之比 $e = W/Q_h$，介於 0 和 1 之間；剩下的熱 $Q_c$ 一定會排到低溫熱庫。`, '簡單來說，效率就是「吸進來的熱有幾成真的變成了功」。'],
+  carnot: [R`卡諾效率（Carnot efficiency）$e_{max}$ 是指在溫度 $T_h$ 與 $T_c$ 兩個熱庫之間運作的熱機，理論上能達到的最大效率 $1 - T_c/T_h$；任何真實的熱機都比它低。`, '簡單來說，就是「在這兩個溫度之間，熱機效率的天花板」。'],
+  cycleWork: [R`每循環做的功 W 是指熱機跑完一個完整循環後對外輸出的淨功，等於吸收的熱減去排出的熱 $Q_h - Q_c$。`, '簡單來說，就是「引擎每轉一輪真正做出來的功」。'],
+  inWork: ['輸入的功 W 是指冷凍機或熱泵每個循環需要由外界（通常是壓縮機用電）提供的功；有了它，熱才能從低溫處被搬到高溫處。', '簡單來說，就是「把熱搬上坡要付的電費」。'],
+  Qh: [R`$Q_h$ 是指每個循環中與高溫熱庫交換的熱量大小：熱機從高溫熱庫吸收 $Q_h$，熱泵、冷凍機則把 $Q_h$ 排到高溫處。`, '簡單來說，就是「熱的那一邊進出的熱」。'],
+  Qc: [R`$Q_c$ 是指每個循環中與低溫熱庫交換的熱量大小：熱機把 $Q_c$ 排給低溫熱庫，冷凍機則從低溫處（冰箱內）吸走 $Q_c$。`, '簡單來說，就是「冷的那一邊進出的熱」。'],
+  Th: [R`高溫熱庫溫度 $T_h$ 是指熱機吸熱來源（或熱泵、冷凍機排熱去處）的絕對溫度，例如鍋爐蒸汽或室內，必須用克氏溫度。`, '簡單來說，就是「熱的那一邊有多熱」。'],
+  Tc: [R`低溫熱庫溫度 $T_c$ 是指熱機排熱去處（或冷凍機吸熱來源）的絕對溫度，例如冷卻水、冰箱內部或冬天的室外，必須用克氏溫度。`, '簡單來說，就是「冷的那一邊有多冷」。'],
+  entropy: [R`熵（Entropy）S 是描述系統微觀混亂程度的狀態函數；可逆過程中熵的變化 $dS = dQ/T$，單位 J/K。孤立系統的總熵不會減少，這就是熱力學第二定律。`, '簡單來說，熵就是「亂度」，自然界自己發生的變化總是往更亂的方向走。'],
+  totalS: [R`總熵變 $\Delta S_{total}$ 是指孤立系統內所有部分熵變的總和；自然發生的（不可逆）過程中它一定大於零，可逆過程中等於零。`, '簡單來說，就是「整個世界的亂度有沒有增加」，熱只會自己從熱流向冷，就是因為這樣總熵才會增加。']
+};
+
+const SYMCON = {
+  'f5-1': 'F:netforce m:mass a:acc',
+  'f5-2': 'a:acc g:g th:inclineAngle n:normal m:mass',
+  'f5-3': 'fs:fs mu:mus n:normal',
+  'f5-4': 'fk:fk mu:muk n:normal',
+  'f5-5': 'F:centforce m:mass v:speed r:radius',
+  'f5-6': 'th:bankAngle v:speed r:radius g:g',
+  'f6-1': 'W:work F:force r:disp th:angleFd',
+  'f6-2': 'W:work F:varforce x1:xends x2:xends',
+  'f6-3': 'W:work k:k x:stretch',
+  'f6-4': 'K:ke m:mass v:speed',
+  'f6-5': 'W:network K:ke v1:speed v2:speed',
+  'f6-6': 'P:power F:force v:vel',
+  'f7-1': 'U:pe W:conswork F:consforce',
+  'f7-2': 'U:gpe m:mass g:g y:height',
+  'f7-3': 'U:epe k:k x:stretch',
+  'f7-4': 'K:ke U:pe',
+  'f7-5': 'E:mech W:ncwork',
+  'f7-6': 'F:consforce U:pe x:pos',
+  'f8-1': 'F:gravF G:G m1:mass m2:mass r:centerDist',
+  'f8-2': 'g:g G:G M:bigM r:distCenter',
+  'f8-3': 'v:orbitV G:G M:bigM r:orbitR',
+  'f8-4': 'T:period G:G M:bigM r:orbitR',
+  'f8-5': 'U:gpe G:G M:bigM m:mass r:distCenter',
+  'f8-6': 'v:vesc G:G M:bigM R:distCenter',
+  'f9-1': 'r:cm M:totalMass m:mass ri:pos',
+  'f9-2': 'F:extforce M:totalMass a:acm',
+  'f9-3': 'P:momentum m:mass v:vel F:extforce',
+  'f9-4': 'm:mass vi:vel vf:vel',
+  'f9-5': 'vf:vel m1:mass v1:vel m2:mass v2:vel',
+  'f9-6': 'v1f:vel v2f:vel m1:mass m2:mass v1i:vel',
+  'f10-1': 'w:angvel th:angpos v:linspeed r:axisDist',
+  'f10-2': 'w:angvel w0:angvel al:angacc th:angdisp',
+  'f10-3': 'tau:torque r:leverR F:force th:angleRF',
+  'f10-4': 'tau:nettorque I:inertia al:angacc',
+  'f10-5': 'I:inertia m:mass r:axisDist',
+  'f10-6': 'K:krot I:inertia w:angvel',
+  'f10-7': 'K:ke M:mass v:vcm I:inertia w:angvel',
+  'f11-1': 'tau:torque r:leverR F:force',
+  'f11-2': 'L:angmom r:pos p:momentum',
+  'f11-3': 'L:angmom I:inertia w:angvel',
+  'f11-4': 'tau:nettorque L:angmom',
+  'f11-5': 'I1:inertia w1:angvel I2:inertia w2:angvel',
+  'f11-6': 'W:precess tau:torque L:angmom M:mass r:cmDist I:inertia w:angvel',
+  'f12-1': 'F:extforce',
+  'f12-2': 'tau:torque',
+  'f12-3': 'x:cg m:mass xi:pos',
+  'f12-4': 'th:ladderAngle mu:mus',
+  'f12-5': 'U:pe x:pos',
+  'f13-1': 'f:freq T:period w:angfreq',
+  'f13-2': 'x:oscx A:amp w:angfreq t:time ph:phase',
+  'f13-3': 'w:angfreq k:k m:mass T:period',
+  'f13-4': 'T:period L:pendL g:g',
+  'f13-5': 'T:period I:inertia m:mass g:g d:cmDist',
+  'f13-6': 'E:mech m:mass v:speed k:k x:oscx A:amp',
+  'f13-7': 'x:oscx A:amp b:damping m:mass',
+  'f14-1': 'v:wavespeed lam:lambda f:freq T:period',
+  'f14-2': 'y:wavey A:amp k:wavenum x:pos w:angfreq t:time',
+  'f14-3': 'v:wavespeed F:tension mu:linden',
+  'f14-4': 'I:intensity P:power r:srcDist',
+  'f14-5': 'beta:beta I:intensity I0:I0',
+  'f14-6': 'lam:lambda L:stringL n:harmN f:freq v:wavespeed',
+  'f14-7': 'fp:fobs f:freq u:srcSpeed v:soundSpeed',
+  'f32-1': 'r:pathdiff m:order lam:lambda',
+  'f32-2': 'd:slitD th:fringeAngle m:order lam:lambda y:fringeY L:screenL',
+  'f32-3': 'd:gratingD th:fringeAngle m:order lam:lambda N:gratingN',
+  'f32-4': 'n:refIndex d:filmD m:order lam:lambda',
+  'f32-5': 'a:slitA th:fringeAngle m:order lam:lambda',
+  'f32-6': 'th:thetaMin lam:lambda D:aperture',
+  'f15-1': 'rho:density m:mass V:volume p:pressure F:perpF A:area',
+  'f15-2': 'p:pressure p0:p0 rho:density g:g h:depth',
+  'f15-3': 'F1:force A1:area F2:force A2:area',
+  'f15-4': 'Fb:buoy rho:density V:vsub g:g',
+  'f15-5': 'A1:crossArea v1:flowV A2:crossArea v2:flowV',
+  'f15-6': 'p:pressure rho:density v:flowV g:g y:height',
+  'f15-7': 'v:effluxV g:g h:headH',
+  'f16-1': 'TK:TK TC:TC TF:TF',
+  'f16-2': 'Q:heat m:mass c:specc T:dT',
+  'f16-3': 'T:eqT m1:mass c1:specc T1:temp m2:mass c2:specc T2:temp',
+  'f16-4': 'H:H k:thermk A:area T:tgrad',
+  'f16-5': 'H:H A:area T:dT R:rvalue',
+  'f16-6': 'P:radP e:emiss sig:sigma A:surfA T:TK',
+  'f17-1': 'p:pressure V:volume n:mole R:Rgas T:TK N:Nmol k:kB',
+  'f17-2': 'K:avgKE k:kB T:TK',
+  'f17-3': 'v:vrms k:kB T:TK m:molMass',
+  'f17-4': 'Q:heat L:latent m:mass',
+  'f17-5': 'L:length al:alphaL T:dT',
+  'f17-6': 'V:volume be:betaV T:dT',
+  'f18-1': 'E:eint Q:heat W:sysWork',
+  'f18-2': 'W:sysWork V1:volume V2:volume p:pressure V:volume',
+  'f18-3': 'W:sysWork p:pressure V:dV Q:heat n:mole CP:CP T:dT',
+  'f18-4': 'W:sysWork n:mole R:Rgas T:TK V1:volume V2:volume',
+  'f18-5': 'W:sysWork Q:heat n:mole CV:CV T:dT',
+  'f18-6': 'p:pressure V:volume g:gammaR T:TK',
+  'f18-7': 'CP:CP CV:CV R:Rgas g:gammaR',
+  'f19-1': 'e:eff W:cycleWork Qh:Qh Qc:Qc',
+  'f19-2': 'e:carnot Tc:Tc Th:Th',
+  'f19-3': 'Qc:Qc W:inWork Tc:Tc Th:Th',
+  'f19-4': 'Qh:Qh W:inWork Th:Th Tc:Tc',
+  'f19-5': 'S:entropy Q:heat T:TK',
+  'f19-6': 'S:totalS'
 };
 
 /* ===== 模擬動畫 ===== */
@@ -4192,6 +4476,9 @@ RELATIONS.forEach(([a, b, type]) => { if (DIRECTED[type] && chOrder(FM[a].ch) <=
 // 每個符號定義在哪裡（= 本式、^ 先修、fX-Y 那條公式）
 const SRC = {};
 Object.entries(SYMSRC).forEach(([fid, str]) => { SRC[fid] = {}; str.split(' ').forEach(t => { const i = t.indexOf(':'); SRC[fid][t.slice(0, i)] = t.slice(i + 1); }); });
+// 每個符號對應的物理量定義
+const SYMC = {};
+Object.entries(SYMCON).forEach(([fid, str]) => { SYMC[fid] = {}; str.split(' ').forEach(t => { const i = t.indexOf(':'); SYMC[fid][t.slice(0, i)] = t.slice(i + 1); }); });
 const CH_PAIRS = Object.entries(CHLINK).map(([k, w]) => { const [a, b] = k.split('-').map(Number); return { a, b, w }; });
 const examColor = ch => EXAMS[CH[ch].exam].color;
 
@@ -4706,6 +4993,12 @@ function openTrace(item, push) {
 }
 function closeTrace() { trail = []; trace.hidden = true; trace.innerHTML = ''; panel.classList.remove('tracing'); }
 function symOf(fid, key) { return FM[fid].sym.find(s => s[0] === key); }
+// 物理量的定義：一段正式定義＋「簡單來說」
+function defBlock(fid, key) {
+  const c = SYMC[fid] && CONCEPTS[SYMC[fid][key]]; if (!c) return '';
+  return `<p class="tc-def">${rich(c[0])}</p><p class="tc-simple">${rich(c[1])}</p>`;
+}
+function ctxNote(fid, s) { return s[4] ? `<p class="tc-ctx">在「${esc(FM[fid].name)}」裡：${rich(s[4])}</p>` : ''; }
 function crumbLabel(it) {
   if (it.kind === 'f') return `<span class="chtag" style="--c:${examColor(FM[it.id].ch)}">Ch${FM[it.id].ch}</span>${esc(FM[it.id].name)}`;
   const s = symOf(it.fid, it.key); return `${tex(s[1], false)} ${esc(s[2])}`;
@@ -4718,25 +5011,24 @@ function renderTrace() {
     const o = FM[it.id], r = prevF ? relOf(prevF, o.id) : null, viaSym = it.key ? symOf(it.fid, it.key) : null;
     body = `<p class="tc-k" style="color:${examColor(o.ch)}">第 ${o.ch} 章 ${esc(CH[o.ch].title)}</p>
       <h3 class="tc-name">${esc(o.name)}</h3>
-      ${viaSym ? `<p class="tc-why">${tex(viaSym[1], false)}（${rich(viaSym[2])}）定義在這條公式</p>` : r ? `<p class="tc-why">${rich(r.text)}</p>` : ''}
+      ${viaSym ? `<p class="tc-why">${tex(viaSym[1], false)}（${rich(viaSym[2])}）定義在這條公式</p>${defBlock(it.fid, it.key)}` : r ? `<p class="tc-why">${rich(r.text)}</p>` : ''}
       <div class="tc-f" id="tc-f">${formulaHTML(o, true)}</div>
       <p class="tc-idea">${rich(o.idea)}</p>
       ${SOURCES[o.id].length ? `<div class="tc-src"><span class="tc-src-h">它又從哪裡來</span>${srcRow(o)}</div>` : '<p class="tc-end">這條是基本定義，不是由更前面的公式推出來的。</p>'}
       <div class="tc-actions"><a class="btn btn-primary tc-go" href="#/ch/${o.ch}/${o.id}">前往這條公式</a><span class="tc-tip">公式裡有虛線的符號也可以點，繼續往回追</span></div>`;
   } else if (it.kind === 'pre') {
     const g = GLOSSARY[it.g], s = symOf(it.fid, it.key), later = g.f && g.f !== route.f && g.ch !== 0 ? FM[g.f] : null;
-    body = `<p class="tc-k">先修內容（Ch1–4）</p><h3 class="tc-name">${esc(g.n)} ${g.s ? tex(g.s, false) : ''}</h3>
-      <p class="tc-why">${tex(s[1], false)}（${rich(s[2])}）是 Ch1–4 學過的基本量</p>
-      <p class="tc-idea">${rich(g.d)}</p>${g.u ? `<p class="tc-unit">單位：${esc(g.u)}</p>` : ''}
+    body = `<p class="tc-k">先修內容（Ch1–4）</p><h3 class="tc-name">${tex(s[1], false)} ${rich(s[2])}</h3>
+      ${defBlock(it.fid, it.key)}${ctxNote(it.fid, s)}${s[3] ? `<p class="tc-unit">單位：${esc(s[3])}</p>` : ''}
       ${later ? `<div class="tc-src"><span class="tc-src-h">後面會再詳細講</span><div class="src-row">${prevChip(later.id)}</div></div>` : ''}`;
   } else if (it.kind === 'self') {
     const s = symOf(it.fid, it.key);
     body = `<p class="tc-k">本式定義</p><h3 class="tc-name">${tex(s[1], false)} ${rich(s[2])}</h3>
-      <p class="tc-idea">這個量就是在「${esc(FM[it.fid].name)}」這條公式第一次定義的${s[4] ? `：${rich(s[4])}` : '。'}</p>${s[3] ? `<p class="tc-unit">單位：${esc(s[3])}</p>` : ''}`;
+      ${defBlock(it.fid, it.key)}${ctxNote(it.fid, s)}${s[3] ? `<p class="tc-unit">單位：${esc(s[3])}</p>` : ''}`;
   } else {
     const s = symOf(it.fid, it.key);
     body = `<p class="tc-k">情境給的量</p><h3 class="tc-name">${tex(s[1], false)} ${rich(s[2])}</h3>
-      <p class="tc-idea">像長度、角度、時間這種量，由題目或情境直接給，不用從別的公式來${s[4] ? `（${rich(s[4])}）` : ''}。</p>${s[3] ? `<p class="tc-unit">單位：${esc(s[3])}</p>` : ''}`;
+      ${defBlock(it.fid, it.key)}${ctxNote(it.fid, s)}${s[3] ? `<p class="tc-unit">單位：${esc(s[3])}</p>` : ''}`;
   }
   const root = FM[route.f];
   trace.innerHTML = `<div class="tc-bar"><nav class="tc-path" aria-label="追蹤路徑"><button type="button" class="tc-crumb root" data-back="-1">${esc(root.name)}</button>${trail.map((x, i) => `<span class="tc-sep" aria-hidden="true">›</span><button type="button" class="tc-crumb${i === trail.length - 1 ? ' cur' : ''}" data-back="${i}">${crumbLabel(x)}</button>`).join('')}</nav>
